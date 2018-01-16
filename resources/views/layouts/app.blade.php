@@ -40,9 +40,17 @@
 			</nav>
 			<section class="section is-paddingless m-t-lg">
 				<div class="container">
+					@include('layouts.errors')
+					@include('layouts.notifications')
 					@yield('content')
 				</div>
 			</section>
 		</div>
+		<script>
+        $(document).on('click', '.notification > button.delete', function() {
+        $(this).parent().addClass('is-hidden');
+        return false;
+        });
+        </script>
 	</body>
 </html>

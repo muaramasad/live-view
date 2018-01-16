@@ -11,6 +11,6 @@ class Division extends Model
     ];
     public function areas()
     {
-        return $this->hasMany('App\Area');
+        return $this->hasMany('App\Area','division_id','id');
     }
 }

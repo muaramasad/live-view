@@ -1,19 +1,19 @@
 @extends('layouts.app')
 @section('content')
 <div class="columns">
-    <div class="column is-8 is-offset-2">
-        {!! Form::open(['route' => 'site.store']) !!}
+    <div class="column is-6 is-offset-3">
+        {!! Form::open(['route' => ['site.editStore',$site->id],'method' => 'put']) !!}
         <div class="field is-grouped-centered">
             <label class="label">Site Name</label>
             <p class="control is-expanded">
-                {!! Form::text('site_name', null ,['class' => 'input']) !!}
+                {!! Form::text('site_name', $site->site_name ,['class' => 'input']) !!}
             </p>
         </div>
         <div class="field is-grouped-centered">
             <label class="label">Division</label>
             <p class="control is-expanded">
                 <div class="select is-fullwidth">
-                    {!! Form::select('division_id', $divisions, null, ['placeholder' => '-- Select Division --', 'id' => 'selDiv']); !!}
+                    {!! Form::select('division_id', $divisions, $site->division_id, ['placeholder' => '-- Select Division --', 'id' => 'selDiv']); !!}
                 </div>
             </p>
         </div>
@@ -21,20 +21,20 @@
             <label class="label">Area</label>
             <p class="control is-expanded">
                 <div class="select is-fullwidth">
-                    {!! Form::select('area_id', $areas, null, ['placeholder' => '-- Select Areas --', 'id' => 'selArea']); !!}
+                    {!! Form::select('area_id', $areas, $site->area_id, ['placeholder' => '-- Select Areas --', 'id' => 'selArea']); !!}
                 </div>
             </p>
         </div>
         <div class="field">
             <label class="label">Latitude</label>
             <div class="control">
-                <input id="latitude" class="input" type="text" name="cor_x">
+                {!! Form::text('cor_x', $site->cor_x ,['class' => 'input','id' => 'latitude']) !!}
             </div>
         </div>
         <div class="field">
             <label class="label">Longitude</label>
             <div class="control">
-                <input id="longitude" class="input" type="text" name="cor_y">
+                {!! Form::text('cor_y', $site->cor_y ,['class' => 'input','id' => 'longitude']) !!}
             </div>
         </div>
         <div class="field">
@@ -45,13 +45,13 @@
         <div class="field">
             <label class="label">Link URL 1</label>
             <div class="control">
-                <input class="input" type="text" name="url_1">
+                {!! Form::text('url_1', $site->url_1 ,['class' => 'input']) !!}
             </div>
         </div>
         <div class="field">
             <label class="label">Link URL 2</label>
             <div class="control">
-                <input class="input" type="text" name="url_2">
+                {!! Form::text('url_2', $site->url_2 ,['class' => 'input']) !!}
             </div>
         </div>
         <div class="field is-grouped">
@@ -103,7 +103,7 @@ window.onload = function() {
 <script>
 $("#selDiv").on("change", function(){
 var divId = $(this).val();
-out = '<option>-- Select Area --</option>';
+out = '<option value="" disabled>No area on selected division</option>';
 $.ajax({
 url: "/api/area/" + divId,
 type: 'GET',

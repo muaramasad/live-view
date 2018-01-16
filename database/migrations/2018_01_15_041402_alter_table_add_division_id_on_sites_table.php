@@ -25,6 +25,9 @@ class AlterTableAddDivisionIdOnSitesTable extends Migration
      */
     public function down()
     {
-        $table->dropColumn(['division_id']);
+        Schema::table('sites', function (Blueprint $table) {
+            $table->dropColumn(['division_id']);
+        });
+        
     }
 }

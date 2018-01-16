@@ -18,8 +18,8 @@ class CreateTableSites extends Migration
             $table->string('site_name');
             $table->string('cor_x');
             $table->string('cor_y');
-            $table->string('url_1');
-            $table->string('url_2');
+            $table->string('url_1')->nullable();
+            $table->string('url_2')->nullable();
             $table->integer('area_id')->unsigned()->index();
             $table->timestamps();
         });

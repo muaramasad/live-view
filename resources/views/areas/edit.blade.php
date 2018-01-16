@@ -1,19 +1,34 @@
 @extends('layouts.app')
 @section('content')
+@if ($errors->any())
+<article class="message is-danger">
+    <div class="message-header">
+        <p>Error</p>
+        <button class="delete" aria-label="delete"></button>
+    </div>
+    <div class="message-body">
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+</article>
+@endif
 <div class="columns">
     <div class="column is-6 is-offset-3">
-        {!! Form::open(['route' => 'area.store']) !!}
+        {!! Form::open(['route' => ['area.editStore',$area->id],'method' => 'put']) !!}
         <div class="field is-grouped-centered">
             <label class="label">Area Name</label>
             <p class="control is-expanded">
-                {!! Form::text('area_name', null ,['class' => 'input']) !!}
+                {!! Form::text('area_name', $area->area_name ,['class' => 'input']) !!}
             </p>
         </div>
         <div class="field is-grouped-centered">
             <label class="label">Division</label>
             <p class="control is-expanded">
                 <div class="select is-fullwidth">
-                    {!! Form::select('division_id', $divisions, null, ['placeholder' => 'Select Division...']); !!}
+                    {!! Form::select('division_id', $divisions, $area->division_id, ['placeholder' => 'Select Division...']); !!}
                 </div>
             </p>
         </div>

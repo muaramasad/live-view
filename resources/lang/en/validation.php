@@ -119,7 +119,11 @@ return [
     'attributes' => [
         'division_name' => 'Division Name',
         'area_name' => 'Area Name',
-        'division_id' => 'Divisi'
+        'site_name' => 'Site Name',
+        'division_id' => 'Divisi',
+        'area_id' => 'Area',
+        'cor_x' => 'Latitude',
+        'cor_y' => 'Longitude',
     ],
 
 ];

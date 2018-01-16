@@ -9,6 +9,14 @@
                 {!! Form::text('division_name', $division->division_name ,['class' => 'input']) !!}
             </p>
         </div>
+        <div class="field is-grouped-centered">
+            <label class="label">Icon</label>
+            <p class="control is-expanded">
+                <div class="select is-fullwidth">
+                    {!! Form::select('icon', $icons, $division->icon_path, ['placeholder' => 'Select Icons...']); !!}
+                </div>
+            </p>
+        </div>
         <div class="field is-grouped">
             <div class="control">
                 <button type="submit" class="button is-link">Submit</button>

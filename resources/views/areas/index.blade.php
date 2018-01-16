@@ -19,7 +19,7 @@
                     <td>
                         <div class="field has-addons">
                             <p class="control">
-                                <a class="button is-link is-small">
+                                <a href="/area/edit/{{$area->id}}" class="button is-link is-small">
                                     <span class="icon is-small">
                                         <i class="fa fa-pencil-square-o"></i>
                                     </span>
@@ -27,12 +27,14 @@
                                 </a>
                             </p>
                             <p class="control">
-                                <a class="button is-danger is-small">
+                                {!! Form::open(['method' => 'DELETE','route' => ['area.destroy', $area->id]]) !!}
+                                <button type="submit" class="button is-danger is-small">
                                     <span class="icon is-small">
                                         <i class="fa fa-trash-o"></i>
                                     </span>
                                     <span>Delete</span>
-                                </a>
+                                </button>
+                                {!! Form::close() !!}
                             </p>
                         </div>
                     </td>

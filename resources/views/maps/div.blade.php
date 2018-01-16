@@ -11,17 +11,23 @@
 			</header>
 			<div class="card-content">
 				<div class="field is-grouped is-grouped-multiline">
+					@if($areas->isEmpty())
+
+					@else
 					<p class="control">
 						<button class="btn-all button is-small">
 							All Sites
 						</button>
 					</p>
+					@endif
 					@foreach($areas as $area)
+					@if($area->has('sites')->find($area->id))
 					<p class="control">
 						<button class="btn-area button is-small" data-id="{{$area->id}}">
 							{{$area->area_name}}
 						</button>
 					</p>
+					@endif
 					@endforeach
 				</div>
 				<div class="map">

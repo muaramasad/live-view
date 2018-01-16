@@ -11,7 +11,7 @@ class HomepageController extends Controller
 {
     public function index()
     {
-    	$divisions = Division::All();
+    	$divisions = Division::orderBy('division_name', 'asc')->get();
     	return view('homepage',[
     		'divisions' => $divisions
     	]);

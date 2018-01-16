@@ -28,9 +28,15 @@ Route::prefix('area')->group(function () {
     Route::get('/', 'AreaController@index')->name('area.index');
     Route::get('/create', 'AreaController@create')->name('area.create');
     Route::post('create', 'AreaController@store')->name('area.store');
+    Route::get('edit/{id}', 'AreaController@edit')->name('area.edit');
+    Route::put('edit/{id}', 'AreaController@editStore')->name('area.editStore');
+    Route::delete('delete/{id}', 'AreaController@destroy')->name('area.destroy');
 });
 Route::prefix('site')->group(function () {
     Route::get('/', 'SiteController@index')->name('site.index');
     Route::get('/create', 'SiteController@create')->name('site.create');
     Route::post('create', 'SiteController@store')->name('site.store');
+    Route::get('edit/{id}', 'SiteController@edit')->name('site.edit');
+    Route::put('edit/{id}', 'SiteController@editStore')->name('site.editStore');
+    Route::delete('delete/{id}', 'SiteController@destroy')->name('site.destroy');
 });
