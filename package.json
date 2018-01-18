@@ -19,6 +19,7 @@
         "gulp": "^3.9.1",
         "jquery": "^3.2",
         "laravel-mix": "^1.0",
+        "localtunnel": "^1.8.3",
         "lodash": "^4.17.4",
         "vue": "^2.5.7",
         "webpack": "^3.10.0",
