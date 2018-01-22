@@ -8,6 +8,7 @@
                 <th>ID</th>
                 <th>Area Name</th>
                 <th>Division</th>
+                <th>Province</th>
                 <th>Action</th>
             </thead>
             <tbody>
@@ -16,6 +17,7 @@
                     <td>{{$area->id}}</td>
                     <td>{{$area->area_name}}</td>
                     <td>{{$area->division->division_name}}</td>
+                    <td>{{$area->province->province_name}}</td>
                     <td>
                         <div class="field has-addons">
                             <p class="control">

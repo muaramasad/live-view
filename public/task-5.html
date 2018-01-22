@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Task 5 - Muharram Asad</title>
+</head>
+<body>
+<div id="jawaban"></div>
+<script>
+	function task5(angka) {
+	    for (var i = 1; i <= angka; i++) {
+	        for (var j = 0; j < i; j++) {
+	            document.getElementById('jawaban').innerHTML += i;
+	        }
+	        document.getElementById('jawaban').innerHTML += '<br>';
+	    }
+	}
+	task5(10);
+</script>
+</body>
+</html>

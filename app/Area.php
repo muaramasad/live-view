@@ -17,4 +17,8 @@ class Area extends Model
 	{
     	return $this->belongsTo('App\Division');
 	}
+    public function province()
+    {
+        return $this->belongsTo('App\Province');
+    }
 }

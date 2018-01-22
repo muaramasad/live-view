@@ -6,9 +6,9 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Japfa CCTV Monitoring System</title>
 		<link rel="stylesheet" href="{{ asset('css/app.css') }}">
-		<link rel="stylesheet" href="{{ asset('ammap/ammap.css') }}">
+		{{-- <link rel="stylesheet" href="{{ asset('ammap/ammap.css') }}">
 		<script type="text/javascript" src="{{ asset('ammap/ammap.js') }}"></script>
-		<script type="text/javascript" src="{{ asset('ammap/maps/js/indonesiaLow.js') }}"></script>
+		<script type="text/javascript" src="{{ asset('ammap/maps/js/indonesiaLow.js') }}"></script> --}}
 		<script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
 		<link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
 		<script src="https://unpkg.com/video.js/dist/video.js"></script>

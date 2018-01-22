@@ -17,6 +17,14 @@
                 </div>
             </p>
         </div>
+        <div class="field is-grouped-centered">
+            <label class="label">Province</label>
+            <p class="control is-expanded">
+                <div class="select is-fullwidth">
+                    {!! Form::select('province_id', $provinces, null, ['placeholder' => 'Select Province...']); !!}
+                </div>
+            </p>
+        </div>
         <div class="field is-grouped">
             <div class="control">
                 <button type="submit" class="button is-link">Submit</button>

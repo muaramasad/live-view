@@ -14,6 +14,7 @@
 Route::get('/','HomepageController@index')->name('homepage');
 Route::prefix('map')->group(function () {
     Route::get('division/{id}', 'HomepageController@mapDiv')->name('map.division');
+    Route::get('province/{pcode}', 'HomepageController@mapDivProvince')->name('map.province');
 });
 
 Route::prefix('division')->group(function () {
