@@ -1,16 +1,16 @@
 @extends('layouts.app')
 @section('content')
-{{ Breadcrumbs::render('division', $division) }}
+{{ Breadcrumbs::render('site',$division,$site) }}
 <div class="columns">
 	<div class="column">
 		<div class="card">
 			<header class="card-header">
 				<p class="card-header-title">
-					{{$division->division_name}}
+					{{$site->site_name}}
 				</p>
 			</header>
 			<div class="card-content">
-				{{-- 				<div class="field is-grouped is-grouped-multiline">
+{{-- 				<div class="field is-grouped is-grouped-multiline">
 					@if($areas->isEmpty())
 					@else
 					<p class="control">
@@ -39,46 +39,46 @@
 	</div>
 </div>
 {{-- <div class="columns is-multiline">
-	<div class="column is-one-two">
-		<video id="my_video_1" class="video-js vjs-default-skin" controls preload="auto" width="auto" height="480"
-			data-setup='{"fluid": true}'>
-			<source src="/video/test.m3u8" type="application/x-mpegURL">
-		</video>
-		<p class="is-centered">CARDIP</p>
-	</div>
-	<div class="column is-one-two">
-		<video id="my_video_1" class="video-js vjs-default-skin" controls preload="auto" width="auto" height="480"
-			data-setup='{"fluid": true}'>
-			<source src="/video/test1.m3u8" type="application/x-mpegURL">
-		</video>
-		<p class="is-centered">Gerbang Utara B</p>
-	</div>
-	<div class="column is-one-third">
-		<video id="my_video_1" class="video-js vjs-default-skin" controls preload="auto" width="auto" height="480"
-			data-setup='{"fluid": true}'>
-			<source src="/video/test2.m3u8" type="application/x-mpegURL">
-		</video>
-		<p class="is-centered">Sanitasi</p>
-	</div>
-	<div class="column is-one-two">
-		<video id="my_video_1" class="video-js vjs-default-skin" controls preload="auto" width="auto" height="480"
-			data-setup='{"fluid": true}'>
-			<source src="/video/test.m3u8" type="application/x-mpegURL">
-		</video>
-	</div>
-	<div class="column is-one-two">
-		<video id="my_video_1" class="video-js vjs-default-skin" controls preload="auto" width="auto" height="480"
-			data-setup='{"fluid": true}'>
-			<source src="/video/test1.m3u8" type="application/x-mpegURL">
-		</video>
-	</div>
-	<div class="column is-one-third">
-		<video id="my_video_1" class="video-js vjs-default-skin" controls preload="auto" width="auto" height="480"
-			data-setup='{"fluid": true}'>
-			<source src="/video/test2.m3u8" type="application/x-mpegURL">
-		</video>
-	</div>
-</div> --}}
+		<div class="column is-one-third">
+			<video id="my_video_1" class="video-js vjs-default-skin" controls preload="auto" width="auto" height="480"
+					data-setup='{"fluid": true}'>
+					<source src="/video/test.m3u8" type="application/x-mpegURL">
+			</video>
+			<p class="is-centered">CARDIP</p>
+		</div>
+		<div class="column is-one-third">
+			<video id="my_video_1" class="video-js vjs-default-skin" controls preload="auto" width="auto" height="480"
+					data-setup='{"fluid": true}'>
+					<source src="/video/test1.m3u8" type="application/x-mpegURL">
+				</video>
+				<p class="is-centered">Gerbang Utara B</p>
+		</div>
+		<div class="column is-one-third">
+			<video id="my_video_1" class="video-js vjs-default-skin" controls preload="auto" width="auto" height="480"
+					data-setup='{"fluid": true}'>
+					<source src="/video/test2.m3u8" type="application/x-mpegURL">
+				</video>
+			<p class="is-centered">Sanitasi</p>
+		</div>
+		<div class="column is-one-third">
+			<video id="my_video_1" class="video-js vjs-default-skin" controls preload="auto" width="auto" height="480"
+					data-setup='{"fluid": true}'>
+					<source src="/video/test.m3u8" type="application/x-mpegURL">
+				</video>
+		</div>
+		<div class="column is-one-third">
+			<video id="my_video_1" class="video-js vjs-default-skin" controls preload="auto" width="auto" height="480"
+					data-setup='{"fluid": true}'>
+					<source src="/video/test1.m3u8" type="application/x-mpegURL">
+				</video>
+		</div>
+		<div class="column is-one-third">
+			<video id="my_video_1" class="video-js vjs-default-skin" controls preload="auto" width="auto" height="480"
+					data-setup='{"fluid": true}'>
+					<source src="/video/test2.m3u8" type="application/x-mpegURL">
+				</video>
+		</div>
+	</div> --}}
 <div class="modal">
 	<div class="modal-background"></div>
 	<div class="modal-content">

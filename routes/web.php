@@ -15,6 +15,7 @@ Route::get('/','HomepageController@index')->name('homepage');
 Route::prefix('map')->group(function () {
     Route::get('division/{id}', 'HomepageController@mapDiv')->name('map.division');
     Route::get('province/{pcode}', 'HomepageController@mapDivProvince')->name('map.province');
+    Route::get('site/{id}', 'HomepageController@mapDivSite')->name('map.site');
 });
 
 Route::prefix('division')->group(function () {
@@ -40,4 +41,12 @@ Route::prefix('site')->group(function () {
     Route::get('edit/{id}', 'SiteController@edit')->name('site.edit');
     Route::put('edit/{id}', 'SiteController@editStore')->name('site.editStore');
     Route::delete('delete/{id}', 'SiteController@destroy')->name('site.destroy');
+});
+Route::prefix('cctv')->group(function () {
+    Route::get('/', 'CamController@index')->name('cam.index');
+    Route::get('/create', 'CamController@create')->name('cam.create');
+    Route::post('create', 'CamController@store')->name('cam.store');
+    Route::get('edit/{id}', 'CamController@edit')->name('cam.edit');
+    Route::put('edit/{id}', 'CamController@editStore')->name('cam.editStore');
+    Route::delete('delete/{id}', 'CamController@destroy')->name('cam.destroy');
 });

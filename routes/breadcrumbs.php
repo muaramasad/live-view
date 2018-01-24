@@ -4,9 +4,19 @@ Breadcrumbs::register('home', function ($breadcrumbs) {
     $breadcrumbs->push('Home', route('homepage'));
 });
 
-Breadcrumbs::register('map', function ($breadcrumbs, $division) {
+Breadcrumbs::register('division', function ($breadcrumbs,$division) {
     $breadcrumbs->parent('home');
     $breadcrumbs->push($division->division_name, route('map.division', $division->id));
+});
+
+Breadcrumbs::register('prov', function ($breadcrumbs,$division,$prov) {
+    $breadcrumbs->parent('division', $division);
+    $breadcrumbs->push($prov->province_name, route('map.province', $prov->province_code));
+});
+
+Breadcrumbs::register('site', function ($breadcrumbs,$division,$site) {
+    $breadcrumbs->parent('division', $division);
+    $breadcrumbs->push($site->site_name, route('map.site', $site->id));
 });
 
 // Breadcrumbs::register('blog', function ($breadcrumbs) {

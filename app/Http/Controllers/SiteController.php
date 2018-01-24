@@ -11,8 +11,10 @@ class SiteController extends Controller
 {
     public function index()
     {
-    	$sites = Site::with('division','Area')->get();
-    	return view('sites.index',['sites' => $sites]);
+    	$sites = Site::with('division','Area','cam')->get();
+    	return view('sites.index',[
+            'sites' => $sites
+        ]);
     }
     public function create()
     {

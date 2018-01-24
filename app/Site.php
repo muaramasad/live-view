@@ -21,4 +21,8 @@ class Site extends Model
 	{
     	return $this->belongsTo('App\Division','division_id','id');
 	}
+    public function cam()
+    {
+        return $this->hasMany('App\Cam','site_id','id');
+    }
 }

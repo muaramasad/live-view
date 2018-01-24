@@ -213,7 +213,7 @@ return [
         | Display a custom icon for markers. (Link to an image)
         |
         */
-        'icon' => '',
+        'icon' => asset('images/security-system.png'),
 
         /*
         |--------------------------------------------------------------------------

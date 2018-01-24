@@ -1,37 +1,27 @@
 @extends('layouts.app')
 @section('content')
 <div class="columns">
-    <div class="column is-10 is-offset-1">
-    {!!  Html::decode(link_to_route('site.create', '<i class="fa fa-plus-circle"></i>&nbsp;&nbsp;create site', array(), ['class' => 'button is-primary is-pulled-right m-b-sm'])) !!}
+    <div class="column is-8 is-offset-2">
+    {!!  Html::decode(link_to_route('cam.create', '<i class="fa fa-plus-circle"></i>&nbsp;&nbsp;add cctv', array(), ['class' => 'button is-primary is-pulled-right m-b-sm'])) !!}
         <table class="table is-fullwidth">
             <thead>
                 <th>ID</th>
-                <th>Site Name</th>
-                <th>Division</th>
+                <th>CCTV Name</th>
+                <th>Site</th>
                 <th>Area</th>
-                <th>Number of CCTVs</th>
                 <th>Action</th>
             </thead>
             <tbody>
-                @foreach($sites as $site)
+                @foreach($cams as $cam)
                 <tr>
-                    <td>{{$site->id}}</td>
-                    <td>{{$site->site_name}}</td>
-                    <td>{{$site->division->division_name}}</td>
+                    <td>{{$cam->id}}</td>
+                    <td>{{$cam->cam_name}}</td>
+                    <td>{{$cam->site->site_name}}</td>
                     <td>{{$site->area->area_name}}</td>
-                    <td>{{$site->cam->count()}}</td>
                     <td>
                         <div class="field has-addons">
                             <p class="control">
-                                <a href="/cctv/create?site_id={{$site->id}}" class="button is-primary is-small">
-                                    <span class="icon is-small">
-                                        <i class="fa fa-plus"></i>
-                                    </span>
-                                    <span>Add CCTV</span>
-                                </a>
-                            </p>
-                            <p class="control">
-                                <a href="/site/edit/{{$site->id}}" class="button is-link is-small">
+                                <a href="/site/edit/{{$cam->id}}" class="button is-link is-small">
                                     <span class="icon is-small">
                                         <i class="fa fa-pencil-square-o"></i>
                                     </span>
@@ -39,7 +29,7 @@
                                 </a>
                             </p>
                             <p class="control">
-                                {!! Form::open(['method' => 'DELETE','route' => ['site.destroy', $site->id]]) !!}
+                                {!! Form::open(['method' => 'DELETE','route' => ['cam.destroy', $cam->id]]) !!}
                                 <button type="submit" class="button is-danger is-small">
                                     <span class="icon is-small">
                                         <i class="fa fa-trash-o"></i>

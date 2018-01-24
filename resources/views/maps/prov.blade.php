@@ -1,12 +1,12 @@
 @extends('layouts.app')
 @section('content')
-{{ Breadcrumbs::render('map', $division) }}
+{{ Breadcrumbs::render('prov', $division,$prov) }}
 <div class="columns">
 	<div class="column">
 		<div class="card">
 			<header class="card-header">
 				<p class="card-header-title">
-					{{$division->division_name}}
+					{{$prov->province_name}}
 				</p>
 			</header>
 			<div class="card-content">

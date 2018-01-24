@@ -38,6 +38,9 @@
 						<a href="{{route('site.index')}}" class="navbar-item">
 							Sites
 						</a>
+						<a href="{{route('cam.index')}}" class="navbar-item">
+							CCTV
+						</a>
 					</div>
 				</div>
 			</nav>
@@ -50,11 +53,11 @@
 			</section>
 			
 		</div>
+		{!! Mapper::renderJavascript() !!}
 		<script>
-		$(document).on('click', '#showModal', function() {
-		     $(".modal").addClass("is-active");
-		     return false;
-		});
+		function showModal(){
+		    $(".modal").addClass("is-active");
+		}
 		$(document).on('click', '.modal-close', function() {
 		     $(".modal").removeClass("is-active");
 		     return false;
