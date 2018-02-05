@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreVideoRequest;
+use App\Jobs\ConvertVideoForStreaming;
 use Illuminate\Http\Request;
 use App\Division;
 use App\Area;
 use App\Site;
 use App\Province;
+use App\Cam;
 use Mapper;
+use FFMpeg;
+use FFMpeg\Format\Video\X264;
+
 
 class HomepageController extends Controller
 {
@@ -46,7 +52,7 @@ class HomepageController extends Controller
     {
         $sitesId = [];
         $province = Province::where('province_code',$pcode)->first();
-        Mapper::map($province->province_cor_x, $province->province_cor_y, ['zoom' => $province->province_zoom,'center' => true, 'marker' => false, 'cluster' => true]);
+        Mapper::map($province->province_cor_x, $province->province_cor_y, ['zoom' => $province->province_zoom,'center' => true, 'marker' => false, 'cluster' => true, 'type' => 'SATELLITE']);
         $areas = Area::where('province_id',$province->id)->with('sites')->get();
         foreach ($areas as $area) {
             if ($area->has('sites')) {
@@ -58,7 +64,7 @@ class HomepageController extends Controller
         $sitesCollection = Site::find($sitesId);
         $sitesCollection->each(function($site)
         {
-            Mapper::informationWindow($site->cor_x, $site->cor_y, $site->site_name, ['open' => true, 'maxWidth'=> 300, 'markers' => ['title' => 'Title','eventClick' => 'window.location.href = "/map/site/'.$site->id.'";']]);
+            Mapper::informationWindow($site->cor_x, $site->cor_y, $site->site_name, ['open' => true, 'maxWidth'=> 300, 'markers' => ['eventClick' => 'window.location.href = "/map/site/'.$site->id.'";']]);
             // Mapper::marker($site->cor_x, $site->cor_y,['eventClick' => 'window.location.href = "/map/site/'.$site->id.'";', 'eventMouseOver' => '']);
         });
         $division = Division::find(1);
@@ -71,7 +77,17 @@ class HomepageController extends Controller
     {
         $site = Site::find($id);
         Mapper::map($site->cor_x, $site->cor_y, ['zoom' => 18,'center' => true, 'marker' => false, 'cluster' => false, 'type' => 'SATELLITE']);
-        Mapper::marker(-6.627275926222313,107.55596948217772 ,['eventClick' => 'showModal();']);
+        $camsCollection = Cam::where('site_id',$site->id)->get();
+        $i = 1;
+        $camsCollection->each(function($cam,$i)
+        {
+            $content = '<h4>'.strtoupper($cam->cam_name).'</h4><p>IP Address: '.$cam->cam_ip_address.'</p>';
+            Mapper::marker($cam->cam_cor_x, $cam->cam_cor_y, ['content' => $content,'icon' => ['url' => '/images/placeholder.svg','size' => 24],'eventMouseOver' => 'infowindow_'.$i.'.open(map, this);','eventMouseOut' => 'infowindow_'.$i.'.close(map, this);', 'eventClick' => 'showModal();' ]);
+            // Mapper::informationWindow($cam->cam_cor_x, $cam->cam_cor_y, $content, ['maxWidth'=> 300, 'icon' => ['url' => '/images/placeholder.svg','size' => 24],'eventMouseOver' => 'infowindow.open(map, this);']);
+            // Mapper::marker($cam->cam_cor_x, $cam->cam_cor_y,['icon' => ['url' => '/images/placeholder.svg','size' => 24],'eventMouseOver' => 'infowindow.open(map, this);']);
+            // Mapper::marker($cam->cam_cor_x,$cam->cam_cor_y,['eventClick' => 'showModal();']);
+            $i++;
+        });
         $area = Area::find($site->area_id);
         $prov = Province::find($area->province_id);
         $division = Division::find(1);
@@ -80,5 +96,26 @@ class HomepageController extends Controller
             'prov' => $prov,
             'site' => $site,
         ]);
+    }
+
+    public function getvideo()
+    {
+        $lowBitrate = (new X264)->setKiloBitrate(250);
+        $highBitrate = (new X264)->setKiloBitrate(1000);
+
+    FFMpeg::open('rtsp://admin:FIW170845@10.21.113.112:554/1.sdp')
+    ->exportForHLS()
+    ->addFormat($lowBitrate, function($media) {
+        $media->addFilter(function ($filters) {
+            $filters->resize(new \FFMpeg\Coordinate\Dimension(640, 480));
+        });
+    })
+    ->addFormat($highBitrate, function($media) {
+        $media->addFilter(function ($filters) {
+            $filters->resize(new \FFMpeg\Coordinate\Dimension(1280, 960));
+        });
+    })
+    ->save('/public/adaptive_steve.m3u8');
+
     }
 }

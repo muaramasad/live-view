@@ -26,6 +26,7 @@ Route::prefix('division')->group(function () {
     Route::put('edit/{id}', 'DivisionController@editStore')->name('division.editStore');
     Route::delete('delete/{id}', 'DivisionController@destroy')->name('division.destroy');
 });
+
 Route::prefix('area')->group(function () {
     Route::get('/', 'AreaController@index')->name('area.index');
     Route::get('/create', 'AreaController@create')->name('area.create');
@@ -34,6 +35,7 @@ Route::prefix('area')->group(function () {
     Route::put('edit/{id}', 'AreaController@editStore')->name('area.editStore');
     Route::delete('delete/{id}', 'AreaController@destroy')->name('area.destroy');
 });
+
 Route::prefix('site')->group(function () {
     Route::get('/', 'SiteController@index')->name('site.index');
     Route::get('/create', 'SiteController@create')->name('site.create');
@@ -42,11 +44,16 @@ Route::prefix('site')->group(function () {
     Route::put('edit/{id}', 'SiteController@editStore')->name('site.editStore');
     Route::delete('delete/{id}', 'SiteController@destroy')->name('site.destroy');
 });
+
 Route::prefix('cctv')->group(function () {
     Route::get('/', 'CamController@index')->name('cam.index');
-    Route::get('/create', 'CamController@create')->name('cam.create');
+    Route::get('/create/site/{id}', 'CamController@create')->name('cam.create');
     Route::post('create', 'CamController@store')->name('cam.store');
-    Route::get('edit/{id}', 'CamController@edit')->name('cam.edit');
+    Route::get('edit/{id}/site/{siteId}', 'CamController@edit')->name('cam.edit');
     Route::put('edit/{id}', 'CamController@editStore')->name('cam.editStore');
     Route::delete('delete/{id}', 'CamController@destroy')->name('cam.destroy');
+    //View CCTV by Site ID
+    Route::get('/site/{id}', 'CamController@listBySiteId')->name('cam.listBySite');
 });
+
+Route::get('/stream', 'HomepageController@getvideo');

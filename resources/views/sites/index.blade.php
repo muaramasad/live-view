@@ -16,14 +16,14 @@
                 @foreach($sites as $site)
                 <tr>
                     <td>{{$site->id}}</td>
-                    <td>{{$site->site_name}}</td>
+                    <td>{!!  Html::decode(link_to_route('cam.listBySite', $site->site_name, array('id' => $site->id),['class' => 'is-link'])) !!}</td>
                     <td>{{$site->division->division_name}}</td>
                     <td>{{$site->area->area_name}}</td>
                     <td>{{$site->cam->count()}}</td>
                     <td>
                         <div class="field has-addons">
                             <p class="control">
-                                <a href="/cctv/create?site_id={{$site->id}}" class="button is-primary is-small">
+                                <a href="/cctv/create/site/{{$site->id}}" class="button is-primary is-small">
                                     <span class="icon is-small">
                                         <i class="fa fa-plus"></i>
                                     </span>

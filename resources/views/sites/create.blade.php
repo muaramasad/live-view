@@ -101,25 +101,25 @@ window.onload = function() {
 }
 </script>
 <script>
-$("#selDiv").on("change", function(){
-var divId = $(this).val();
-out = '<option>-- Select Area --</option>';
-$.ajax({
-url: "/api/area/" + divId,
-type: 'GET',
-success: function(data){
-$.each(data, function(k, v) {
-out += '<option value="' +k+ '">' +v+ '</option>'
-});
-$("#selArea").html(out);
-},
-error: function(){
-console.log("error");
-}
-});
-// var selected = $(this).val();
-// $("#results").html("You selected: " + selected);
-console.log($(this).val());
+$("#selDiv").on("change", function() {
+    var divId = $(this).val();
+    out = '<option>-- Select Area --</option>';
+    $.ajax({
+        url: "/api/area/" + divId,
+        type: 'GET',
+        success: function(data) {
+            $.each(data, function(k, v) {
+                out += '<option value="' + k + '">' + v + '</option>'
+            });
+            $("#selArea").html(out);
+        },
+        error: function() {
+            console.log("error");
+        }
+    });
+    // var selected = $(this).val();
+    // $("#results").html("You selected: " + selected);
+    console.log($(this).val());
 })
 </script>
 @endsection

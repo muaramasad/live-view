@@ -53,8 +53,10 @@
 			</section>
 			
 		</div>
-		{!! Mapper::renderJavascript() !!}
 		<script>
+		function showInfo(){
+			$(".gm-style-iw").css("display: block");
+		}
 		function showModal(){
 		    $(".modal").addClass("is-active");
 		}

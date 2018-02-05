@@ -10,18 +10,10 @@
             </p>
         </div>
         <div class="field is-grouped-centered">
-            <label class="label">Area</label>
-            <p class="control is-expanded">
-                <div class="select is-fullwidth">
-                    {!! Form::select('area_id', $areas, null, ['placeholder' => '-- Select Area First --', 'id' => 'selArea']); !!}
-                </div>
-            </p>
-        </div>
-        <div class="field is-grouped-centered">
             <label class="label">Site</label>
             <p class="control is-expanded">
                 <div class="select is-fullwidth">
-                    {!! Form::select('site_id', $sites, null, ['placeholder' => '-- Select Sites --', 'id' => 'selSite']); !!}
+                    {!! Form::select('site_id', $sites, $site->id, ['placeholder' => '-- Select Sites --', 'id' => 'selSite']); !!}
                 </div>
             </p>
         </div>
@@ -39,7 +31,6 @@
         </div>
         <div class="field">
             <div id="maps" style="height: 500px; position: relative; overflow: hidden;">
-                
             </div>
         </div>
         <div class="field">
@@ -71,13 +62,13 @@ window.onload = function() {
     var lat = $('#latitude').val();
     var lng = $('#longitude').val();
     if (!lat || !lng) {
-        lat = -3.157832;
-        lng = 119.416569;
+        lat = {{$site->cor_x}};
+        lng = {{$site->cor_y}};
     }
     $('#latitude, #longitude').change(function() {
         set($('#latitude').val(), $('#longitude').val());
     });
-    var map     = new google.maps.Map(document.getElementById('maps'), {center: new google.maps.LatLng(lat, lng), zoom: 5});
+    var map     = new google.maps.Map(document.getElementById('maps'), {center: new google.maps.LatLng(lat, lng), zoom: 18, mapTypeId: 'satellite'});
     var marker  = new google.maps.Marker({
                     position: new google.maps.LatLng(lat, lng),
                     draggable:true,

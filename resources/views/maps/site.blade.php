@@ -84,7 +84,7 @@
 	<div class="modal-content">
 		<video id="my_video_1" class="video-js vjs-default-skin" controls preload="auto" width="640" height="480"
 			data-setup='{}'>
-			<source src="/video/test.m3u8" type="application/x-mpegURL">
+			<source src="/video/1/test.m3u8" type="application/x-mpegURL">
 		</video>
 	</div>
 	<button class="modal-close is-large" aria-label="close"></button>

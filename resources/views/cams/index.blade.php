@@ -2,7 +2,7 @@
 @section('content')
 <div class="columns">
     <div class="column is-8 is-offset-2">
-    {!!  Html::decode(link_to_route('cam.create', '<i class="fa fa-plus-circle"></i>&nbsp;&nbsp;add cctv', array(), ['class' => 'button is-primary is-pulled-right m-b-sm'])) !!}
+    {{-- {!!  Html::decode(link_to_route('cam.create', '<i class="fa fa-plus-circle"></i>&nbsp;&nbsp;add cctv', array(), ['class' => 'button is-primary is-pulled-right m-b-sm'])) !!} --}}
         <table class="table is-fullwidth">
             <thead>
                 <th>ID</th>
@@ -17,11 +17,11 @@
                     <td>{{$cam->id}}</td>
                     <td>{{$cam->cam_name}}</td>
                     <td>{{$cam->site->site_name}}</td>
-                    <td>{{$site->area->area_name}}</td>
+                    <td>{{$cam->site->area->area_name}}</td>
                     <td>
                         <div class="field has-addons">
                             <p class="control">
-                                <a href="/site/edit/{{$cam->id}}" class="button is-link is-small">
+                                <a href="/cctv/edit/{{$cam->id}}/site/{{$cam->site->id}}" class="button is-link is-small">
                                     <span class="icon is-small">
                                         <i class="fa fa-pencil-square-o"></i>
                                     </span>

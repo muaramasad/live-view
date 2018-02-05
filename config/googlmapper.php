@@ -213,7 +213,7 @@ return [
         | Display a custom icon for markers. (Link to an image)
         |
         */
-        'icon' => asset('images/security-system.png'),
+        'icon' => '/images/japfa_pointer.png',
 
         /*
         |--------------------------------------------------------------------------
