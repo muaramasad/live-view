@@ -1,28 +1,26 @@
 @extends('layouts.app')
 @section('content')
+@if(Request::route()->getName() != 'homepage')
 {{ Breadcrumbs::render('home') }}
-<div class="columns">
-  <div class="column is-4 is-offset-4">
-    @foreach($divisions as $division)
-    <div class="field is-grouped-centered">
-        <p class="control is-expanded">
-            <a class="button is-fullwidth is-large @if($division->id == 1) is-warning @elseif($division->id == 2) is-info  @else is-success @endif" href="/map/division/{{$division->id}}">
-                <span class="icon">
-                @if($division->icon_path == 1)
-                    <img src="{{asset('images/chicken.png')}}">
-                @elseif($division->icon_path == 2)
-                    <img src="{{asset('images/fish.png')}}">
-                @elseif($division->icon_path == 3)
-                    <img src="{{asset('images/cow.png')}}">
-                @else
-                    <img src="{{asset('')}}">
-                @endif
-                </span>
-                <strong>{{$division->division_name}}</strong>
-            </a>
-        </p>
+@endif
+<div class="columns is-multiline">
+    @forelse($divisions as $division)
+    <div class="column is-one-quarter">
+        <a href="/map/division/{{$division->id}}">
+        <div class="card is-shadowless">
+            <div class="card-image">
+                <figure class="image is-4by3">
+                    <img src="{{asset('images/'.$division->icon_path)}}" alt="Placeholder image">
+                    <div class="is-overlay ">
+                        <p class="p-l-sm  p-b-sm title is-size-5 has-text-white has-text-centered is-bottom">{{$division->division_name}}</p>
+                        <p class="subtitle p-l-sm  p-b-sm is-size-6 has-text-white has-text-centered is-bottom is-capitalized">{{$division->category}}</p>
+                    </div>
+                </figure>
+            </div>
+        </div>
+        </a>
     </div>
-    @endforeach
-  </div>
+    @empty
+    @endforelse
 </div>
 @endsection

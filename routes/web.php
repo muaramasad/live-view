@@ -55,5 +55,3 @@ Route::prefix('cctv')->group(function () {
     //View CCTV by Site ID
     Route::get('/site/{id}', 'CamController@listBySiteId')->name('cam.listBySite');
 });
-
-Route::get('/stream', 'HomepageController@getvideo');

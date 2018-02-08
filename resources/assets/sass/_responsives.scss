@@ -1,0 +1,12 @@
+@media all and (max-width:1440px){
+	.banner_home{height: 490px;width: 100%;}
+    .banner_home .bg_2,
+    .banner_home .large_circle{
+        transform: scale(0.6);
+        -webkit-transform: scale(0.6);
+        -moz-transform: scale(0.6);
+        -ms-transform: scale(0.6);
+        -o-transform: scale(0.6);
+    }
+    .banner_home .large_circle{margin: 60px auto 0 auto;}
+}

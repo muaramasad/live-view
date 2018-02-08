@@ -82,7 +82,7 @@ class HomepageController extends Controller
         $camsCollection->each(function($cam,$i)
         {
             $content = '<h4>'.strtoupper($cam->cam_name).'</h4><p>IP Address: '.$cam->cam_ip_address.'</p>';
-            Mapper::marker($cam->cam_cor_x, $cam->cam_cor_y, ['content' => $content,'icon' => ['url' => '/images/placeholder.svg','size' => 24],'eventMouseOver' => 'infowindow_'.$i.'.open(map, this);','eventMouseOut' => 'infowindow_'.$i.'.close(map, this);', 'eventClick' => 'showModal();' ]);
+            Mapper::marker($cam->cam_cor_x, $cam->cam_cor_y, ['content' => $content,'icon' => ['url' => '/images/placeholder.svg','size' => 24],'eventMouseOver' => 'infowindow_'.$i.'.open(map, this);','eventMouseOut' => 'infowindow_'.$i.'.close(map, this);', 'eventClick' => 'showModal('.$cam->id.');' ]);
             // Mapper::informationWindow($cam->cam_cor_x, $cam->cam_cor_y, $content, ['maxWidth'=> 300, 'icon' => ['url' => '/images/placeholder.svg','size' => 24],'eventMouseOver' => 'infowindow.open(map, this);']);
             // Mapper::marker($cam->cam_cor_x, $cam->cam_cor_y,['icon' => ['url' => '/images/placeholder.svg','size' => 24],'eventMouseOver' => 'infowindow.open(map, this);']);
             // Mapper::marker($cam->cam_cor_x,$cam->cam_cor_y,['eventClick' => 'showModal();']);
@@ -95,27 +95,7 @@ class HomepageController extends Controller
             'division' => $division,
             'prov' => $prov,
             'site' => $site,
+            'cams' => $camsCollection
         ]);
-    }
-
-    public function getvideo()
-    {
-        $lowBitrate = (new X264)->setKiloBitrate(250);
-        $highBitrate = (new X264)->setKiloBitrate(1000);
-
-    FFMpeg::open('rtsp://admin:FIW170845@10.21.113.112:554/1.sdp')
-    ->exportForHLS()
-    ->addFormat($lowBitrate, function($media) {
-        $media->addFilter(function ($filters) {
-            $filters->resize(new \FFMpeg\Coordinate\Dimension(640, 480));
-        });
-    })
-    ->addFormat($highBitrate, function($media) {
-        $media->addFilter(function ($filters) {
-            $filters->resize(new \FFMpeg\Coordinate\Dimension(1280, 960));
-        });
-    })
-    ->save('/public/adaptive_steve.m3u8');
-
     }
 }

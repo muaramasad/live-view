@@ -19,7 +19,7 @@
 			<nav class="navbar" role="navigation" aria-label="main navigation">
 				<div class="navbar-brand">
 					<a class="navbar-item" href="{{route('homepage')}}">
-						<strong>Japfa CCTV Monitoring System</strong>
+						<img src="{{ asset('images/japfa_logo.png')}}" alt="Japfa Monitoring System" width="auto" height="28">
 					</a>
 					<button class="button navbar-burger">
 					<span></span>
@@ -45,23 +45,34 @@
 				</div>
 			</nav>
 			<section class="section is-paddingless m-t-lg">
-				<div class="container">
+				<div class="container is-fluid">
 					@include('layouts.errors')
 					@include('layouts.notifications')
 					@yield('content')
 				</div>
 			</section>
-			
 		</div>
 		<script>
+		var newYearCountdown;
 		function showInfo(){
 			$(".gm-style-iw").css("display: block");
 		}
-		function showModal(){
-		    $(".modal").addClass("is-active");
+		function showModal(id){
+			$(".modal").addClass("is-active");
+			var counter = 1;
+    		newYearCountdown = setInterval(function(){
+        	var newImg = $('#test');
+        	newImg.attr("src", '/video/0/ip-'+counter+'.jpeg');
+        	console.log(counter);
+        	counter++;
+			if (counter === 120) {
+				counter = 1;
+			}
+			}, 1000);
 		}
 		$(document).on('click', '.modal-close', function() {
-		     $(".modal").removeClass("is-active");
+			 $(".modal").removeClass("is-active");
+			 clearInterval(newYearCountdown);
 		     return false;
 		});
 		$(document).on('click', '.notification > button.delete', function() {
@@ -69,5 +80,6 @@
 		    return false;
 		});
 		</script>
+</script>
 	</body>
 </html>

@@ -5,17 +5,24 @@
 // Variables
 @import "variables";
 
+// Responsives
+@import "responsives";
+
 // Bootstrap
 //@import "~bootstrap-sass/assets/stylesheets/bootstrap";
 @import "~bulma";
 
 html, body {
-    background-color: #ecf0f1;
+    background-color: $body-bg;
     color: #636b6f;
     font-family: 'Raleway', sans-serif;
     font-weight: 100;
     height: 100vh;
     margin: 0;
+}
+
+body {
+    height:100%;
 }
 
 // CUSTOM SPACING //
@@ -63,4 +70,115 @@ $positions: (
             padding-#{$posValue}: sizeValue($sizeKey, $sizeValue);
         }
     }
+}
+
+/* CUSTOM */
+.card {
+    height:100%;
+}
+.image {
+    overflow:hidden
+}
+.image img{
+    -moz-transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    transition: all 0.5s;
+}
+.image:hover img {
+  -moz-transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}
+.is-bottom {
+    position: absolute;
+    bottom: 0;
+}
+.is-overlay {
+    background: linear-gradient(
+    to top,
+    #000, 
+    transparent
+  );
+}
+.is-overlay:hover {
+    background: linear-gradient(
+    to top,
+    $brand-orange, 
+    transparent
+  );
+}
+.media-content {
+    overflow: hidden
+}
+.bg-black {
+    background: $body-black !important
+}
+.banner_home {background: url('')no-repeat center;min-height: 490px;overflow: hidden;width:100%;}
+.banner_home .large_circle{position: relative;width: 295px;height: 295px;margin: 155px auto;}
+.banner_home .large_circle .c_ayam{margin: 0 0 10px 5px; max-width: none;}
+.banner_home .large_circle .little_circle{position: absolute;cursor: pointer;}
+.banner_home .large_circle .little_circle .cirlce{
+    position: absolute;
+    width: 104px;
+    height: 104px;
+    padding: 10px;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    -ms-border-radius: 100%;
+    -o-border-radius: 100%;
+
+}
+.banner_home .large_circle .little_circle .cirlce{overflow: hidden;}
+.banner_home .large_circle .little_circle .cirlce img{position: relative;z-index: 1}
+.banner_home .large_circle .little_circle .cirlce span{
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: #f26522;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    -ms-border-radius: 100%;
+    -o-border-radius: 100%;
+    z-index: 0;
+}
+.banner_home .large_circle .little_circle:nth-child(2){top: -120px;left: 94px;margin: 30px 0px 0px 0;}
+.banner_home .large_circle .little_circle:nth-child(3){top: -12px;left: 330px;margin: 30px 0 0 -30px;}
+.banner_home .large_circle .little_circle:nth-child(4){top: 235px;left: 375px;margin: 0px 0 0 -30px;}
+.banner_home .large_circle .little_circle:nth-child(5){top: 420px;left: 217px;margin: -30px 0 0 -13px;}
+.banner_home .large_circle .little_circle:nth-child(6){top: 420px;left: -26px;margin: -30px 0 0 19px;}
+.banner_home .large_circle .little_circle:nth-child(7){top: 235px;left: -185px;margin: 0px 0 0 30px;}
+.banner_home .large_circle .little_circle:nth-child(8){top: -12px;left: -136px;margin: 30px 0 0 30px;}
+
+.banner_home .large_circle .little_circle:nth-child(2) .cirlce span{top: -80%;left:0;}
+.banner_home .large_circle .little_circle:nth-child(3) .cirlce span{top: -58%;left:58%;}
+.banner_home .large_circle .little_circle:nth-child(4) .cirlce span{top: 28%;left:78%;}
+.banner_home .large_circle .little_circle:nth-child(5) .cirlce span{top: 70%;left:33%;}
+.banner_home .large_circle .little_circle:nth-child(6) .cirlce span{top: 70%;left:-33%;}
+.banner_home .large_circle .little_circle:nth-child(7) .cirlce span{top: 15%;left:-80%;}
+.banner_home .large_circle .little_circle:nth-child(8) .cirlce span{top: -58%;left:-58%;}
+
+
+.banner_home .large_circle .little_circle .text{font-size: 12px;font-weight: 700;color:#b6b6b6;text-transform: uppercase;width: 150px;position: absolute}
+.banner_home .large_circle .little_circle:nth-child(2) .text {top:-30px;left: 7px;}
+.banner_home .large_circle .little_circle:nth-child(3) .text {top:-35px;left: -15px;text-align: center;}
+.banner_home .large_circle .little_circle:nth-child(4) .text {top: -20px;left: -15px;}
+.banner_home .large_circle .little_circle:nth-child(5) .text {top:115px;left: -10px;text-align: center;}
+.banner_home .large_circle .little_circle:nth-child(6) .text {top:120px;left:0;}
+.banner_home .large_circle .little_circle:nth-child(7) .text {top: -30px;left: -20px;text-align: center;}
+.banner_home .large_circle .little_circle:nth-child(8) .text {top:-30px;left: -20px;text-align: center;}
+.banner_home .bg_1{
+    position: absolute;
+    left: 0;
+    top: -198px;
+    max-width: none;
+}
+.banner_home .bg_2{
+    position: absolute;
+    left: 0;
+    top: -200px;
+    margin: auto;
+    max-width: none;
 }
