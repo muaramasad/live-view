@@ -82,7 +82,7 @@ class HomepageController extends Controller
         $camsCollection->each(function($cam,$i)
         {
             $content = '<h4>'.strtoupper($cam->cam_name).'</h4><p>IP Address: '.$cam->cam_ip_address.'</p>';
-            Mapper::marker($cam->cam_cor_x, $cam->cam_cor_y, ['content' => $content,'icon' => ['url' => '/images/placeholder.svg','size' => 24],'eventMouseOver' => 'infowindow_'.$i.'.open(map, this);','eventMouseOut' => 'infowindow_'.$i.'.close(map, this);', 'eventClick' => 'showModal('.$cam->id.');' ]);
+            Mapper::marker($cam->cam_cor_x, $cam->cam_cor_y, ['content' => $content,'icon' => ['url' => '/images/placeholder.svg','size' => 24],'eventMouseOver' => 'infowindow_'.$i.'.open(map, this);','eventMouseOut' => 'infowindow_'.$i.'.close(map, this);', 'eventClick' => 'showModal('.$cam->id.','.preg_replace("/\./", "",$cam->cam_ip_address).',"'.$cam->cam_name.'");' ]);
             // Mapper::informationWindow($cam->cam_cor_x, $cam->cam_cor_y, $content, ['maxWidth'=> 300, 'icon' => ['url' => '/images/placeholder.svg','size' => 24],'eventMouseOver' => 'infowindow.open(map, this);']);
             // Mapper::marker($cam->cam_cor_x, $cam->cam_cor_y,['icon' => ['url' => '/images/placeholder.svg','size' => 24],'eventMouseOver' => 'infowindow.open(map, this);']);
             // Mapper::marker($cam->cam_cor_x,$cam->cam_cor_y,['eventClick' => 'showModal();']);

@@ -35,7 +35,7 @@
         <div class="field">
             <label class="label">IP Address</label>
             <div class="control">
-                {!! Form::text('ip_address', $cam->cam_ip_address ,['class' => 'input']) !!}
+                {!! Form::text('cam_ip_address', $cam->cam_ip_address ,['class' => 'input']) !!}
             </div>
         </div>
         <div class="field">

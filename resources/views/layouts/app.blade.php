@@ -12,6 +12,7 @@
 		<script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
 		<link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
 		<script src="https://unpkg.com/video.js/dist/video.js"></script>
+		<script type="text/javascript" src="{{ asset('js/moment.js') }}"></script>
 		<script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>
 	</head>
 	<body>
@@ -52,34 +53,5 @@
 				</div>
 			</section>
 		</div>
-		<script>
-		var newYearCountdown;
-		function showInfo(){
-			$(".gm-style-iw").css("display: block");
-		}
-		function showModal(id){
-			$(".modal").addClass("is-active");
-			var counter = 1;
-    		newYearCountdown = setInterval(function(){
-        	var newImg = $('#test');
-        	newImg.attr("src", '/video/0/ip-'+counter+'.jpeg');
-        	console.log(counter);
-        	counter++;
-			if (counter === 120) {
-				counter = 1;
-			}
-			}, 1000);
-		}
-		$(document).on('click', '.modal-close', function() {
-			 $(".modal").removeClass("is-active");
-			 clearInterval(newYearCountdown);
-		     return false;
-		});
-		$(document).on('click', '.notification > button.delete', function() {
-		    $(this).parent().addClass('is-hidden');
-		    return false;
-		});
-		</script>
-</script>
 	</body>
 </html>

@@ -36,7 +36,7 @@
         <div class="field">
             <label class="label">IP Address</label>
             <div class="control">
-                <input class="input" type="text" name="ip_address">
+                <input class="input" type="text" name="cam_ip_address">
             </div>
         </div>
         <div class="field">

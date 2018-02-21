@@ -7,6 +7,7 @@ use App\Site;
 use App\Division;
 use App\Area;
 use App\Cam;
+use File;
 
 class CamController extends Controller
 {
@@ -29,8 +30,8 @@ class CamController extends Controller
     }
     public function edit($id,$siteId)
     {
-    	$sites = Site::where('id',$siteId)->pluck('site_name','id')->toArray();
-    	$site = Site::find($id);
+    	$sites = Site::pluck('site_name','id');
+    	$site = Site::find($siteId);
         $cam = Cam::find($id);
         $divisions = Division::pluck('division_name','id');
         $areas = Area::pluck('area_name','id');
@@ -47,16 +48,20 @@ class CamController extends Controller
 	        'site_id' => 'required',
 	        'cor_x' => 'required',
 	        'cor_y' => 'required',
-	        'ip_address' => 'required'
+	        'cam_ip_address' => 'required|unique:cams'
 	    ]);
-	    $cam = new Cam;
-	    $cam->cam_name = $request->input('cam_name');
-	    $cam->site_id = $request->input('site_id');
-	    $cam->cam_cor_x = $request->input('cor_x');
-	    $cam->cam_cor_y = $request->input('cor_y');
-	    $cam->cam_ip_address = $request->input('ip_address');
-	    $cam->cam_file_path = $request->input('video_url');
-	    $cam->save();
+        $cam = new Cam;
+        $cam->cam_name = $request->input('cam_name');
+        $cam->site_id = $request->input('site_id');
+        $cam->cam_cor_x = $request->input('cor_x');
+        $cam->cam_cor_y = $request->input('cor_y');
+        $cam->cam_ip_address = $request->input('cam_ip_address');
+        $cam->cam_file_path = $request->input('video_url');
+        $cam->save();
+        $videoPath = public_path(). DIRECTORY_SEPARATOR .'video'. DIRECTORY_SEPARATOR . preg_replace("/\./", "", $cam->cam_ip_address);
+        if(!File::exists($videoPath)) {
+           File::makeDirectory($videoPath, 0775);
+        }
 	    $request->session()->flash('is-success', 'CCTV successfully added!');
         return redirect()->route('cam.listBySite', $cam->site_id);
     }
@@ -66,13 +71,23 @@ class CamController extends Controller
 	        'cam_name' => 'required|max:255',
 	        'cor_x' => 'required',
 	        'cor_y' => 'required',
-	        'ip_address' => 'required'
+	        'cam_ip_address' => 'required|unique:cams'
 	    ]);
+        $videoPathNew = public_path(). DIRECTORY_SEPARATOR .'video'. DIRECTORY_SEPARATOR . preg_replace("/\./", "",$request->input('cam_ip_address'));
         $cam = Cam::find($id);
+        $videoPathOld = public_path(). DIRECTORY_SEPARATOR .'video'. DIRECTORY_SEPARATOR . $cam->cam_ip_address;
+        if(File::exists($videoPathOld)) {
+            if($cam->cam_ip_address != null){
+                File::deleteDirectory($videoPathOld);
+            }
+            File::makeDirectory($videoPathNew, 0775);
+        } else {
+            File::makeDirectory($videoPathNew, 0775);
+        }
         $cam->cam_name = $request->input('cam_name');
 	    $cam->cam_cor_x = $request->input('cor_x');
 	    $cam->cam_cor_y = $request->input('cor_y');
-	    $cam->cam_ip_address = $request->input('ip_address');
+	    $cam->cam_ip_address = $request->input('cam_ip_address');
 	    $cam->cam_file_path = $request->input('video_url');
         $cam->save();
         $request->session()->flash('is-success', 'CCTV successfully updated!');
@@ -80,8 +95,12 @@ class CamController extends Controller
     }
     public function listBySiteId($id)
     {
+        $site = Site::find($id);
     	$cams = Cam::where('site_id',$id)->get();
-    	return view('cams.index',['cams' => $cams]);
+    	return view('cams.index',[
+            'cams' => $cams,
+            'site' => $site,
+        ]);
     }
     public function destroy(Request $request, $id)
     {
