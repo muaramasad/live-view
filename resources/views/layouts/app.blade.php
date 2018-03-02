@@ -20,7 +20,7 @@
 			<nav class="navbar" role="navigation" aria-label="main navigation">
 				<div class="navbar-brand">
 					<a class="navbar-item" href="{{route('homepage')}}">
-						<img src="{{ asset('images/japfa_logo.png')}}" alt="Japfa Monitoring System" width="auto" height="28">
+						{{-- <img src="{{ asset('images/japfa_logo.png')}}" alt="Japfa Monitoring System" width="auto" height="28"> --}}
 					</a>
 					<button class="button navbar-burger">
 					<span></span>
