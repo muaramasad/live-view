@@ -10,7 +10,7 @@
         <div class="card is-shadowless">
             <div class="card-image">
                 <figure class="image is-4by3">
-                    <img src="{{asset('images/'.$division->icon_path)}}" alt="Placeholder image">
+                    <img src="{{asset('images/thumbnails/'.basename($division->icon_path))}}" alt="Placeholder image">
                     <div class="is-overlay ">
                         <p class="p-l-sm  p-b-sm title is-size-5 has-text-white has-text-centered is-bottom">{{$division->division_name}}</p>
                         <p class="subtitle p-l-sm  p-b-sm is-size-6 has-text-white has-text-centered is-bottom is-capitalized">{{$division->category}}</p>

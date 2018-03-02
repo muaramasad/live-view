@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::middleware(['middleware' => 'auth'])->group(function () {
 Route::get('/','HomepageController@index')->name('homepage');
 Route::prefix('map')->group(function () {
     Route::get('division/{id}', 'HomepageController@mapDiv')->name('map.division');
@@ -36,6 +36,24 @@ Route::prefix('area')->group(function () {
     Route::delete('delete/{id}', 'AreaController@destroy')->name('area.destroy');
 });
 
+Route::prefix('role')->group(function () {
+    Route::get('/', 'RoleController@index')->name('role.index');
+    Route::get('/create', 'RoleController@create')->name('role.create');
+    Route::post('create', 'RoleController@store')->name('role.store');
+    Route::get('edit/{id}', 'RoleController@edit')->name('role.edit');
+    Route::put('edit/{id}', 'RoleController@editStore')->name('role.editStore');
+    Route::delete('delete/{id}', 'SiteController@destroy')->name('role.destroy');
+});
+
+Route::prefix('permission')->group(function () {
+    Route::get('/', 'PermissionController@index')->name('permission.index');
+    Route::get('/create', 'PermissionController@create')->name('permission.create');
+    Route::post('create', 'PermissionController@store')->name('permission.store');
+    Route::get('edit/{id}', 'PermissionController@edit')->name('permission.edit');
+    Route::put('edit/{id}', 'PermissionController@editStore')->name('permission.editStore');
+    Route::delete('delete/{id}', 'SiteController@destroy')->name('permission.destroy');
+});
+
 Route::prefix('site')->group(function () {
     Route::get('/', 'SiteController@index')->name('site.index');
     Route::get('/create', 'SiteController@create')->name('site.create');
@@ -55,3 +73,7 @@ Route::prefix('cctv')->group(function () {
     //View CCTV by Site ID
     Route::get('/site/{id}', 'CamController@listBySiteId')->name('cam.listBySite');
 });
+
+Route::resource('user', 'UserController');
+});
+Auth::routes();

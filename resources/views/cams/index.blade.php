@@ -11,7 +11,6 @@
         </a>
         <table class="table is-fullwidth">
             <thead>
-                <th>ID</th>
                 <th>CCTV Name</th>
                 <th>IP Address</th>
                 <th>Site</th>
@@ -19,9 +18,8 @@
                 <th>Action</th>
             </thead>
             <tbody>
-                @foreach($cams as $cam)
+                @foreach($cams as $key => $cam)
                 <tr>
-                    <td>{{$cam->id}}</td>
                     <td>{{$cam->cam_name}}</td>
                     <td>{{$cam->cam_ip_address}}</td>
                     <td>{{$cam->site->site_name}}</td>
@@ -52,6 +50,7 @@
                 @endforeach
             </tbody>
         </table>
+        {{ $cams->render() }}
     </div>
 </div>
 @endsection

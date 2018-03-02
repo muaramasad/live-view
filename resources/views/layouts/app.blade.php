@@ -30,6 +30,9 @@
 				</div>
 				<div class="navbar-menu">
 					<div class="navbar-start">
+						@guest
+
+						@else
 						<a href="{{route('division.index')}}" class="navbar-item">
 							Divisions
 						</a>
@@ -39,10 +42,41 @@
 						<a href="{{route('site.index')}}" class="navbar-item">
 							Sites
 						</a>
-						<a href="{{route('cam.index')}}" class="navbar-item">
-							CCTV
+						<a href="{{route('user.index')}}" class="navbar-item">
+							Users
+						</a>
+						<a href="{{route('role.index')}}" class="navbar-item">
+							Roles
+						</a>
+						<a href="{{route('permission.index')}}" class="navbar-item">
+							Permissions
+						</a>
+						@endguest
+					</div>
+					<div class="navbar-end">
+					@guest
+					<a href="{{ route('login') }}" class="navbar-item">
+							Login
+						</a>
+					<a href="{{ route('register') }}" class="navbar-item">
+							Register
+						</a>
+					@else
+					<div class="navbar-item has-dropdown is-hoverable">
+        				<a class="navbar-link" href="#">
+						Hi, {{ Auth::user()->name }}
+        				</a>
+						<div class="navbar-dropdown is-boxed">
+							<a class="navbar-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+            					Logout
+          					</a>
+							<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                            </form>
 						</a>
 					</div>
+					@endguest
 				</div>
 			</nav>
 			<section class="section is-paddingless m-t-lg">
@@ -53,5 +87,16 @@
 				</div>
 			</section>
 		</div>
+		<script>
+		function readURL(input) {
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function (e) {
+					$('#blah').attr('src', e.target.result);
+				};
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
+		</script>
 	</body>
 </html>

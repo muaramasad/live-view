@@ -13,8 +13,9 @@ class CamController extends Controller
 {
     public function index()
     {
-    	$cams = Cam::with('site')->get();
-    	return view('cams.index',['cams' => $cams]);
+    	// $cams = Cam::with('site')->get();
+    	// return view('cams.index',['cams' => $cams]);
+        return redirect()->route('site.index');
     }
     public function create(Request $request,$id)
     {
@@ -96,7 +97,7 @@ class CamController extends Controller
     public function listBySiteId($id)
     {
         $site = Site::find($id);
-    	$cams = Cam::where('site_id',$id)->get();
+    	$cams = Cam::where('site_id',$id)->paginate(10);
     	return view('cams.index',[
             'cams' => $cams,
             'site' => $site,

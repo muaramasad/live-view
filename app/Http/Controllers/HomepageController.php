@@ -67,7 +67,7 @@ class HomepageController extends Controller
             Mapper::informationWindow($site->cor_x, $site->cor_y, $site->site_name, ['open' => true, 'maxWidth'=> 300, 'markers' => ['eventClick' => 'window.location.href = "/map/site/'.$site->id.'";']]);
             // Mapper::marker($site->cor_x, $site->cor_y,['eventClick' => 'window.location.href = "/map/site/'.$site->id.'";', 'eventMouseOver' => '']);
         });
-        $division = Division::find(1);
+        $division = Division::find($sitesCollection[0]->division_id);
         return view('maps.prov',[
             'division' => $division,
             'prov' => $province,
@@ -90,7 +90,7 @@ class HomepageController extends Controller
         });
         $area = Area::find($site->area_id);
         $prov = Province::find($area->province_id);
-        $division = Division::find(1);
+        $division = Division::find($area->division_id);
         return view('maps.site',[
             'division' => $division,
             'prov' => $prov,

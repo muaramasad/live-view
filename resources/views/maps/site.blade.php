@@ -38,7 +38,7 @@
 			var date = moment(new Date());
 			date = date.subtract(3, 'minutes');
     		newYearCountdown = setInterval(function(){
-    		if (counter === 61) {
+    		if (counter === 601) {
 				counter = 1;
 				date = date.add(1, 'minutes');
 			}
@@ -49,7 +49,7 @@
         	nameCam.text(camName);
         	console.log(filename);
         	counter++;
-			}, 1000);
+			}, 1000/10);
 		}
 		$(document).on('click', '.modal-close', function() {
 			 $(".modal").removeClass("is-active");
