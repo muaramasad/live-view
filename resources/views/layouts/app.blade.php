@@ -33,6 +33,7 @@
 						@guest
 
 						@else
+						@if(Auth::user()->id == 1)
 						<a href="{{route('division.index')}}" class="navbar-item">
 							Divisions
 						</a>
@@ -51,6 +52,7 @@
 						<a href="{{route('permission.index')}}" class="navbar-item">
 							Permissions
 						</a>
+						@endif
 						@endguest
 					</div>
 					<div class="navbar-end">
