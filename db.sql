@@ -13,8 +13,7 @@
 
 
 -- Membuang struktur basisdata untuk cctv
-CREATE DATABASE IF NOT EXISTS `cctv` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `cctv`;
+USE `cctv_app_ver_1_0`;
 
 -- membuang struktur untuk table cctv.areas
 CREATE TABLE IF NOT EXISTS `areas` (
@@ -29,16 +28,17 @@ CREATE TABLE IF NOT EXISTS `areas` (
   KEY `areas_province_id_index` (`province_id`),
   CONSTRAINT `areas_division_id_foreign` FOREIGN KEY (`division_id`) REFERENCES `divisions` (`id`),
   CONSTRAINT `areas_province_id_foreign` FOREIGN KEY (`province_id`) REFERENCES `provinces` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Membuang data untuk tabel cctv.areas: ~5 rows (lebih kurang)
+-- Membuang data untuk tabel cctv.areas: ~6 rows (lebih kurang)
 /*!40000 ALTER TABLE `areas` DISABLE KEYS */;
 INSERT INTO `areas` (`id`, `area_name`, `division_id`, `created_at`, `updated_at`, `province_id`) VALUES
 	(1, 'Area Barat', 1, '2018-01-22 08:32:47', '2018-01-24 06:04:36', 13),
 	(2, 'Area Timur 1', 1, '2018-01-22 09:07:41', '2018-01-24 06:04:20', 16),
 	(3, 'Area Timur 2', 1, '2018-01-22 09:36:16', '2018-01-24 06:05:09', 26),
 	(4, 'Area Sumatera 1', 1, '2018-01-22 09:36:36', '2018-01-24 06:05:26', 9),
-	(5, 'Area Sumatera 2', 1, '2018-01-24 06:05:49', '2018-01-24 06:05:49', 2);
+	(5, 'Area Sumatera 2', 1, '2018-01-24 06:05:49', '2018-01-24 06:05:49', 2),
+	(6, 'Jawa Timur', 9, '2018-02-22 07:19:36', '2018-02-22 07:19:36', 16);
 /*!40000 ALTER TABLE `areas` ENABLE KEYS */;
 
 -- membuang struktur untuk table cctv.cams
@@ -95,18 +95,19 @@ CREATE TABLE IF NOT EXISTS `divisions` (
   `icon_path` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `category` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `category` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Membuang data untuk tabel cctv.divisions: ~5 rows (lebih kurang)
+-- Membuang data untuk tabel cctv.divisions: ~6 rows (lebih kurang)
 /*!40000 ALTER TABLE `divisions` DISABLE KEYS */;
 INSERT INTO `divisions` (`id`, `division_name`, `icon_path`, `created_at`, `updated_at`, `category`) VALUES
-	(1, 'Breeding', 'doc_img.jpg', '2018-01-22 08:25:24', '2018-02-08 08:48:45', 'poultry'),
-	(2, 'Feed', 'feed_img.jpg', '2018-02-02 03:03:25', '2018-02-08 08:48:56', 'poultry'),
-	(3, 'Disease Prevention', 'vac_img.jpg', '2018-02-02 03:03:59', '2018-02-02 03:03:59', 'poultry'),
-	(4, 'Processed Chicken', 'chc_img.jpg', '2018-02-08 07:25:51', '2018-02-08 07:25:51', 'poultry'),
-	(5, 'Commercial Live Broilers Bird', 'com_img.jpg', '2018-02-08 07:26:25', '2018-02-08 07:26:25', 'poultry');
+	(1, 'Breeding', 'public/thumbnails/zCSfc2pxWazQuZN2p3Di9HGVdweb1RgHs9dZQcb0.jpeg', '2018-01-22 08:25:24', '2018-02-22 06:51:45', 'poultry'),
+	(2, 'Feed', 'public/thumbnails/JNktM8IPYDpAWOs1fkIjRfN3mAgWA93fNgjPzkUb.jpeg', '2018-02-02 03:03:25', '2018-02-22 06:52:49', 'poultry'),
+	(3, 'Disease Prevention', 'public/thumbnails/y7235WRl2NDrI7TZ1vM74Ib0QaOfF1o0g4GqmzOd.jpeg', '2018-02-02 03:03:59', '2018-02-22 06:53:55', 'poultry'),
+	(4, 'Processed Chicken', 'public/thumbnails/OIRWQ5JGacq6KTea8KgzR3fVLmMKXXU3pSycqb7V.jpeg', '2018-02-08 07:25:51', '2018-02-22 06:55:08', 'poultry'),
+	(5, 'Commercial Live Broilers Bird', 'public/thumbnails/Atts5jkSHf74bkpiN19Tk2MM0AhH2mtV03SNLkud.jpeg', '2018-02-08 07:26:25', '2018-02-22 06:54:39', 'poultry'),
+	(9, 'Dairy', 'public/thumbnails/jzeDJXV6uvqhY7Yov4n0KEQp8fCgAYuZN0xrMt2w.jpeg', '2018-02-22 07:06:44', '2018-02-22 07:09:01', 'beef cattle');
 /*!40000 ALTER TABLE `divisions` ENABLE KEYS */;
 
 -- membuang struktur untuk table cctv.migrations
@@ -115,9 +116,9 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Membuang data untuk tabel cctv.migrations: ~10 rows (lebih kurang)
+-- Membuang data untuk tabel cctv.migrations: ~14 rows (lebih kurang)
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 	(27, '2014_10_12_000000_create_users_table', 1),
@@ -131,7 +132,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 	(35, '2018_01_22_042205_create_provinces_table', 1),
 	(36, '2018_01_22_081948_alter_areas_table_add_province_id', 1),
 	(38, '2018_01_24_030740_create_table_cams', 2),
-	(39, '2018_02_08_084349_add_column_category_to_divisions', 3);
+	(39, '2018_02_08_084349_add_column_category_to_divisions', 3),
+	(45, '2018_02_28_031244_laratrust_setup_tables', 4),
+	(48, '2018_02_28_040452_create_user-division_user-area_user-site_table', 5);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 
 -- membuang struktur untuk table cctv.password_resets
@@ -145,6 +148,58 @@ CREATE TABLE IF NOT EXISTS `password_resets` (
 -- Membuang data untuk tabel cctv.password_resets: ~0 rows (lebih kurang)
 /*!40000 ALTER TABLE `password_resets` DISABLE KEYS */;
 /*!40000 ALTER TABLE `password_resets` ENABLE KEYS */;
+
+-- membuang struktur untuk table cctv.permissions
+CREATE TABLE IF NOT EXISTS `permissions` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `display_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `permissions_name_unique` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Membuang data untuk tabel cctv.permissions: ~4 rows (lebih kurang)
+/*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
+INSERT INTO `permissions` (`id`, `name`, `display_name`, `description`, `created_at`, `updated_at`) VALUES
+	(1, 'user-create', 'Create User', 'Create New User', '2018-02-28 08:51:02', '2018-02-28 09:16:54'),
+	(2, 'user-update', 'Update User', 'Update  User Information', '2018-02-28 09:02:17', '2018-02-28 09:02:17'),
+	(3, 'user-list', 'Display User Listing', 'List All Users', '2018-02-28 09:03:17', '2018-02-28 09:03:17'),
+	(4, 'user-delete', 'Delete User', 'Delete User', '2018-02-28 09:03:50', '2018-02-28 09:03:50');
+/*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
+
+-- membuang struktur untuk table cctv.permission_role
+CREATE TABLE IF NOT EXISTS `permission_role` (
+  `permission_id` int(10) unsigned NOT NULL,
+  `role_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`permission_id`,`role_id`),
+  KEY `permission_role_role_id_foreign` (`role_id`),
+  CONSTRAINT `permission_role_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `permission_role_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Membuang data untuk tabel cctv.permission_role: ~0 rows (lebih kurang)
+/*!40000 ALTER TABLE `permission_role` DISABLE KEYS */;
+/*!40000 ALTER TABLE `permission_role` ENABLE KEYS */;
+
+-- membuang struktur untuk table cctv.permission_user
+CREATE TABLE IF NOT EXISTS `permission_user` (
+  `permission_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `user_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `team_id` int(10) unsigned DEFAULT NULL,
+  UNIQUE KEY `permission_user_user_id_permission_id_user_type_team_id_unique` (`user_id`,`permission_id`,`user_type`,`team_id`),
+  KEY `permission_user_permission_id_foreign` (`permission_id`),
+  KEY `permission_user_team_id_foreign` (`team_id`),
+  CONSTRAINT `permission_user_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `permission_user_team_id_foreign` FOREIGN KEY (`team_id`) REFERENCES `teams` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Membuang data untuk tabel cctv.permission_user: ~0 rows (lebih kurang)
+/*!40000 ALTER TABLE `permission_user` DISABLE KEYS */;
+/*!40000 ALTER TABLE `permission_user` ENABLE KEYS */;
 
 -- membuang struktur untuk table cctv.provinces
 CREATE TABLE IF NOT EXISTS `provinces` (
@@ -198,6 +253,43 @@ INSERT INTO `provinces` (`id`, `province_name`, `province_code`, `province_cor_x
 	(34, 'Papua', 'ID-PA', '-4.75', '138.0', '6', NULL, NULL);
 /*!40000 ALTER TABLE `provinces` ENABLE KEYS */;
 
+-- membuang struktur untuk table cctv.roles
+CREATE TABLE IF NOT EXISTS `roles` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `display_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `roles_name_unique` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Membuang data untuk tabel cctv.roles: ~3 rows (lebih kurang)
+/*!40000 ALTER TABLE `roles` DISABLE KEYS */;
+INSERT INTO `roles` (`id`, `name`, `display_name`, `description`, `created_at`, `updated_at`) VALUES
+	(1, 'admin', 'Administrator', 'Full Control like a Boss', '2018-02-28 06:03:03', '2018-02-28 07:24:21'),
+	(2, 'user', 'User', 'Control like a Kuproy', '2018-02-28 07:23:55', '2018-02-28 07:24:12'),
+	(3, 'kuproy', 'Kuproy', 'Role for kuproy', '2018-03-01 09:38:30', '2018-03-01 09:38:30');
+/*!40000 ALTER TABLE `roles` ENABLE KEYS */;
+
+-- membuang struktur untuk table cctv.role_user
+CREATE TABLE IF NOT EXISTS `role_user` (
+  `role_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `user_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `team_id` int(10) unsigned DEFAULT NULL,
+  UNIQUE KEY `role_user_user_id_role_id_user_type_team_id_unique` (`user_id`,`role_id`,`user_type`,`team_id`),
+  KEY `role_user_role_id_foreign` (`role_id`),
+  KEY `role_user_team_id_foreign` (`team_id`),
+  CONSTRAINT `role_user_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `role_user_team_id_foreign` FOREIGN KEY (`team_id`) REFERENCES `teams` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Membuang data untuk tabel cctv.role_user: ~0 rows (lebih kurang)
+/*!40000 ALTER TABLE `role_user` DISABLE KEYS */;
+/*!40000 ALTER TABLE `role_user` ENABLE KEYS */;
+
 -- membuang struktur untuk table cctv.sites
 CREATE TABLE IF NOT EXISTS `sites` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -215,9 +307,9 @@ CREATE TABLE IF NOT EXISTS `sites` (
   KEY `sites_division_id_index` (`division_id`),
   CONSTRAINT `sites_area_id_foreign` FOREIGN KEY (`area_id`) REFERENCES `areas` (`id`),
   CONSTRAINT `sites_division_id_foreign` FOREIGN KEY (`division_id`) REFERENCES `divisions` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Membuang data untuk tabel cctv.sites: ~7 rows (lebih kurang)
+-- Membuang data untuk tabel cctv.sites: ~8 rows (lebih kurang)
 /*!40000 ALTER TABLE `sites` DISABLE KEYS */;
 INSERT INTO `sites` (`id`, `site_name`, `cor_x`, `cor_y`, `url_1`, `url_2`, `area_id`, `created_at`, `updated_at`, `division_id`) VALUES
 	(1, 'Wanayasa 4', '-6.626649975873017', '107.5537462994721', 'http://test.com', NULL, 1, '2018-01-22 08:37:19', '2018-01-24 05:52:50', 1),
@@ -226,8 +318,25 @@ INSERT INTO `sites` (`id`, `site_name`, `cor_x`, `cor_y`, `url_1`, `url_2`, `are
 	(4, 'Lampung', '-5.41317119405937', '105.26343179296873', 'http://test.com', NULL, 4, '2018-01-22 09:37:42', '2018-01-22 09:37:42', 1),
 	(5, 'Wanayasa 2', '-6.640964839228921', '107.5315077359619', 'http://test.com', NULL, 1, '2018-01-24 06:00:04', '2018-01-24 06:00:04', 1),
 	(6, 'Wanayasa 1', '-6.62744111194675', '107.5223238522949', 'http://test.com', NULL, 1, '2018-01-24 06:02:10', '2018-01-24 06:02:10', 1),
-	(7, 'Wanayasa 3', '-6.639717986297367', '107.55811524938963', 'http://test.com', NULL, 1, '2018-01-24 06:03:02', '2018-01-24 06:03:02', 1);
+	(7, 'Wanayasa 3', '-6.639717986297367', '107.55811524938963', 'http://test.com', NULL, 1, '2018-01-24 06:03:02', '2018-01-24 06:03:02', 1),
+	(8, 'Probolinggo', '-7.776142667051537', '113.20242715429686', NULL, NULL, 6, '2018-02-22 07:20:40', '2018-02-22 07:20:40', 9);
 /*!40000 ALTER TABLE `sites` ENABLE KEYS */;
+
+-- membuang struktur untuk table cctv.teams
+CREATE TABLE IF NOT EXISTS `teams` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `display_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `teams_name_unique` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Membuang data untuk tabel cctv.teams: ~0 rows (lebih kurang)
+/*!40000 ALTER TABLE `teams` DISABLE KEYS */;
+/*!40000 ALTER TABLE `teams` ENABLE KEYS */;
 
 -- membuang struktur untuk table cctv.users
 CREATE TABLE IF NOT EXISTS `users` (
@@ -240,11 +349,61 @@ CREATE TABLE IF NOT EXISTS `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Membuang data untuk tabel cctv.users: ~1 rows (lebih kurang)
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+	(1, 'Administrator', 'admin@japfa.com', '$2y$10$hfkxtjzophFYq/dxBYcUi.4LTIYdnW49lI/oGdoO4i9PQQcTo9xFm', 'JsFOYRp5Hu2QIGAqLTbjv9udPaqKWe0gKkhJaRqk9a2pN5F1XCo3lWMolBnj', '2018-02-23 07:36:53', '2018-02-23 07:36:53');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+
+-- membuang struktur untuk table cctv.user_area
+CREATE TABLE IF NOT EXISTS `user_area` (
+  `user_id` int(10) unsigned NOT NULL,
+  `area_id` int(10) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  UNIQUE KEY `user_area_user_id_area_id_unique` (`user_id`,`area_id`),
+  KEY `user_area_area_id_foreign` (`area_id`),
+  CONSTRAINT `user_area_area_id_foreign` FOREIGN KEY (`area_id`) REFERENCES `areas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `user_area_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Membuang data untuk tabel cctv.users: ~0 rows (lebih kurang)
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+-- Membuang data untuk tabel cctv.user_area: ~0 rows (lebih kurang)
+/*!40000 ALTER TABLE `user_area` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_area` ENABLE KEYS */;
+
+-- membuang struktur untuk table cctv.user_division
+CREATE TABLE IF NOT EXISTS `user_division` (
+  `user_id` int(10) unsigned NOT NULL,
+  `division_id` int(10) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  UNIQUE KEY `user_division_user_id_division_id_unique` (`user_id`,`division_id`),
+  KEY `user_division_division_id_foreign` (`division_id`),
+  CONSTRAINT `user_division_division_id_foreign` FOREIGN KEY (`division_id`) REFERENCES `divisions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `user_division_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Membuang data untuk tabel cctv.user_division: ~0 rows (lebih kurang)
+/*!40000 ALTER TABLE `user_division` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_division` ENABLE KEYS */;
+
+-- membuang struktur untuk table cctv.user_site
+CREATE TABLE IF NOT EXISTS `user_site` (
+  `user_id` int(10) unsigned NOT NULL,
+  `site_id` int(10) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  UNIQUE KEY `user_site_user_id_site_id_unique` (`user_id`,`site_id`),
+  KEY `user_site_site_id_foreign` (`site_id`),
+  CONSTRAINT `user_site_site_id_foreign` FOREIGN KEY (`site_id`) REFERENCES `sites` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `user_site_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Membuang data untuk tabel cctv.user_site: ~0 rows (lebih kurang)
+/*!40000 ALTER TABLE `user_site` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_site` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

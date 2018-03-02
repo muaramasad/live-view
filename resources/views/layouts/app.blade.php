@@ -58,9 +58,6 @@
 					<a href="{{ route('login') }}" class="navbar-item">
 							Login
 						</a>
-					<a href="{{ route('register') }}" class="navbar-item">
-							Register
-						</a>
 					@else
 					<div class="navbar-item has-dropdown is-hoverable">
         				<a class="navbar-link" href="#">
