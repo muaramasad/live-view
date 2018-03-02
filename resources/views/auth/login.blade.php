@@ -6,8 +6,8 @@
             <p class="panel-heading">
                 Login | Japfa CCTV Monitoring System
             </p>
-            <div class="panel-block">
-                {!! Form::open(['route' => 'login']) !!}
+            <div class="panel-block is-fullwidth">
+                {!! Form::open(['route' => 'login', 'class' => 'is-fullwidth']) !!}
                 <div class="field is-grouped-centered">
                     <label class="label">Email</label>
                     <p class="control is-expanded">
@@ -17,7 +17,7 @@
                 <div class="field is-grouped-centered">
                     <label class="label">Password</label>
                     <p class="control is-expanded">
-                        {!! Form::text('password', null ,['class' => 'input is-expanded']) !!}
+                        <input type="password" name="password" class="input is-expanded">
                     </p>
                 </div>
                 <div class="field is-grouped">

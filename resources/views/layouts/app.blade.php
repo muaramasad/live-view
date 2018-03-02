@@ -21,6 +21,7 @@
 				<div class="navbar-brand">
 					<a class="navbar-item" href="{{route('homepage')}}">
 						{{-- <img src="{{ asset('images/japfa_logo.png')}}" alt="Japfa Monitoring System" width="auto" height="28"> --}}
+						Japfa CCTV Monitoring System
 					</a>
 					<button class="button navbar-burger">
 					<span></span>
@@ -33,7 +34,6 @@
 						@guest
 
 						@else
-						@if(Auth::user()->id == 1)
 						<a href="{{route('division.index')}}" class="navbar-item">
 							Divisions
 						</a>
@@ -43,6 +43,7 @@
 						<a href="{{route('site.index')}}" class="navbar-item">
 							Sites
 						</a>
+						@if(Auth::user()->id == 1)
 						<a href="{{route('user.index')}}" class="navbar-item">
 							Users
 						</a>
