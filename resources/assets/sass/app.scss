@@ -182,3 +182,19 @@ $positions: (
     margin: auto;
     max-width: none;
 }
+
+.panel-block {
+    background: $white
+}
+
+.is-fullForm {
+    width: 100%;
+}
+
+.is-horizontal-center {
+  justify-content: center;
+}
+
+.logo-login {
+    margin-left:25%;
+}

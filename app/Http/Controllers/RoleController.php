@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Role;
 use App\Permission;
+use DB;
 
 class RoleController extends Controller
 {
@@ -25,7 +26,7 @@ class RoleController extends Controller
    	public function store(Request $request)
    	{
    		$this->validate($request, [
-            'name' => 'required',
+            'name' => 'required|unique:roles',
             'display_name' => 'required'
         ]);
 
@@ -36,8 +37,8 @@ class RoleController extends Controller
         $role->save();
 
     foreach ($request->input('permissions') as $key => $value) {
-            $role->attachPermission($value);
-        }
+         $role->attachPermission($value);
+    }
 
    		$request->session()->flash('is-success', 'Role successfully created!');
         return redirect()->route('role.index');
@@ -46,23 +47,38 @@ class RoleController extends Controller
    	public function edit($id)
    	{
    		$role = Role::find($id);
+      $permissions = Permission::All();
+
+      $rolePermissions = DB::table("permission_role")
+                ->where("role_id",$id)
+                ->pluck('permission_id')
+                ->toArray();
+
    		return view('roles.edit',[
-   			'role' => $role
+   			'role' => $role,
+        'permissions' => $permissions,
+        'rolePermissions' => $rolePermissions
    		]);
    	}
 
    	public function editStore(Request $request,$id)
    	{
       $this->validate($request, [
-            'name' => 'required',
             'display_name' => 'required'
         ]);
 
       $role = Role::find($id);
-      $role->name = $request->name;
       $role->display_name = $request->display_name;
       $role->description = $request->description;
       $role->save();
+
+      //delete all permissions currently linked to this role
+        DB::table("permission_role")->where("role_id",$id)->delete();
+
+        //attach the new permissions to the role
+        foreach ($request->input('permissions') as $key => $value) {
+            $role->attachPermission($value);
+        }
 
       $request->session()->flash('is-success', 'Role successfully edited!');
         return redirect()->route('role.index');
@@ -70,11 +86,8 @@ class RoleController extends Controller
 
     public function destroy(Request $request, $id)
     {
-        if (Area::has('sites')->find($id)) {
-            return redirect()->route('area.index')->withErrors(['error' => 'This area still has sites, remove the sites first !']);
-        }
-        Area::find($id)->delete();
-        $request->session()->flash('is-success', 'Area successfully removed!');
-        return redirect()->route('area.index');
+        Role::find($id)->delete();
+        $request->session()->flash('is-success', 'Role successfully removed!');
+        return redirect()->route('role.index');
     }
 }

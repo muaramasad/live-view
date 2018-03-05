@@ -42,7 +42,7 @@ Route::prefix('role')->group(function () {
     Route::post('create', 'RoleController@store')->name('role.store');
     Route::get('edit/{id}', 'RoleController@edit')->name('role.edit');
     Route::put('edit/{id}', 'RoleController@editStore')->name('role.editStore');
-    Route::delete('delete/{id}', 'SiteController@destroy')->name('role.destroy');
+    Route::delete('delete/{id}', 'RoleController@destroy')->name('role.destroy');
 });
 
 Route::prefix('permission')->group(function () {
@@ -51,7 +51,7 @@ Route::prefix('permission')->group(function () {
     Route::post('create', 'PermissionController@store')->name('permission.store');
     Route::get('edit/{id}', 'PermissionController@edit')->name('permission.edit');
     Route::put('edit/{id}', 'PermissionController@editStore')->name('permission.editStore');
-    Route::delete('delete/{id}', 'SiteController@destroy')->name('permission.destroy');
+    Route::delete('delete/{id}', 'PermissionController@destroy')->name('permission.destroy');
 });
 
 Route::prefix('site')->group(function () {

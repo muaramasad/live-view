@@ -17,6 +17,7 @@
 	</head>
 	<body>
 		<div id="app">
+			@if (\Route::current()->getName() != 'login')
 			<nav class="navbar" role="navigation" aria-label="main navigation">
 				<div class="navbar-brand">
 					<a class="navbar-item" href="{{route('homepage')}}">
@@ -79,7 +80,8 @@
 					@endguest
 				</div>
 			</nav>
-			<section class="section is-paddingless m-t-lg">
+			@endif
+			<section class="section p-t-md">
 				<div class="container is-fluid">
 					@include('layouts.errors')
 					@include('layouts.notifications')

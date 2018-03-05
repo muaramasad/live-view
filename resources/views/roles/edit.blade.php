@@ -6,7 +6,7 @@
         <div class="field is-grouped-centered">
             <label class="label">Role Name</label>
             <p class="control is-expanded">
-                {!! Form::text('name', $role->name ,['class' => 'input']) !!}
+                {!! Form::text('name', $role->name ,['class' => 'input','disabled' => 'disabled']) !!}
             </p>
         </div>
         <div class="field">
@@ -25,7 +25,8 @@
             <label class="label">Permissions</label>
             @foreach($permissions as $permission)
             <label class="checkbox">
-                <input name=permissions[] type="checkbox" value="{{$permission->id}}">
+                    <input type="checkbox" value="{{$permission->id}}"
+                                               {{in_array($permission->id, $rolePermissions) ? "checked" : null}} name="permissions[]">
                 {{$permission->display_name}}
             </label> &nbsp;&nbsp;
             @endforeach

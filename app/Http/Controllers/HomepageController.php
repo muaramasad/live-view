@@ -52,7 +52,7 @@ class HomepageController extends Controller
     {
         $sitesId = [];
         $province = Province::where('province_code',$pcode)->first();
-        Mapper::map($province->province_cor_x, $province->province_cor_y, ['zoom' => $province->province_zoom,'center' => true, 'marker' => false, 'cluster' => true, 'type' => 'SATELLITE']);
+        Mapper::map($province->province_cor_x, $province->province_cor_y, ['zoom' => $province->province_zoom,'center' => true, 'marker' => false, 'cluster' => true]);
         $areas = Area::where('province_id',$province->id)->with('sites')->get();
         foreach ($areas as $area) {
             if ($area->has('sites')) {

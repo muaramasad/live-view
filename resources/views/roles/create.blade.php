@@ -25,7 +25,7 @@
             <label class="label">Permissions</label>
             @foreach($permissions as $permission)
             <label class="checkbox">
-                <input type="checkbox" value="{{$permission->id}}">
+                <input name=permissions[] type="checkbox" value="{{$permission->id}}">
                 {{$permission->display_name}}
             </label> &nbsp;&nbsp;
             @endforeach
