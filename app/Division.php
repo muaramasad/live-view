@@ -13,4 +13,7 @@ class Division extends Model
     {
         return $this->hasMany('App\Area','division_id','id');
     }
+    public function user(){
+        return $this->belongsToMany('App\User')->withPivot('user_id','division_id')->withTimestamps();
+    }
 }

@@ -25,4 +25,7 @@ class Site extends Model
     {
         return $this->hasMany('App\Cam','site_id','id');
     }
+    public function user(){
+        return $this->belongsToMany('App\User')->withPivot('user_id','division_id')->withTimestamps();
+    }
 }

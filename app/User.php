@@ -27,4 +27,16 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function division(){
+        return $this->belongsToMany('App\Division')->withPivot('user_id','division_id')->withTimestamps();
+    }
+
+    public function area(){
+        return $this->belongsToMany('App\Area')->withPivot('user_id','area_id')->withTimestamps();
+    }
+
+    public function site(){
+        return $this->belongsToMany('App\Site')->withPivot('user_id','site_id')->withTimestamps();
+    }
 }

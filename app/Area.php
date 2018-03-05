@@ -21,4 +21,7 @@ class Area extends Model
     {
         return $this->belongsTo('App\Province');
     }
+    public function user(){
+        return $this->belongsToMany('App\User')->withPivot('user_id','division_id')->withTimestamps();
+    }
 }
