@@ -37,15 +37,20 @@ class HomepageController extends Controller
             }
         }
         $ProvinceCollection = Province::find($provinceId);
-        $ProvinceCollection->each(function($province)
-        {
-            $content = $province->province_name;
-            Mapper::marker($province->province_cor_x, $province->province_cor_y,['eventClick' => 'window.location.href = "/map/province/'.$province->province_code.'";']);
-        });
+        $divLocation = array();
+        foreach ($ProvinceCollection as $province) {
+            $divLocation[] = [$province->province_name,$province->province_cor_x,$province->province_cor_y,$province->province_code];
+        }
+        // $ProvinceCollection->each(function($province)
+        // {
+        //     $content = $province->province_name;
+        //     Mapper::marker($province->province_cor_x, $province->province_cor_y,['eventClick' => 'window.location.href = "/map/province/'.$province->province_code.'";']);
+        // });
     	return view('maps.div',[
     		'areas' => $areas,
     		'division' => $division,
-    		'sites' => $sites
+    		'sites' => $sites,
+            'divLocation' => $divLocation
     	]);
     }
     public function mapDivProvince($pcode)
@@ -62,15 +67,20 @@ class HomepageController extends Controller
             }
         }
         $sitesCollection = Site::find($sitesId);
-        $sitesCollection->each(function($site)
-        {
-            Mapper::informationWindow($site->cor_x, $site->cor_y, $site->site_name, ['open' => true, 'maxWidth'=> 300, 'markers' => ['eventClick' => 'window.location.href = "/map/site/'.$site->id.'";']]);
-            // Mapper::marker($site->cor_x, $site->cor_y,['eventClick' => 'window.location.href = "/map/site/'.$site->id.'";', 'eventMouseOver' => '']);
-        });
+        $siteLocation = array();
+        foreach ($sitesCollection as $site) {
+            $siteLocation[] = [$site->site_name,$site->cor_x,$site->cor_y,$site->id];
+        }
+        // $sitesCollection->each(function($site)
+        // {
+        //     Mapper::informationWindow($site->cor_x, $site->cor_y, $site->site_name, ['open' => true, 'maxWidth'=> 300, 'markers' => ['eventClick' => 'window.location.href = "/map/site/'.$site->id.'";']]);
+        //     // Mapper::marker($site->cor_x, $site->cor_y,['eventClick' => 'window.location.href = "/map/site/'.$site->id.'";', 'eventMouseOver' => '']);
+        // });
         $division = Division::find($sitesCollection[0]->division_id);
         return view('maps.prov',[
             'division' => $division,
             'prov' => $province,
+            'siteLocation' => $siteLocation
         ]);
     }
     public function mapDivSite($id)

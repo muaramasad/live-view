@@ -198,3 +198,11 @@ $positions: (
 .logo-login {
     margin-left:25%;
 }
+
+.breadcrumb:not(:last-child) {
+    margin-bottom: .4rem;
+}
+
+.card-content {
+    padding: 0
+}
