@@ -10,11 +10,50 @@
 				</p>
 			</header>
 			<div class="card-content">
-				<div class="map">
+				{{-- <div class="map">
 					<div id="mapdiv" style="width: 100%; height: 600px;">
 						{!! Mapper::render() !!}
 					</div>
-				</div>
+				</div> --}}
+				<div id="map" style="width: 100%;height: 450px"></div>
+				<script>
+				function initMap() {
+					var siteCor = {lat: {{$site->cor_x}}, lng: {{$site->cor_y}}};
+					var locations = {!! json_encode($camsLocation) !!};
+			        var map = new google.maps.Map(document.getElementById('map'), {
+			          zoom: 18,
+			          center: siteCor,
+			          mapTypeId: 'satellite'
+			        });
+
+			        var infowindow = new google.maps.InfoWindow();
+    				var marker;
+    				var i;
+ 					
+    				var icon = {
+        				url: '{{ asset('/images/placeholder.svg') }}', // url
+        				scaledSize: new google.maps.Size(24, 24)
+    				};
+
+					var markers = locations.map(function(location, i) {
+						marker = new google.maps.Marker({
+							position: new google.maps.LatLng(location[1], location[2]),
+				        	map: map,
+				        	icon: icon,
+						});
+						google.maps.event.addListener(marker, 'click', function(marker, i) {
+    						window.location.href = '/map/site/'+location[3];
+  						});
+						return marker;
+					});
+
+					// Add a marker clusterer to manage the markers.
+					// var markerCluster = new MarkerClusterer(map, markers,
+					// {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+      	        
+				}
+				</script>
+				<script src="https://maps.googleapis.com/maps/api/js?key={{env('GOOGLE_API_KEY')}}&callback=initMap" async defer></script>
 			</div>
 		</div>
 	</div>

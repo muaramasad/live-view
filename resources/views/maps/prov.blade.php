@@ -33,12 +33,12 @@
  					
 					var markers = locations.map(function(location, i) {
 						marker = new google.maps.Marker({
-							position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+							position: new google.maps.LatLng(location[1], location[2]),
 				        	map: map,
 				        	icon: '{{ asset('/images/japfa_pointer.png') }}'
 						});
 						google.maps.event.addListener(marker, 'click', function(marker, i) {
-    						window.location.href = '/map/province/'+locations[i][3];
+    						window.location.href = '/map/site/'+location[3];
   						});
 						return marker;
 					});
@@ -46,25 +46,7 @@
 					// Add a marker clusterer to manage the markers.
 					var markerCluster = new MarkerClusterer(map, markers,
 					{imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-      
-
-    				// for (i = 0; i < locations.length; i++) { 
-				    //   marker = new google.maps.Marker({
-				    //     position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-				    //     map: map,
-				    //     icon: '{{ asset('/images/japfa_pointer.png') }}',
-				    //   });
-
-				    //   google.maps.event.addListener(marker, 'click', (function(marker, i) {
-				    //     return function() {
-				    //       // infowindow.setContent(locations[i][0]);
-				    //       // infowindow.open(map, marker);
-				    //       window.location.href = '/map/province/'+locations[i][3];
-				    //     }
-				    //   })(marker, i));
-
-				    // }
-			        
+      	        
 				}
 				</script>
 				<script src="https://maps.googleapis.com/maps/api/js?key={{env('GOOGLE_API_KEY')}}&callback=initMap" async defer></script>

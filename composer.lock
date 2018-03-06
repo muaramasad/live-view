@@ -66,16 +66,16 @@
         },
         {
             "name": "cornford/googlmapper",
-            "version": "v2.31.1",
+            "version": "v2.31.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bradcornford/Googlmapper.git",
-                "reference": "897f6a6f6a8dc6e2f506e17f02cb176512d78c12"
+                "reference": "17359410ea355e1feca3efcddd9a7cf0ce734dc9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bradcornford/Googlmapper/zipball/897f6a6f6a8dc6e2f506e17f02cb176512d78c12",
-                "reference": "897f6a6f6a8dc6e2f506e17f02cb176512d78c12",
+                "url": "https://api.github.com/repos/bradcornford/Googlmapper/zipball/17359410ea355e1feca3efcddd9a7cf0ce734dc9",
+                "reference": "17359410ea355e1feca3efcddd9a7cf0ce734dc9",
                 "shasum": ""
             },
             "require": {
@@ -122,7 +122,7 @@
                 "maps",
                 "streetview"
             ],
-            "time": "2018-03-05 08:55:05"
+            "time": "2018-03-06 09:26:52"
         },
         {
             "name": "davejamesmiller/laravel-breadcrumbs",

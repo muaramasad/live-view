@@ -69,7 +69,7 @@ class HomepageController extends Controller
         $sitesCollection = Site::find($sitesId);
         $siteLocation = array();
         foreach ($sitesCollection as $site) {
-            $siteLocation[] = [$site->site_name,$site->cor_x,$site->cor_y,$site->id,$divid];
+            $siteLocation[] = [$site->site_name,$site->cor_x,$site->cor_y,$site->id];
         }
         // $sitesCollection->each(function($site)
         // {
@@ -87,17 +87,21 @@ class HomepageController extends Controller
     {
         $site = Site::find($id);
         Mapper::map($site->cor_x, $site->cor_y, ['zoom' => 18,'center' => true, 'marker' => false, 'cluster' => false, 'type' => 'SATELLITE']);
-        $camsCollection = Cam::where('site_id',$site->id)->get();
+        $camsCollections = Cam::where('site_id',$site->id)->get();
+        $camsLocation = array();
         $i = 1;
-        $camsCollection->each(function($cam,$i)
-        {
-            $content = '<h4>'.strtoupper($cam->cam_name).'</h4><p>IP Address: '.$cam->cam_ip_address.'</p>';
-            Mapper::marker($cam->cam_cor_x, $cam->cam_cor_y, ['content' => $content,'icon' => ['url' => '/images/placeholder.svg','size' => 24],'eventMouseOver' => 'infowindow_'.$i.'.open(map, this);','eventMouseOut' => 'infowindow_'.$i.'.close(map, this);', 'eventClick' => 'showModal('.$cam->id.','.preg_replace("/\./", "",$cam->cam_ip_address).',"'.$cam->cam_name.'");' ]);
-            // Mapper::informationWindow($cam->cam_cor_x, $cam->cam_cor_y, $content, ['maxWidth'=> 300, 'icon' => ['url' => '/images/placeholder.svg','size' => 24],'eventMouseOver' => 'infowindow.open(map, this);']);
-            // Mapper::marker($cam->cam_cor_x, $cam->cam_cor_y,['icon' => ['url' => '/images/placeholder.svg','size' => 24],'eventMouseOver' => 'infowindow.open(map, this);']);
-            // Mapper::marker($cam->cam_cor_x,$cam->cam_cor_y,['eventClick' => 'showModal();']);
-            $i++;
-        });
+        foreach ($camsCollections as $cam) {
+            $camsLocation[] = [$cam->cam_name,$cam->cam_cor_x,$cam->cam_cor_y,$cam->cam_ip_address];
+        }
+        // $camsCollection->each(function($cam,$i)
+        // {
+        //     $content = '<h4>'.strtoupper($cam->cam_name).'</h4><p>IP Address: '.$cam->cam_ip_address.'</p>';
+        //     Mapper::marker($cam->cam_cor_x, $cam->cam_cor_y, ['content' => $content,'icon' => ['url' => '/images/placeholder.svg','size' => 24],'eventMouseOver' => 'infowindow_'.$i.'.open(map, this);','eventMouseOut' => 'infowindow_'.$i.'.close(map, this);', 'eventClick' => 'showModal('.$cam->id.','.preg_replace("/\./", "",$cam->cam_ip_address).',"'.$cam->cam_name.'");' ]);
+        //     // Mapper::informationWindow($cam->cam_cor_x, $cam->cam_cor_y, $content, ['maxWidth'=> 300, 'icon' => ['url' => '/images/placeholder.svg','size' => 24],'eventMouseOver' => 'infowindow.open(map, this);']);
+        //     // Mapper::marker($cam->cam_cor_x, $cam->cam_cor_y,['icon' => ['url' => '/images/placeholder.svg','size' => 24],'eventMouseOver' => 'infowindow.open(map, this);']);
+        //     // Mapper::marker($cam->cam_cor_x,$cam->cam_cor_y,['eventClick' => 'showModal();']);
+        //     $i++;
+        // });
         $area = Area::find($site->area_id);
         $prov = Province::find($area->province_id);
         $division = Division::find($area->division_id);
@@ -105,7 +109,8 @@ class HomepageController extends Controller
             'division' => $division,
             'prov' => $prov,
             'site' => $site,
-            'cams' => $camsCollection
+            // 'cams' => $camsCollection,
+            'camsLocation' => $camsLocation
         ]);
     }
 }
