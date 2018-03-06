@@ -55,11 +55,13 @@ class DivisionController extends Controller
             'division_name' => 'required|max:255',
             'category' => 'required',
         ]);
-        $filename = $request->thumbnail->store('public/thumbnails');
     	$division = Division::find($id);
         $division->category = $request->category;
         $division->division_name = $request->division_name;
-        $division->icon_path = $filename;
+        if($request->hasFile('thumbnail')){
+            $filename = $request->thumbnail->store('public/thumbnails');
+            $division->icon_path = $filename;
+        }
         $division->save();
         $request->session()->flash('is-success', 'Division successfully updated!');
     	return redirect()->route('division.index');

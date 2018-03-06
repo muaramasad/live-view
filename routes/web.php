@@ -14,7 +14,7 @@ Route::middleware(['middleware' => 'auth'])->group(function () {
 Route::get('/','HomepageController@index')->name('homepage');
 Route::prefix('map')->group(function () {
     Route::get('division/{id}', 'HomepageController@mapDiv')->name('map.division');
-    Route::get('province/{pcode}', 'HomepageController@mapDivProvince')->name('map.province');
+    Route::get('division/{divid}/province/{pcode}', 'HomepageController@mapDivProvince')->name('map.province');
     Route::get('site/{id}', 'HomepageController@mapDivSite')->name('map.site');
 });
 

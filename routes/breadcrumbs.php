@@ -11,7 +11,7 @@ Breadcrumbs::register('division', function ($breadcrumbs,$division) {
 
 Breadcrumbs::register('prov', function ($breadcrumbs,$division,$prov) {
     $breadcrumbs->parent('division', $division);
-    $breadcrumbs->push($prov->province_name, route('map.province', $prov->province_code));
+    $breadcrumbs->push($prov->province_name, route('map.province', [$division->id,$prov->province_code]));
 });
 
 Breadcrumbs::register('site', function ($breadcrumbs,$division,$site) {

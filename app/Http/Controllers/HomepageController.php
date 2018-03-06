@@ -53,12 +53,12 @@ class HomepageController extends Controller
             'divLocation' => $divLocation
     	]);
     }
-    public function mapDivProvince($pcode)
+    public function mapDivProvince($divid, $pcode)
     {
         $sitesId = [];
         $province = Province::where('province_code',$pcode)->first();
         Mapper::map($province->province_cor_x, $province->province_cor_y, ['zoom' => $province->province_zoom,'center' => true, 'marker' => false, 'cluster' => true]);
-        $areas = Area::where('province_id',$province->id)->with('sites')->get();
+        $areas = Area::where('division_id',$divid)->with('sites')->get();
         foreach ($areas as $area) {
             if ($area->has('sites')) {
                 foreach ($area->sites as $site) {
@@ -69,7 +69,7 @@ class HomepageController extends Controller
         $sitesCollection = Site::find($sitesId);
         $siteLocation = array();
         foreach ($sitesCollection as $site) {
-            $siteLocation[] = [$site->site_name,$site->cor_x,$site->cor_y,$site->id];
+            $siteLocation[] = [$site->site_name,$site->cor_x,$site->cor_y,$site->id,$divid];
         }
         // $sitesCollection->each(function($site)
         // {
