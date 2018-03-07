@@ -59,10 +59,11 @@ class CamController extends Controller
         $cam->cam_ip_address = $request->input('cam_ip_address');
         $cam->cam_file_path = $request->input('video_url');
         $cam->save();
-        $videoPath = public_path(). DIRECTORY_SEPARATOR .'video'. DIRECTORY_SEPARATOR . preg_replace("/\./", "", $cam->cam_ip_address);
-        if(!File::exists($videoPath)) {
-           File::makeDirectory($videoPath, 0775);
-        }
+        // Create folder for store cctv images
+        // $videoPath = public_path(). DIRECTORY_SEPARATOR .'video'. DIRECTORY_SEPARATOR . preg_replace("/\./", "", $cam->cam_ip_address);
+        // if(!File::exists($videoPath)) {
+        //    File::makeDirectory($videoPath, 0775);
+        // }
 	    $request->session()->flash('is-success', 'CCTV successfully added!');
         return redirect()->route('cam.listBySite', $cam->site_id);
     }
@@ -74,17 +75,18 @@ class CamController extends Controller
 	        'cor_y' => 'required',
 	        'cam_ip_address' => 'required|unique:cams'
 	    ]);
-        $videoPathNew = public_path(). DIRECTORY_SEPARATOR .'video'. DIRECTORY_SEPARATOR . preg_replace("/\./", "",$request->input('cam_ip_address'));
-        $cam = Cam::find($id);
-        $videoPathOld = public_path(). DIRECTORY_SEPARATOR .'video'. DIRECTORY_SEPARATOR . $cam->cam_ip_address;
-        if(File::exists($videoPathOld)) {
-            if($cam->cam_ip_address != null){
-                File::deleteDirectory($videoPathOld);
-            }
-            File::makeDirectory($videoPathNew, 0775);
-        } else {
-            File::makeDirectory($videoPathNew, 0775);
-        }
+        // Create folder for store cctv images
+        // $videoPathNew = public_path(). DIRECTORY_SEPARATOR .'video'. DIRECTORY_SEPARATOR . preg_replace("/\./", "",$request->input('cam_ip_address'));
+        // $cam = Cam::find($id);
+        // $videoPathOld = public_path(). DIRECTORY_SEPARATOR .'video'. DIRECTORY_SEPARATOR . $cam->cam_ip_address;
+        // if(File::exists($videoPathOld)) {
+        //     if($cam->cam_ip_address != null){
+        //         File::deleteDirectory($videoPathOld);
+        //     }
+        //     File::makeDirectory($videoPathNew, 0775);
+        // } else {
+        //     File::makeDirectory($videoPathNew, 0775);
+        // }
         $cam->cam_name = $request->input('cam_name');
 	    $cam->cam_cor_x = $request->input('cor_x');
 	    $cam->cam_cor_y = $request->input('cor_y');
