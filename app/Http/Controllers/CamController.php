@@ -69,11 +69,12 @@ class CamController extends Controller
     }
     public function editStore(Request $request,$id)
     {
+        $cam = Cam::find($id);
         $validatedData = $request->validate([
 	        'cam_name' => 'required|max:255',
 	        'cor_x' => 'required',
 	        'cor_y' => 'required',
-	        'cam_ip_address' => 'required|unique:cams'
+	        'cam_ip_address' => 'required|unique:cams,cam_ip_address,'.$cam->id
 	    ]);
         // Create folder for store cctv images
         // $videoPathNew = public_path(). DIRECTORY_SEPARATOR .'video'. DIRECTORY_SEPARATOR . preg_replace("/\./", "",$request->input('cam_ip_address'));
