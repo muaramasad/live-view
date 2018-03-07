@@ -21,7 +21,7 @@
 					var siteCor = {lat: {{$site->cor_x}}, lng: {{$site->cor_y}}};
 					var locations = {!! json_encode($camsLocation) !!};
 			        var map = new google.maps.Map(document.getElementById('map'), {
-			          zoom: 18,
+			          zoom: 17.8,
 			          center: siteCor,
 			          mapTypeId: 'satellite'
 			        });
@@ -29,20 +29,33 @@
 			        var infowindow = new google.maps.InfoWindow();
     				var marker;
     				var i;
+    				var content;
  					
     				var icon = {
         				url: '{{ asset('/images/placeholder.svg') }}', // url
         				scaledSize: new google.maps.Size(24, 24)
     				};
-
+    				
 					var markers = locations.map(function(location, i) {
+						$content = '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>';
+						console.log($content);
 						marker = new google.maps.Marker({
 							position: new google.maps.LatLng(location[1], location[2]),
 				        	map: map,
 				        	icon: icon,
 						});
+						google.maps.event.addListener(marker, 'mouseover', function(marker, i) {
+							infowindow = new google.maps.InfoWindow({
+            				content: '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>',
+            				maxWidth: 200
+        					});
+    						infowindow.open(map, this);
+  						});
+  						google.maps.event.addListener(marker, 'mouseout', function(marker, i) {
+    						infowindow.close();
+  						});
 						google.maps.event.addListener(marker, 'click', function(marker, i) {
-    						window.location.href = '/map/site/'+location[3];
+    						showModal(1,location[3].split('.').join(""),location[0]);
   						});
 						return marker;
 					});

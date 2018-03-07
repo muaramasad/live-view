@@ -30,13 +30,21 @@
 			        var infowindow = new google.maps.InfoWindow();
     				var marker;
     				var i;
+
+    				var icon = {
+        				url: '{{ asset('/images/japfa_pointer.png') }}', // url
+        				scaledSize: new google.maps.Size(32, 40)
+    				};
  					
 					var markers = locations.map(function(location, i) {
 						marker = new google.maps.Marker({
 							position: new google.maps.LatLng(location[1], location[2]),
 				        	map: map,
-				        	icon: '{{ asset('/images/japfa_pointer.png') }}'
+				        	icon: icon
 						});
+						var infoWindow = new google.maps.InfoWindow(), marker, i;
+						infoWindow.setContent(location[0]);
+                		infoWindow.open(map, marker);
 						google.maps.event.addListener(marker, 'click', function(marker, i) {
     						window.location.href = '/map/site/'+location[3];
   						});
@@ -45,7 +53,7 @@
 
 					// Add a marker clusterer to manage the markers.
 					var markerCluster = new MarkerClusterer(map, markers,
-					{imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+					{imagePath: '{{ asset('/images/m/') }}'});
       	        
 				}
 				</script>
