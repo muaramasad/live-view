@@ -15,6 +15,7 @@
 						{!! Mapper::render() !!}
 					</div>
 				</div> --}}
+				<img src="http://192.168.106.56/wanayasa1/1021102111/ip-08032018__1149-64.jpeg">
 				<div id="map" style="width: 100%;height: 450px"></div>
 				<script>
 				function initMap() {
