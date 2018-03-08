@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="field">
-            <label class="label">Link URL 1</label>
+            <label class="label">IP Address</label>
             <div class="control">
                 {!! Form::text('url_1', $site->url_1 ,['class' => 'input']) !!}
             </div>

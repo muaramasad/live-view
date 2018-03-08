@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="field">
-            <label class="label">Link URL 1</label>
+            <label class="label">IP Address</label>
             <div class="control">
                 <input class="input" type="text" name="url_1">
             </div>
