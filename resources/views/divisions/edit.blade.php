@@ -36,7 +36,7 @@
             </p>
             <p class="control is-expanded m-t-lg">
                 <figure class="image is-128x128">
-                    <img id="blah" alt="thumbnail" src="{{asset('images/thumbnails/'.basename($division->icon_path))}}" width="230" height="auto">
+                    <img id="blah" alt="thumbnail" src="{{asset('storage/thumbnails/'.basename($division->icon_path))}}" width="230" height="auto">
                 </figure>
             </p>
         </div>
