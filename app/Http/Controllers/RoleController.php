@@ -63,11 +63,11 @@ class RoleController extends Controller
 
    	public function editStore(Request $request,$id)
    	{
+      $role = Role::find($id);
       $this->validate($request, [
+            'name' => 'required|unique:roles,name,'.$role->id,
             'display_name' => 'required'
         ]);
-
-      $role = Role::find($id);
       $role->display_name = $request->display_name;
       $role->description = $request->description;
       $role->save();

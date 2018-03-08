@@ -91,7 +91,7 @@ class HomepageController extends Controller
         $camsLocation = array();
         $i = 1;
         foreach ($camsCollections as $cam) {
-            $camsLocation[] = [$cam->cam_name,$cam->cam_cor_x,$cam->cam_cor_y,$cam->cam_ip_address];
+            $camsLocation[] = [$cam->cam_name,$cam->cam_cor_x,$cam->cam_cor_y,$cam->cam_ip_address,$cam->id,];
         }
         // $camsCollection->each(function($cam,$i)
         // {

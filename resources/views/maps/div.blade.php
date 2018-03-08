@@ -48,26 +48,37 @@
 			        var infowindow = new google.maps.InfoWindow();
     				var marker, i;
 
-    				for (i = 0; i < locations.length; i++) { 
+    				for (i = 0; i < locations.length; i++) {
 				      marker = new google.maps.Marker({
 				        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
 				        map: map,
 				        icon: '{{ asset('/images/japfa_pointer.png') }}',
 				      });
-
-				      google.maps.event.addListener(marker, 'click', (function(marker, i) {
-				        return function() {
-				          // infowindow.setContent(locations[i][0]);
-				          // infowindow.open(map, marker);
-				          window.location.href = '/map/division/{{$division->id}}/province/'+locations[i][3];
-				        }
-				      })(marker, i));
+				      	google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
+				      		return function() {
+					      		content = '<h4>'+locations[i][0]+'</h4>';
+								infowindow = new google.maps.InfoWindow({
+	            				content: content,
+	            				maxWidth: 200
+	        					});
+	    						infowindow.open(map, this);
+    						}
+  						})(marker, i));
+  						google.maps.event.addListener(marker, 'mouseout', function(marker, i) {
+    						infowindow.close();
+  						});
+				      	google.maps.event.addListener(marker, 'click', (function(marker, i) {
+					        return function() {
+					          // infowindow.setContent(locations[i][0]);
+					          // infowindow.open(map, marker);
+					          window.location.href = '/map/division/{{$division->id}}/province/'+locations[i][3];
+					        }
+				      	})(marker, i));
 				    }
 			        
 				}
 				</script>
-				<script src="https://maps.googleapis.com/maps/api/js?key={{env('GOOGLE_API_KEY')}}&callback=initMap"
-				async defer></script>
+				<script src="https://maps.googleapis.com/maps/api/js?key={{env('GOOGLE_API_KEY')}}&callback=initMap" async defer></script>
 			</div>
 		</div>
 	</div>

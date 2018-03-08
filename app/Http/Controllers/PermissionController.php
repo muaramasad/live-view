@@ -45,12 +45,11 @@ class PermissionController extends Controller
 
    	public function editStore(Request $request,$id)
    	{
+      $permission = Permission::find($id);
       $this->validate($request, [
-            'name' => 'required',
+            'name' => 'required|unique:permissions,name,'.$permission->id,
             'display_name' => 'required'
         ]);
-
-      $permission = Permission::find($id);
       $permission->name = $request->name;
       $permission->display_name = $request->display_name;
       $permission->description = $request->description;
