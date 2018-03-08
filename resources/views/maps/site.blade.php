@@ -96,7 +96,7 @@
 			}
         	var newImg = $('#test');
         	var nameCam = $('#camName');
-        	var filename = '/video/'+path+'/ip-'+date.format("DDMMYYYY__HHmm")+'-'+counter+'.jpeg';
+        	var filename = 'http://192.168.106.56/wanayasa1/'+path+'/ip-'+date.format("DDMMYYYY__HHmm")+'-'+counter+'.jpeg';
         	newImg.attr("src", filename);
         	nameCam.text(camName);
         	console.log(filename);
