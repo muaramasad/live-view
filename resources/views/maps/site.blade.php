@@ -96,7 +96,7 @@
 			}
         	var newImg = $('#test');
         	var nameCam = $('#camName');
-        	var filename = 'http://{{$site->url_1}}/wanayasa1/'+path+'/ip-'+date.format("DDMMYYYY__HHmm")+'-'+counter+'.jpeg';
+        	var filename = 'http://{{$site->url_1}}/'+path+'/ip-'+date.format("DDMMYYYY__HHmm")+'-'+counter+'.jpeg';
         	newImg.attr("src", filename);
         	nameCam.text(camName);
         	console.log(filename);
