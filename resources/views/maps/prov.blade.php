@@ -58,7 +58,7 @@
 				}
 				</script>
 				<script src="https://maps.googleapis.com/maps/api/js?key={{env('GOOGLE_API_KEY')}}&callback=initMap" async defer></script>
-				<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+				<script type="text/javascript" src="{{ asset('js/clusters.js') }}"></script>
 			</div>
 		</div>
 	</div>
