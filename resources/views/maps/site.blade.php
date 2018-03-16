@@ -17,9 +17,9 @@
 				</div> --}}
 				<div id="map" style="width: 100%;height: 450px"></div>
 				<script>
+				var locations = {!! json_encode($camsLocation) !!};
 				function initMap() {
 					var siteCor = {lat: {{$site->cor_x}}, lng: {{$site->cor_y}}};
-					var locations = {!! json_encode($camsLocation) !!};
 			        var map = new google.maps.Map(document.getElementById('map'), {
 			          zoom: 17.8,
 			          center: siteCor,
@@ -31,10 +31,15 @@
     				var i;
     				var content;
  					
-    				var icon = {
-        				url: '{{ asset('/images/placeholder.svg') }}', // url
+    				var iconOnline = {
+        				url: '{{ asset('/images/cam_on.svg') }}', // url
         				scaledSize: new google.maps.Size(24, 24)
     				};
+
+    				var iconOffline = {
+    					url: '{{ asset('/images/cam_off.svg') }}', // url
+        				scaledSize: new google.maps.Size(24, 24)
+    				}
     				
 					var markers = locations.map(function(location, i) {
 						$content = '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>';
@@ -42,7 +47,7 @@
 						marker = new google.maps.Marker({
 							position: new google.maps.LatLng(location[1], location[2]),
 				        	map: map,
-				        	icon: icon,
+				        	icon: iconOnline,
 						});
 						google.maps.event.addListener(marker, 'mouseover', function(marker, i) {
 							infowindow = new google.maps.InfoWindow({
@@ -81,6 +86,62 @@
 </div>
 <script>
 		var newYearCountdown;
+		checkStatus = function(){
+			var siteCor = {lat: {{$site->cor_x}}, lng: {{$site->cor_y}}};
+		        var map = new google.maps.Map(document.getElementById('map'), {
+		          zoom: 17.8,
+		          center: siteCor,
+		          mapTypeId: 'satellite'
+			});
+
+			var iconOnline = {
+				url: '{{ asset('/images/cam_on.svg') }}', // url
+				scaledSize: new google.maps.Size(24, 24)
+			};
+
+			var iconOffline = {
+				url: '{{ asset('/images/cam_off.svg') }}', // url
+				scaledSize: new google.maps.Size(24, 24)
+			}
+
+			locations.map(function(location, i) {
+			$.ajax({
+			url: "/api/cctv/status/" + location[3],
+			type: 'GET',
+			success: function(data) {
+				if (data === 'online') {
+					marker = new google.maps.Marker({
+						position: new google.maps.LatLng(location[1], location[2]),
+						map: map,
+						icon: iconOnline,
+					});
+				} else {
+					marker = new google.maps.Marker({
+						position: new google.maps.LatLng(location[1], location[2]),
+						map: map,
+						icon: iconOffline,
+					});
+				}
+				// if(data == 'online'){
+				// 	marker = new google.maps.Marker({
+				// 		position: new google.maps.LatLng(location[1], location[2]),
+			//     				map: map,
+			//     				icon: iconOnline,
+				// });
+				// } else {
+				// 	marker = new google.maps.Marker({
+				// 		position: new google.maps.LatLng(location[1], location[2]),
+			//     				map: map,
+			//     				icon: iconOffline,
+				// });
+				// }
+			},
+			error: function() {
+			console.log("error");
+			}
+			});
+			});
+		}
 		function showInfo(){
 			$(".gm-style-iw").css("display: block");
 		}
@@ -112,5 +173,8 @@
 		    $(this).parent().addClass('is-hidden');
 		    return false;
 		});
+		setInterval(function() {
+			checkStatus();
+		}, 1000 * 30);
 		</script>
 @endsection

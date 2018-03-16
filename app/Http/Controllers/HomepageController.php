@@ -14,6 +14,7 @@ use App\Cam;
 use Mapper;
 use FFMpeg;
 use FFMpeg\Format\Video\X264;
+use Ping;
 
 
 class HomepageController extends Controller
@@ -92,7 +93,8 @@ class HomepageController extends Controller
         $camsLocation = array();
         $i = 1;
         foreach ($camsCollections as $cam) {
-            $camsLocation[] = [$cam->cam_name,$cam->cam_cor_x,$cam->cam_cor_y,$cam->cam_ip_address,$cam->id,];
+            //$status = $this->healthCheck($cam->cam_ip_address);
+            $camsLocation[] = [$cam->cam_name,$cam->cam_cor_x,$cam->cam_cor_y,$cam->cam_ip_address,$cam->id];
         }
         // $camsCollection->each(function($cam,$i)
         // {
@@ -114,4 +116,17 @@ class HomepageController extends Controller
             'camsLocation' => $camsLocation
         ]);
     }
+
+    public function healthCheck($ip)
+    {
+        $health = Ping::check($ip);
+
+        if($health == 200) {
+            return 'online';
+        } else {
+            return 'offline';
+        }
+    }
+
+    
 }

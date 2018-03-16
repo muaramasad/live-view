@@ -18,3 +18,4 @@ use Illuminate\Http\Request;
 Route::get('area/{id}','SiteController@getAreaByDivision');
 Route::get('division/{idDiv}','SiteController@getSiteByDivision');
 Route::get('division/{idDiv}/{idArea}','SiteController@getSiteByDivisionArea');
+Route::get('cctv/status/{ip}','HomepageController@healthCheck');
