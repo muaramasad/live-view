@@ -18,13 +18,28 @@
 				<div id="map" style="width: 100%;height: 450px"></div>
 				<script>
 				var locations = {!! json_encode($camsLocation) !!};
+				var siteIp = '{{$site->url_1}}';
+				var checkPing = function(ip){
+					$.ajax({
+					url: "/api/cctv/status/" + ip,
+					type: 'GET',
+					success: function(data) {
+						return data;
+					},
+					error: function() {
+						console.log("error");
+					}
+					});
+				}
 				function initMap() {
 					var siteCor = {lat: {{$site->cor_x}}, lng: {{$site->cor_y}}};
 			        var map = new google.maps.Map(document.getElementById('map'), {
-			          zoom: 17.8,
+			          zoom: 17.6,
 			          center: siteCor,
 			          mapTypeId: 'satellite'
 			        });
+
+			        map.setOptions({draggable: false, zoomControl: true, scrollwheel: false, disableDoubleClickZoom: true});
 
 			        var infowindow = new google.maps.InfoWindow();
     				var marker;
@@ -44,13 +59,9 @@
 					var markers = locations.map(function(location, i) {
 						marker = 1;
 						$content = '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>';
-						// console.log($content);
-						$.ajax({
-						url: "/api/cctv/status/" + location[3],
-						type: 'GET',
-						success: function(data) {
-						if (data === 'online') {
-						marker = new google.maps.Marker({
+						if(checkPing(siteIp) === 'online' ){
+							if(checkPing(location[3])){
+								marker = new google.maps.Marker({
 						position: new google.maps.LatLng(location[1], location[2]),
 						map: map,
 						icon: iconOnline,
@@ -68,7 +79,23 @@
 						google.maps.event.addListener(marker, 'click', function(marker, i) {
 							showModal(1,location[3].split('.').join(""),location[0]);
 							});
-						console.log('finish'+location[3])
+							} else {
+								marker = new google.maps.Marker({
+						position: new google.maps.LatLng(location[1], location[2]),
+						map: map,
+						icon: iconOffline,
+						});
+						google.maps.event.addListener(marker, 'mouseover', function(marker, i) {
+							infowindow = new google.maps.InfoWindow({
+							content: '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>',
+							maxWidth: 200
+							});
+							infowindow.open(map, this);
+							});
+						google.maps.event.addListener(marker, 'mouseout', function(marker, i) {
+							infowindow.close();
+							});
+							}
 						} else {
 						marker = new google.maps.Marker({
 						position: new google.maps.LatLng(location[1], location[2]),
@@ -85,14 +112,56 @@
 						google.maps.event.addListener(marker, 'mouseout', function(marker, i) {
 							infowindow.close();
 							});
-						console.log('finish'+location[3])
+						}
+						// console.log($content);
+						// $.ajax({
+						// url: "/api/cctv/status/" + location[3],
+						// type: 'GET',
+						// success: function(data) {
+						// if (data === 'online') {
+						// marker = new google.maps.Marker({
+						// position: new google.maps.LatLng(location[1], location[2]),
+						// map: map,
+						// icon: iconOnline,
+						// });
+						// google.maps.event.addListener(marker, 'mouseover', function(marker, i) {
+						// 	infowindow = new google.maps.InfoWindow({
+						// 	content: '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>',
+						// 	maxWidth: 200
+						// 	});
+						// 	infowindow.open(map, this);
+						// 	});
+						// google.maps.event.addListener(marker, 'mouseout', function(marker, i) {
+						// 	infowindow.close();
+						// 	});
+						// google.maps.event.addListener(marker, 'click', function(marker, i) {
+						// 	showModal(1,location[3].split('.').join(""),location[0]);
+						// 	});
+						// console.log('finish'+location[3])
+						// } else {
+						// marker = new google.maps.Marker({
+						// position: new google.maps.LatLng(location[1], location[2]),
+						// map: map,
+						// icon: iconOffline,
+						// });
+						// google.maps.event.addListener(marker, 'mouseover', function(marker, i) {
+						// 	infowindow = new google.maps.InfoWindow({
+						// 	content: '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>',
+						// 	maxWidth: 200
+						// 	});
+						// 	infowindow.open(map, this);
+						// 	});
+						// google.maps.event.addListener(marker, 'mouseout', function(marker, i) {
+						// 	infowindow.close();
+						// 	});
+						// console.log('finish'+location[3])
 
-						}
-						},
-						error: function() {
-						console.log("error");
-						}
-						});
+						// }
+						// },
+						// error: function() {
+						// console.log("error");
+						// }
+						// });
 						// marker = new google.maps.Marker({
 						// 	position: new google.maps.LatLng(location[1], location[2]),
 				  //       	map: map,
@@ -154,54 +223,55 @@
 			}
 
 			locations.map(function(location, i) {
-			$.ajax({
-			url: "/api/cctv/status/" + location[3],
-			type: 'GET',
-			success: function(data) {
-				if (data === 'online') {
-					marker = new google.maps.Marker({
-						position: new google.maps.LatLng(location[1], location[2]),
-						map: map,
-						icon: iconOnline,
-					});
-					new google.maps.event.addListener(marker, 'mouseover', function(marker, i) {
-							infowindow = new google.maps.InfoWindow({
-            				content: '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>',
-            				maxWidth: 200
-        					});
-    						infowindow.open(map, this);
-  						});
-  					new google.maps.event.addListener(marker, 'mouseout', function(marker, i) {
-    						infowindow.close();
-  						});
-					new google.maps.event.addListener(marker, 'click', function(marker, i) {
-    						showModal(1,location[3].split('.').join(""),location[0]);
-  						});
-					console.log('finish'+location[3])
-				} else {
-					marker = new google.maps.Marker({
-						position: new google.maps.LatLng(location[1], location[2]),
-						map: map,
-						icon: iconOffline,
-					});
-					new google.maps.event.addListener(marker, 'mouseover', function(marker, i) {
-							infowindow = new google.maps.InfoWindow({
-            				content: '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>',
-            				maxWidth: 200
-        					});
-    						infowindow.open(map, this);
-  						});
-  					new google.maps.event.addListener(marker, 'mouseout', function(marker, i) {
-    						infowindow.close();
-  						});
-  					console.log('finish'+location[3])
+			checkPing(location[3]);
+			// $.ajax({
+			// url: "/api/cctv/status/" + location[3],
+			// type: 'GET',
+			// success: function(data) {
+			// 	if (data === 'online') {
+			// 		marker = new google.maps.Marker({
+			// 			position: new google.maps.LatLng(location[1], location[2]),
+			// 			map: map,
+			// 			icon: iconOnline,
+			// 		});
+			// 		new google.maps.event.addListener(marker, 'mouseover', function(marker, i) {
+			// 				infowindow = new google.maps.InfoWindow({
+   //          				content: '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>',
+   //          				maxWidth: 200
+   //      					});
+   //  						infowindow.open(map, this);
+  	// 					});
+  	// 				new google.maps.event.addListener(marker, 'mouseout', function(marker, i) {
+   //  						infowindow.close();
+  	// 					});
+			// 		new google.maps.event.addListener(marker, 'click', function(marker, i) {
+   //  						showModal(1,location[3].split('.').join(""),location[0]);
+  	// 					});
+			// 		console.log('finish'+location[3])
+			// 	} else {
+			// 		marker = new google.maps.Marker({
+			// 			position: new google.maps.LatLng(location[1], location[2]),
+			// 			map: map,
+			// 			icon: iconOffline,
+			// 		});
+			// 		new google.maps.event.addListener(marker, 'mouseover', function(marker, i) {
+			// 				infowindow = new google.maps.InfoWindow({
+   //          				content: '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>',
+   //          				maxWidth: 200
+   //      					});
+   //  						infowindow.open(map, this);
+  	// 					});
+  	// 				new google.maps.event.addListener(marker, 'mouseout', function(marker, i) {
+   //  						infowindow.close();
+  	// 					});
+  	// 				console.log('finish'+location[3])
 
-				}
-			},
-			error: function() {
-			console.log("error");
-			}
-			});
+			// 	}
+			// },
+			// error: function() {
+			// console.log("error");
+			// }
+			// });
 			});
 		}
 		function showInfo(){
