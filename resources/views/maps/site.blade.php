@@ -115,12 +115,38 @@
 						map: map,
 						icon: iconOnline,
 					});
+					new google.maps.event.addListener(marker, 'mouseover', function(marker, i) {
+							infowindow = new google.maps.InfoWindow({
+            				content: '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>',
+            				maxWidth: 200
+        					});
+    						infowindow.open(map, this);
+  						});
+  					new google.maps.event.addListener(marker, 'mouseout', function(marker, i) {
+    						infowindow.close();
+  						});
+					new google.maps.event.addListener(marker, 'click', function(marker, i) {
+    						showModal(1,location[3].split('.').join(""),location[0]);
+  						});
 				} else {
 					marker = new google.maps.Marker({
 						position: new google.maps.LatLng(location[1], location[2]),
 						map: map,
 						icon: iconOffline,
 					});
+					new google.maps.event.addListener(marker, 'mouseover', function(marker, i) {
+							infowindow = new google.maps.InfoWindow({
+            				content: '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>',
+            				maxWidth: 200
+        					});
+    						infowindow.open(map, this);
+  						});
+  					new google.maps.event.addListener(marker, 'mouseout', function(marker, i) {
+    						infowindow.close();
+  						});
+					// new google.maps.event.addListener(marker, 'click', function(marker, i) {
+    	// 					showModal(1,location[3].split('.').join(""),location[0]);
+  			// 			});
 				}
 				// if(data == 'online'){
 				// 	marker = new google.maps.Marker({
