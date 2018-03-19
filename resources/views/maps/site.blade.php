@@ -42,26 +42,75 @@
     				}
     				
 					var markers = locations.map(function(location, i) {
+						marker = 1;
 						$content = '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>';
-						console.log($content);
+						// console.log($content);
+						$.ajax({
+						url: "/api/cctv/status/" + location[3],
+						type: 'GET',
+						success: function(data) {
+						if (data === 'online') {
 						marker = new google.maps.Marker({
-							position: new google.maps.LatLng(location[1], location[2]),
-				        	map: map,
-				        	icon: iconOnline,
+						position: new google.maps.LatLng(location[1], location[2]),
+						map: map,
+						icon: iconOnline,
 						});
 						google.maps.event.addListener(marker, 'mouseover', function(marker, i) {
 							infowindow = new google.maps.InfoWindow({
-            				content: '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>',
-            				maxWidth: 200
-        					});
-    						infowindow.open(map, this);
-  						});
-  						google.maps.event.addListener(marker, 'mouseout', function(marker, i) {
-    						infowindow.close();
-  						});
+							content: '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>',
+							maxWidth: 200
+							});
+							infowindow.open(map, this);
+							});
+						google.maps.event.addListener(marker, 'mouseout', function(marker, i) {
+							infowindow.close();
+							});
 						google.maps.event.addListener(marker, 'click', function(marker, i) {
-    						showModal(1,location[3].split('.').join(""),location[0]);
-  						});
+							showModal(1,location[3].split('.').join(""),location[0]);
+							});
+						console.log('finish'+location[3])
+						} else {
+						marker = new google.maps.Marker({
+						position: new google.maps.LatLng(location[1], location[2]),
+						map: map,
+						icon: iconOffline,
+						});
+						google.maps.event.addListener(marker, 'mouseover', function(marker, i) {
+							infowindow = new google.maps.InfoWindow({
+							content: '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>',
+							maxWidth: 200
+							});
+							infowindow.open(map, this);
+							});
+						google.maps.event.addListener(marker, 'mouseout', function(marker, i) {
+							infowindow.close();
+							});
+						console.log('finish'+location[3])
+
+						}
+						},
+						error: function() {
+						console.log("error");
+						}
+						});
+						// marker = new google.maps.Marker({
+						// 	position: new google.maps.LatLng(location[1], location[2]),
+				  //       	map: map,
+				  //       	icon: iconOnline,
+						// });
+						// google.maps.event.addListener(marker, 'mouseover', function(marker, i) {
+						// 	infowindow = new google.maps.InfoWindow({
+      //       				content: '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>',
+      //       				maxWidth: 200
+      //   					});
+    		// 				infowindow.open(map, this);
+  				// 		});
+  				// 		google.maps.event.addListener(marker, 'mouseout', function(marker, i) {
+    		// 				infowindow.close();
+  				// 		});
+						// google.maps.event.addListener(marker, 'click', function(marker, i) {
+    		// 				showModal(1,location[3].split('.').join(""),location[0]);
+  				// 		});
 						return marker;
 					});
 
@@ -86,9 +135,9 @@
 </div>
 <script>
 		var newYearCountdown;
-		checkStatus = function(){
+		function checkStatus(){
 			var siteCor = {lat: {{$site->cor_x}}, lng: {{$site->cor_y}}};
-		        var map = new google.maps.Map(document.getElementById('map'), {
+		    var map = new google.maps.Map(document.getElementById('map'), {
 		          zoom: 17.8,
 		          center: siteCor,
 		          mapTypeId: 'satellite'
@@ -128,6 +177,7 @@
 					new google.maps.event.addListener(marker, 'click', function(marker, i) {
     						showModal(1,location[3].split('.').join(""),location[0]);
   						});
+					console.log('finish'+location[3])
 				} else {
 					marker = new google.maps.Marker({
 						position: new google.maps.LatLng(location[1], location[2]),
@@ -144,23 +194,9 @@
   					new google.maps.event.addListener(marker, 'mouseout', function(marker, i) {
     						infowindow.close();
   						});
-					// new google.maps.event.addListener(marker, 'click', function(marker, i) {
-    	// 					showModal(1,location[3].split('.').join(""),location[0]);
-  			// 			});
+  					console.log('finish'+location[3])
+
 				}
-				// if(data == 'online'){
-				// 	marker = new google.maps.Marker({
-				// 		position: new google.maps.LatLng(location[1], location[2]),
-			//     				map: map,
-			//     				icon: iconOnline,
-				// });
-				// } else {
-				// 	marker = new google.maps.Marker({
-				// 		position: new google.maps.LatLng(location[1], location[2]),
-			//     				map: map,
-			//     				icon: iconOffline,
-				// });
-				// }
 			},
 			error: function() {
 			console.log("error");
@@ -199,8 +235,8 @@
 		    $(this).parent().addClass('is-hidden');
 		    return false;
 		});
-		setInterval(function() {
-			checkStatus();
-		}, 1000 * 30);
+		// setTimeout(function() {
+		// 	checkStatus();
+		// }, 100);
 		</script>
 @endsection
