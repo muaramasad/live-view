@@ -2,7 +2,7 @@
 @section('content')
 <div class="columns">
     <div class="column is-8 is-offset-2">
-        {!! Form::open(['route' => 'user.store']) !!}
+        {!! Form::open(['route' => ['user.update',$user->id],'method' => 'put']) !!}
         <div class="field is-grouped-centered">
             <label class="label">Full Name</label>
             <p class="control is-expanded">
@@ -20,7 +20,7 @@
             @foreach($divisions as $division)
             <label class="checkbox">
                     <input type="checkbox" value="{{$division->id}}"
-                                               {{in_array($division->id, $userDivisionArray) ? "checked" : null}} name="permissions[]">
+                                               {{in_array($division->id, $userDivisionArray) ? "checked" : null}} name="divisions[]">
                 {{$division->division_name}}
             </label> &nbsp;&nbsp;
             @endforeach
@@ -30,7 +30,7 @@
             @foreach($areas as $area)
             <label class="checkbox">
                     <input type="checkbox" value="{{$area->id}}"
-                                               {{in_array($area->id, $userAreaArray) ? "checked" : null}} name="permissions[]">
+                                               {{in_array($area->id, $userAreaArray) ? "checked" : null}} name="areas[]">
                 {{$area->area_name}}
             </label> &nbsp;&nbsp;
             @endforeach
@@ -40,7 +40,7 @@
             @foreach($sites as $site)
             <label class="checkbox">
                     <input type="checkbox" value="{{$site->id}}"
-                                               {{in_array($site->id, $userSiteArray) ? "checked" : null}} name="permissions[]">
+                                               {{in_array($site->id, $userSiteArray) ? "checked" : null}} name="sites[]">
                 {{$site->site_name}}
             </label> &nbsp;&nbsp;
             @endforeach

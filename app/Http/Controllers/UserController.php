@@ -8,6 +8,7 @@ use App\Role;
 use App\Division;
 use App\Area;
 use App\Site;
+use DB;
 
 class UserController extends Controller
 {
@@ -164,7 +165,39 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        $user = User::find($id);
+        $this->validate($request, [
+            'name' => 'required|max:255',
+            'email' => 'required|unique:users,email,'.$user->id,
+        ]);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        DB::table("role_user")->where("user_id",$user->id)->delete();
+        DB::table("division_user")->where("user_id",$user->id)->delete();
+        DB::table("area_user")->where("user_id",$user->id)->delete();
+        DB::table("site_user")->where("user_id",$user->id)->delete();
+
+        //Attach the selected Roles
+        foreach ($request->input('role_id') as $key => $value) {
+            $user->attachRole($value);
+        }
+
+        foreach ($request->input('divisions') as $key => $value) {
+            $user->division()->attach($value);
+        }
+
+        foreach ($request->input('areas') as $key => $value) {
+            $user->area()->attach($value);
+        }
+
+        foreach ($request->input('sites') as $key => $value) {
+            $user->site()->attach($value);
+        }
+        $request->session()->flash('is-success', 'User successfully updated!');
+        return redirect()->route('user.index');
     }
 
     /**
