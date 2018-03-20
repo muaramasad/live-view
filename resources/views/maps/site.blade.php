@@ -20,16 +20,19 @@
 				var locations = {!! json_encode($camsLocation) !!};
 				var siteIp = '{{$site->url_1}}';
 				var checkPing = function(ip){
+					var data;
 					$.ajax({
+					async: false,
 					url: "/api/cctv/status/" + ip,
 					type: 'GET',
-					success: function(data) {
-						return data;
+					success: function(response) {
+						data = response;
 					},
 					error: function() {
 						console.log("error");
 					}
 					});
+					return data;
 				}
 				function initMap() {
 					var siteCor = {lat: {{$site->cor_x}}, lng: {{$site->cor_y}}};
