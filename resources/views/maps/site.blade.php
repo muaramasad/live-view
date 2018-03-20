@@ -132,8 +132,12 @@ function addMarker(){
 		return marker;
 	});
 }
-setTimeout(initMap(),500);
-setTimeout(addMarker(),5000);
+setTimeout(function() {
+	initMap();
+}, 500);
+setTimeout(function() {
+	addMarker();
+}, 5000);
 </script>
 <script>
 	var countdown;
