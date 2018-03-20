@@ -63,7 +63,7 @@
 						marker = 1;
 						$content = '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>';
 						if(checkPing(siteIp) === 'online' ){
-							if(checkPing(location[3])){
+							if(checkPing(location[3]) === 'online'){
 								marker = new google.maps.Marker({
 						position: new google.maps.LatLng(location[1], location[2]),
 						map: map,
