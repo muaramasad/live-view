@@ -62,7 +62,6 @@ function addMarker(){
 	var marker;
 	var i;
 	var content;
-	
 	var iconOnline = {
 	url: '{{ asset('/images/cam_on.svg') }}', // url
 	scaledSize: new google.maps.Size(24, 24)
@@ -72,16 +71,16 @@ function addMarker(){
 	scaledSize: new google.maps.Size(24, 24)
 	}
 
-	var markers = locations.map(function(location, i) {
+	if(checkPing(siteIp) === 'online' ){
+		locations.map(function(location, i) {
 		marker = 1;
 		$content = '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>';
-		if(checkPing(siteIp) === 'online' ){
-			if(checkPing(location[3]) === 'online'){
+		if(checkPing(location[3]) === 'online'){
 				marker = new google.maps.Marker({
-		position: new google.maps.LatLng(location[1], location[2]),
-		map: map,
-		icon: iconOnline,
-		});
+					position: new google.maps.LatLng(location[1], location[2]),
+					map: map,
+					icon: iconOnline,
+				});
 		google.maps.event.addListener(marker, 'mouseover', function(marker, i) {
 			infowindow = new google.maps.InfoWindow({
 			content: '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>',
@@ -95,6 +94,7 @@ function addMarker(){
 		google.maps.event.addListener(marker, 'click', function(marker, i) {
 			showModal(1,location[3].split('.').join(""),location[0]);
 			});
+			console.log('online '+location[3])
 			} else {
 				marker = new google.maps.Marker({
 		position: new google.maps.LatLng(location[1], location[2]),
@@ -112,7 +112,13 @@ function addMarker(){
 			infowindow.close();
 			});
 			}
+			console.log('offline '+location[3])
+		return marker;
+		});
 		} else {
+		locations.map(function(location, i) {
+		marker = 1;
+		$content = '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>';
 		marker = new google.maps.Marker({
 		position: new google.maps.LatLng(location[1], location[2]),
 		map: map,
@@ -128,16 +134,16 @@ function addMarker(){
 		google.maps.event.addListener(marker, 'mouseout', function(marker, i) {
 			infowindow.close();
 			});
-		}
-		return marker;
-	});
+		console.log('offline '+siteIp)
+		});
+	}
 }
 setTimeout(function() {
 	initMap();
 }, 500);
 setTimeout(function() {
 	addMarker();
-}, 5000);
+}, 2000);
 </script>
 <script>
 	var countdown;
