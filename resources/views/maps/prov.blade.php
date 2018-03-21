@@ -24,8 +24,9 @@
 					var locations = {!! json_encode($siteLocation) !!};
 			        var map = new google.maps.Map(document.getElementById('map'), {
 			          zoom: {{$prov->province_zoom}},
-			          center: idnCor
+			          center: idnCor,
 			        });
+			        map.setOptions({draggable: false, zoomControl: true, scrollwheel: false, disableDoubleClickZoom: true});
 
 			        var infowindow = new google.maps.InfoWindow();
     				var marker;
@@ -46,7 +47,7 @@
 						infoWindow.setContent(location[0]);
                 		infoWindow.open(map, marker);
 						google.maps.event.addListener(marker, 'click', function(marker, i) {
-    						window.location.href = '/map/site/'+location[3];
+    						window.location.href = '/map/division/'+location[4]+'/province/'+location[5]+'/site/'+location[3];
   						});
 						return marker;
 					});

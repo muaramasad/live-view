@@ -10,13 +10,13 @@ Breadcrumbs::register('division', function ($breadcrumbs,$division) {
 });
 
 Breadcrumbs::register('prov', function ($breadcrumbs,$division,$prov) {
-    $breadcrumbs->parent('division', $division);
+    $breadcrumbs->parent('division',$division);
     $breadcrumbs->push($prov->province_name, route('map.province', [$division->id,$prov->province_code]));
 });
 
-Breadcrumbs::register('site', function ($breadcrumbs,$division,$site) {
-    $breadcrumbs->parent('division', $division);
-    $breadcrumbs->push($site->site_name, route('map.site', $site->id));
+Breadcrumbs::register('site', function ($breadcrumbs,$division,$prov,$site) {
+    $breadcrumbs->parent('prov',$division,$prov);
+    $breadcrumbs->push($site->site_name, route('map.site', [$division->id,$prov->province_code,$site->id]));
 });
 
 // Breadcrumbs::register('blog', function ($breadcrumbs) {

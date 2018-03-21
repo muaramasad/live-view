@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-{{ Breadcrumbs::render('site',$division,$site) }}
+{{ Breadcrumbs::render('site',$division,$prov,$site) }}
 <div class="columns">
 	<div class="column">
 		<div class="card">
@@ -15,7 +15,7 @@
 						{!! Mapper::render() !!}
 					</div>
 				</div> --}}
-				<div id="map" style="width: 100%;height: 450px"></div>
+				<div id="map" style="width: 100%;height: 480px"></div>
 			</div>
 		</div>
 	</div>
@@ -51,11 +51,13 @@ var checkPing = function(ip){
 function initMap() {
 	var siteCor = {lat: {{$site->cor_x}}, lng: {{$site->cor_y}}};
 	map = new google.maps.Map(document.getElementById('map'), {
-	zoom: 17.6,
+	zoom: 17.5,
+	maxZoom:18,
+    minZoom:17,
 	center: siteCor,
 	mapTypeId: 'satellite'
 	});
-	map.setOptions({draggable: false, zoomControl: true, scrollwheel: false, disableDoubleClickZoom: true});
+	map.setOptions({draggable: true, zoomControl: true, scrollwheel: false, disableDoubleClickZoom: true});
 }
 function addMarker(){
 	var infowindow = new google.maps.InfoWindow();
@@ -134,8 +136,8 @@ function addMarker(){
 		google.maps.event.addListener(marker, 'mouseout', function(marker, i) {
 			infowindow.close();
 			});
-		console.log('offline '+siteIp)
 		});
+		console.log('offline '+siteIp)
 	}
 }
 setTimeout(function() {
@@ -143,7 +145,7 @@ setTimeout(function() {
 }, 500);
 setTimeout(function() {
 	addMarker();
-}, 2000);
+}, 1000);
 </script>
 <script>
 	var countdown;

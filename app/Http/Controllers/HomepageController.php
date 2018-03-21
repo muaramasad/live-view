@@ -71,7 +71,7 @@ class HomepageController extends Controller
         $sitesCollection = Site::find($sitesId);
         $siteLocation = array();
         foreach ($sitesCollection as $site) {
-            $siteLocation[] = [$site->site_name,$site->cor_x,$site->cor_y,$site->id];
+            $siteLocation[] = [$site->site_name,$site->cor_x,$site->cor_y,$site->id,$divid,$pcode];
         }
         // $sitesCollection->each(function($site)
         // {
@@ -85,7 +85,7 @@ class HomepageController extends Controller
             'siteLocation' => $siteLocation
         ]);
     }
-    public function mapDivSite($id)
+    public function mapDivSite($divid,$pcode,$id)
     {
         $site = Site::find($id);
         Mapper::map($site->cor_x, $site->cor_y, ['zoom' => 18,'center' => true, 'marker' => false, 'cluster' => false, 'type' => 'SATELLITE']);
