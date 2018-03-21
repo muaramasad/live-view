@@ -45,6 +45,8 @@
 			          center: idnCor
 			        });
 
+			        map.setOptions({draggable: false, zoomControl: false, scrollwheel: false, disableDoubleClickZoom: true});
+
 			        var infowindow = new google.maps.InfoWindow();
     				var marker, i;
 
