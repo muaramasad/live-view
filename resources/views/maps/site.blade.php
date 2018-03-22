@@ -59,95 +59,94 @@ function initMap() {
 	});
 	map.setOptions({draggable: true, zoomControl: true, scrollwheel: false, disableDoubleClickZoom: true});
 }
-function addMarker(y){
-	var infowindow = new google.maps.InfoWindow();
-	var marker;
-	var i;
-	var content;
-	var iconOnline = {
-	url: '{{ asset('/images/cam_on.svg') }}', // url
-	scaledSize: new google.maps.Size(24, 24)
-	};
-	var iconOffline = {
-		url: '{{ asset('/images/cam_off.svg') }}', // url
-	scaledSize: new google.maps.Size(24, 24)
-	}
+// function addMarker(y){
+// 	var infowindow = new google.maps.InfoWindow();
+// 	var marker;
+// 	var i;
+// 	var content;
+// 	var iconOnline = {
+// 	url: '{{ asset('/images/cam_on.svg') }}', // url
+// 	scaledSize: new google.maps.Size(24, 24)
+// 	};
+// 	var iconOffline = {
+// 		url: '{{ asset('/images/cam_off.svg') }}', // url
+// 	scaledSize: new google.maps.Size(24, 24)
+// 	}
 
-	if(checkPing(siteIp) === 'online' ){
-		locations.map(function(location, i) {
-		if (y > location.length) return;
-		marker = 1;
-		$content = '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>';
-		if(checkPing(location[3]) === 'online'){
-				marker = new google.maps.Marker({
-					position: new google.maps.LatLng(location[1], location[2]),
-					map: map,
-					icon: iconOnline,
-				});
-		google.maps.event.addListener(marker, 'mouseover', function(marker, i) {
-			infowindow = new google.maps.InfoWindow({
-			content: '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>',
-			maxWidth: 200
-			});
-			infowindow.open(map, this);
-			});
-		google.maps.event.addListener(marker, 'mouseout', function(marker, i) {
-			infowindow.close();
-			});
-		google.maps.event.addListener(marker, 'click', function(marker, i) {
-			showModal(1,location[3].split('.').join(""),location[0]);
-			});
-			console.log('online '+location[3])
-			} else {
-				marker = new google.maps.Marker({
-		position: new google.maps.LatLng(location[1], location[2]),
-		map: map,
-		icon: iconOffline,
-		});
-		google.maps.event.addListener(marker, 'mouseover', function(marker, i) {
-			infowindow = new google.maps.InfoWindow({
-			content: '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>',
-			maxWidth: 200
-			});
-			infowindow.open(map, this);
-			});
-		google.maps.event.addListener(marker, 'mouseout', function(marker, i) {
-			infowindow.close();
-			});
-			}
-			console.log('offline '+location[3])
-		return marker;
-		});
-		} else {
-		locations.map(function(location, i) {
-		marker = 1;
-		$content = '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>';
-		marker = new google.maps.Marker({
-		position: new google.maps.LatLng(location[1], location[2]),
-		map: map,
-		icon: iconOffline,
-		});
-		google.maps.event.addListener(marker, 'mouseover', function(marker, i) {
-			infowindow = new google.maps.InfoWindow({
-			content: '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>',
-			maxWidth: 200
-			});
-			infowindow.open(map, this);
-			});
-		google.maps.event.addListener(marker, 'mouseout', function(marker, i) {
-			infowindow.close();
-			});
-		});
-		console.log('offline '+siteIp)
-	}
-	var t=setTimeout("addMarker("+(y+1)+")",2000);
-}
+// 	if(checkPing(siteIp) === 'online' ){
+// 		locations.map(function(location, i) {
+// 		if (y > location.length) return;
+// 		marker = 1;
+// 		$content = '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>';
+// 		if(checkPing(location[3]) === 'online'){
+// 				marker = new google.maps.Marker({
+// 					position: new google.maps.LatLng(location[1], location[2]),
+// 					map: map,
+// 					icon: iconOnline,
+// 				});
+// 		google.maps.event.addListener(marker, 'mouseover', function(marker, i) {
+// 			infowindow = new google.maps.InfoWindow({
+// 			content: '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>',
+// 			maxWidth: 200
+// 			});
+// 			infowindow.open(map, this);
+// 			});
+// 		google.maps.event.addListener(marker, 'mouseout', function(marker, i) {
+// 			infowindow.close();
+// 			});
+// 		google.maps.event.addListener(marker, 'click', function(marker, i) {
+// 			showModal(1,location[3].split('.').join(""),location[0]);
+// 			});
+// 			console.log('online '+location[3])
+// 			} else {
+// 				marker = new google.maps.Marker({
+// 		position: new google.maps.LatLng(location[1], location[2]),
+// 		map: map,
+// 		icon: iconOffline,
+// 		});
+// 		google.maps.event.addListener(marker, 'mouseover', function(marker, i) {
+// 			infowindow = new google.maps.InfoWindow({
+// 			content: '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>',
+// 			maxWidth: 200
+// 			});
+// 			infowindow.open(map, this);
+// 			});
+// 		google.maps.event.addListener(marker, 'mouseout', function(marker, i) {
+// 			infowindow.close();
+// 			});
+// 			}
+// 			console.log('offline '+location[3])
+// 		return marker;
+// 		});
+// 		} else {
+// 		locations.map(function(location, i) {
+// 		marker = 1;
+// 		$content = '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>';
+// 		marker = new google.maps.Marker({
+// 		position: new google.maps.LatLng(location[1], location[2]),
+// 		map: map,
+// 		icon: iconOffline,
+// 		});
+// 		google.maps.event.addListener(marker, 'mouseover', function(marker, i) {
+// 			infowindow = new google.maps.InfoWindow({
+// 			content: '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>',
+// 			maxWidth: 200
+// 			});
+// 			infowindow.open(map, this);
+// 			});
+// 		google.maps.event.addListener(marker, 'mouseout', function(marker, i) {
+// 			infowindow.close();
+// 			});
+// 		});
+// 		console.log('offline '+siteIp)
+// 	}
+// 	var t=setTimeout("addMarker("+(y+1)+")",2000);
+// }
 function marker(i){
     if (i > locations.length) return;
 
     var infowindow = new google.maps.InfoWindow();
 	var marker;
-	var i;
 	var content;
 	var iconOnline = {
 	url: '{{ asset('/images/cam_on.svg') }}', // url
@@ -158,7 +157,7 @@ function marker(i){
 	scaledSize: new google.maps.Size(24, 24)
 	}
 
-	if(checkPing(siteIp) === 'online' ){
+	if(checkPing(siteIp) === 'online'){
 		marker = 1;
 		$content = '<h4>'+locations[i][0]+'</h4><p>IP Address: '+locations[i][3]+'</p>';
 		if(checkPing(locations[i][3]) === 'online'){
@@ -182,21 +181,22 @@ function marker(i){
 			});
 			console.log('online '+locations[i][3])
 			} else {
-				marker = new google.maps.Marker({
-		position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-		map: map,
-		icon: iconOffline,
-		});
-		google.maps.event.addListener(marker, 'mouseover', function(marker) {
+			marker = new google.maps.Marker({
+				position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+				map: map,
+				icon: iconOffline,
+			});
+			google.maps.event.addListener(marker, 'mouseover', function(marker) {
 			infowindow = new google.maps.InfoWindow({
 			content: '<h4>'+locations[i][0]+'</h4><p>IP Address: '+locations[i][3]+'</p>',
 			maxWidth: 200
 			});
 			infowindow.open(map, this);
 			});
-		google.maps.event.addListener(marker, 'mouseout', function(marker) {
+			google.maps.event.addListener(marker, 'mouseout', function(marker) {
 			infowindow.close();
 			});
+			console.log('offline '+locations[i][3])
 			}
 	} else {
 		marker = 1;
@@ -216,22 +216,17 @@ function marker(i){
 		google.maps.event.addListener(marker, 'mouseout', function(marker) {
 			infowindow.close();
 		});
+		console.log('offline '+siteIp)
 	}
-
-    // marker = new google.maps.Marker({
-    //     position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-    //     map: map
-    // });
-
-    var t=setTimeout("marker("+(i+1)+")",1000);
+    console.log(i);
+    if(i < locations.length){
+    	var t=setTimeout("marker("+(i+1)+")",1000);
+    }
 }
-marker(0);
 setTimeout(function() {
 	initMap();
-}, 500);
-// setTimeout(function() {
-// 	addMarker();
-// }, 2000);
+}, 0);
+marker(0);
 </script>
 <script>
 	var countdown;
