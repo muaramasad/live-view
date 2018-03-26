@@ -132,8 +132,14 @@ class HomepageController extends Controller
     // Run ffmpeg to grab image from cctv
     public function playCam($ip)
     {
-        exec('rm /var/www/cctv/public/video/*');
-        $ffmpeg = exec('ffmpeg -y -stream_loop -1 -rtsp_transport tcp -i rtsp://admin:FIW170845@'.$ip.':554/stream=2.sdp -vf scale=854:480 -r 2/1 -t 120 /var/www/cctv/public/video/ip-%01d.jpeg > /dev/null &');
+        $vidDir = '/var/www/cctv/public/video/';
+        $bash_commands = '
+        while :
+        do
+        ffmpeg -y -rtsp_transport tcp -i rtsp://admin:FIW170845@'.$ip.':554/stream=2.sdp -vf scale=854:480 -r 2/1 -t 120 '.$vidDir.'ip-%01d.jpeg
+        done';
+        exec('rm '.$vidDir.'*');
+        exec($bash_commands);
         return 'running';
     }
 
