@@ -18,8 +18,14 @@ class RoleController extends Controller
    	public function create()
    	{
       $permissions = Permission::All();
+      $groupPermission = array();
+      foreach ($permissions as $value) {
+        $group = explode(".", $value->name);
+        $groupPermission[] = $group[0];
+      }
    		return view('roles.create',[
-          'permissions' => $permissions
+          'permissions' => $permissions,
+          'groupPermission' => $groupPermission
       ]);
    	}
 

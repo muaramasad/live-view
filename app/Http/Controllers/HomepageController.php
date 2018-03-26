@@ -129,5 +129,19 @@ class HomepageController extends Controller
         }
     }
 
+    // Run ffmpeg to grab image from cctv
+    public function playCam($ip)
+    {
+        echo "Starting ffmpeg...\n\n";
+        exec('ffmpeg -y -rtsp_transport tcp -i rtsp://admin:FIW170845@'.$ip.':554/stream=2.sdp -vf scale=854:480 -r 2/1 -t 120 /var/www/cctv/public/video/ip-%01d.jpeg');
+    }
+
+    public function stopCam()
+    {
+        shell_exec('pkill ffmpeg');
+        echo "done\n\n";
+        exit();
+    }
+
     
 }
