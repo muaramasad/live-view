@@ -133,7 +133,9 @@ class HomepageController extends Controller
     public function playCam($ip)
     {
         echo "Starting ffmpeg...\n\n";
-        exec('ffmpeg -y -rtsp_transport tcp -i rtsp://admin:FIW170845@'.$ip.':554/stream=2.sdp -vf scale=854:480 -r 2/1 -t 120 /var/www/cctv/public/video/ip-%01d.jpeg');
+        exec('rm /var/www/cctv/public/video/*');
+        $ffmpeg = exec('ffmpeg -y -rtsp_transport tcp -i rtsp://admin:FIW170845@'.$ip.':554/stream=2.sdp -vf scale=854:480 -r 2/1 -t 120 /var/www/cctv/public/video/ip-%01d.jpeg > /dev/null &');
+        return 'running';
     }
 
     public function stopCam()
@@ -141,6 +143,16 @@ class HomepageController extends Controller
         shell_exec('pkill ffmpeg');
         echo "done\n\n";
         exit();
+    }
+
+    public function checkDir()
+    {
+        $check = count(glob("/var/www/cctv/public/video/*")) == 0;
+        if ($q) {
+            echo "the folder is empty"; 
+        } else {
+            echo "the folder is NOT empty";
+        }
     }
 
     
