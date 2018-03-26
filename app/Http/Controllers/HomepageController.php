@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Symfony\Component\Process\PhpProcess;
-use Symfony\Component\Process\Process;
 use App\Http\Requests\StoreVideoRequest;
 use App\Jobs\ConvertVideoForStreaming;
 use Illuminate\Http\Request;
@@ -135,17 +134,13 @@ class HomepageController extends Controller
     {
         $vidDir = '/var/www/cctv/public/video/';
         $bash_commands = '
-        i=0
-        max=2
-        while [ $i -lt $max ]
+        while :
         do
-            ffmpeg -y -rtsp_transport tcp -i rtsp://admin:FIW170845@'.$ip.':554/stream=2.sdp -vf scale=854:480 -r 2/1 -t 120 '.$vidDir.'ip-%01d.jpeg
+        ffmpeg -y -rtsp_transport tcp -i rtsp://admin:FIW170845@'.$ip.':554/stream=2.sdp -vf scale=854:480 -r 2/1 -t 120 '.$vidDir.'ip-%01d.jpeg
         done';
         exec('rm '.$vidDir.'*');
-        $process = new Process($bash_commands.' > /dev/null &');
-        $process->start();
-        var_dump($process->getPid());
-        //exec($bash_commands.' > /dev/null &');
+        exec($bash_commands." > /dev/null 2>&1 & echo $!; ", $output);
+        echo $pid;
         return 'running';
     }
 
