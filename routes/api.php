@@ -20,3 +20,4 @@ Route::get('division/{idDiv}','SiteController@getSiteByDivision');
 Route::get('division/{idDiv}/{idArea}','SiteController@getSiteByDivisionArea');
 Route::get('cctv/status/{ip}','HomepageController@healthCheck');
 Route::get('cctv/play/{ip}','HomepageController@playCam');
+Route::get('cctv/stop','HomepageController@stopCam');
