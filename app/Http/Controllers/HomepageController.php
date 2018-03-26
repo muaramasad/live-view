@@ -139,7 +139,7 @@ class HomepageController extends Controller
         ffmpeg -y -rtsp_transport tcp -i rtsp://admin:FIW170845@'.$ip.':554/stream=2.sdp -vf scale=854:480 -r 2/1 -t 120 '.$vidDir.'ip-%01d.jpeg
         done';
         exec('rm '.$vidDir.'*');
-        exec($bash_commands." > /dev/null 2>&1 & echo $!; ", $output);
+        $pid = exec($bash_commands.' > /dev/null 2>&1 & echo $!; ', $output);
         echo $pid;
         return 'running';
     }
