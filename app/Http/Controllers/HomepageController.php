@@ -148,7 +148,7 @@ class HomepageController extends Controller
     public function checkDir()
     {
         $check = count(glob("/var/www/cctv/public/video/*")) == 0;
-        if ($q) {
+        if ($check) {
             echo "the folder is empty"; 
         } else {
             echo "the folder is NOT empty";
