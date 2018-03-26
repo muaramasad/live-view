@@ -21,18 +21,18 @@ class HomepageController extends Controller
 {
     public function index()
     {
-    	$divisions = Division::orderBy('division_name', 'asc')->get();
-    	return view('homepage',[
-    		'divisions' => $divisions
-    	]);
+        $divisions = Division::orderBy('division_name', 'asc')->get();
+        return view('homepage',[
+            'divisions' => $divisions
+        ]);
     }
     public function mapDiv($id)
     {
         Mapper::map(-1.7922201, 116.9502052, ['zoom' => '5','center' => true, 'marker' => false, 'cluster' => false]);
         $provinceId = [];
-    	$division = Division::find($id);
-    	$sites = Site::where('division_id',$id)->get();
-    	$areas = Area::where('division_id',$id)->with('province')->get();
+        $division = Division::find($id);
+        $sites = Site::where('division_id',$id)->get();
+        $areas = Area::where('division_id',$id)->with('province')->get();
         foreach ($areas as $area) {
             if ($area->has('sites')) {
                 $provinceId[] = $area->province->id;
@@ -48,12 +48,12 @@ class HomepageController extends Controller
         //     $content = $province->province_name;
         //     Mapper::marker($province->province_cor_x, $province->province_cor_y,['eventClick' => 'window.location.href = "/map/province/'.$province->province_code.'";']);
         // });
-    	return view('maps.div',[
-    		'areas' => $areas,
-    		'division' => $division,
-    		'sites' => $sites,
+        return view('maps.div',[
+            'areas' => $areas,
+            'division' => $division,
+            'sites' => $sites,
             'divLocation' => $divLocation
-    	]);
+        ]);
     }
     public function mapDivProvince($divid, $pcode)
     {
@@ -134,12 +134,17 @@ class HomepageController extends Controller
     {
         $vidDir = '/var/www/cctv/public/video/';
         $bash_commands = '
-        while :
+        i=0
+        max=2
+        while [ $i -lt $max ]
         do
-        ffmpeg -y -rtsp_transport tcp -i rtsp://admin:FIW170845@'.$ip.':554/stream=2.sdp -vf scale=854:480 -r 2/1 -t 120 '.$vidDir.'ip-%01d.jpeg
+            ffmpeg -y -rtsp_transport tcp -i rtsp://admin:FIW170845@'.$ip.':554/stream=2.sdp -vf scale=854:480 -r 2/1 -t 120 '.$vidDir.'ip-%01d.jpeg
         done';
         exec('rm '.$vidDir.'*');
-        exec($bash_commands);
+        $process = new Process($bash_commands.' > /dev/null &');
+        $process->start();
+        var_dump($process->getPid());
+        //exec($bash_commands.' > /dev/null &');
         return 'running';
     }
 
