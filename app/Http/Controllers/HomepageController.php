@@ -147,8 +147,10 @@ class HomepageController extends Controller
     {
         shell_exec('kill '.$pid);
         shell_exec('pkill ffmpeg');
-        exit();
+        $vidDir = '/var/www/cctv/public/video/';
+        exec('rm '.$vidDir.'*');
         return 'stoped';
+        exit();
     }
 
     public function checkDir()
