@@ -299,7 +299,7 @@ marker(0);
 					counter = 1;
 					date = date.add(1, 'minutes');
 				}
-				var filename = '/video/ip-'+counter+'.jpeg';
+				var filename = '/video/ip-'+counter+'.jpeg?ver='+ (new Date().getTime());
 				newImg.attr("src", filename);
 				nameCam.text(camName);
 				console.log(filename);
