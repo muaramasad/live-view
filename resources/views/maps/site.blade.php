@@ -297,7 +297,7 @@ marker(0);
 				}
 				var newImg = $('#test');
 				var nameCam = $('#camName');
-				var filename = 'video/ip-'+counter+'.jpeg';
+				var filename = '/video/ip-'+counter+'.jpeg';
 				newImg.attr("src", filename);
 				nameCam.text(camName);
 				console.log(filename);
