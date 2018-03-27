@@ -92,7 +92,7 @@ class HomepageController extends Controller
         $camsCollections = Cam::where('site_id',$site->id)->get();
         $camsLocation = array();
         $i = 1;
-        //$camsLocation[] = ["","","","",""];
+        $camsLocation[] = ["","","","",""];
         foreach ($camsCollections as $cam) {
             //$status = $this->healthCheck($cam->cam_ip_address);
             $camsLocation[] = [$cam->cam_name,$cam->cam_cor_x,$cam->cam_cor_y,$cam->cam_ip_address,$cam->id];

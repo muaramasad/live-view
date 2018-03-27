@@ -24,7 +24,7 @@
 	<div class="modal-background"></div>
 	<div class="modal-content">
 		<h3 id="camName" class="is-size-4 is-white"></h3>
-		<img id="test">
+		<img id="imgCam">
 	</div>
 	<button class="modal-close is-large" aria-label="close"></button>
 </div>
@@ -192,7 +192,7 @@ function initMap() {
 // }
 function marker(i){
     if (i > locations.length) return;
-
+    if (i > 0) {
     var infowindow = new google.maps.InfoWindow();
 	var marker;
 	var content;
@@ -264,7 +264,8 @@ function marker(i){
 	// 		infowindow.close();
 	// 	});
 	// 	console.log('offline '+siteIp)
-	// }
+	// }   	
+    }
     console.log(i);
     if(i < locations.length - 1){
     	var t=setTimeout("marker("+(i+1)+")",1000);
@@ -282,8 +283,11 @@ marker(0);
 		$(".gm-style-iw").css("display: block");
 	}
 	function showModal(id,ip,camName){
+		var newImg = $('#imgCam');
+		var nameCam = $('#camName');
 		$(".modal").addClass("is-active");
 		pidCam = playCam(ip);
+		newImg.attr("src", '/images/ajax-loader.gif');
 		dirCheck = setInterval(function(){
 			if(checkDir() === 'exist'){
 				clearInterval(dirCheck);
@@ -295,8 +299,6 @@ marker(0);
 					counter = 1;
 					date = date.add(1, 'minutes');
 				}
-				var newImg = $('#test');
-				var nameCam = $('#camName');
 				var filename = '/video/ip-'+counter+'.jpeg';
 				newImg.attr("src", filename);
 				nameCam.text(camName);
