@@ -144,8 +144,9 @@ class HomepageController extends Controller
         return 'running';
     }
 
-    public function stopCam()
+    public function stopCam($pid)
     {
+        shell_exec('kill '.$pid);
         shell_exec('pkill ffmpeg');
         echo "done\n\n";
         exit();
