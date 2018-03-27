@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 Route::get('area/{id}','SiteController@getAreaByDivision');
 Route::get('division/{idDiv}','SiteController@getSiteByDivision');
 Route::get('division/{idDiv}/{idArea}','SiteController@getSiteByDivisionArea');
+// API CCTV
 Route::get('cctv/status/{ip}','HomepageController@healthCheck');
 Route::get('cctv/play/{ip}','HomepageController@playCam');
 Route::get('cctv/stop/{pid}','HomepageController@stopCam');

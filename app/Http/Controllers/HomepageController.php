@@ -92,7 +92,7 @@ class HomepageController extends Controller
         $camsCollections = Cam::where('site_id',$site->id)->get();
         $camsLocation = array();
         $i = 1;
-        $camsLocation[] = ["","","","",""];
+        //$camsLocation[] = ["","","","",""];
         foreach ($camsCollections as $cam) {
             //$status = $this->healthCheck($cam->cam_ip_address);
             $camsLocation[] = [$cam->cam_name,$cam->cam_cor_x,$cam->cam_cor_y,$cam->cam_ip_address,$cam->id];
@@ -140,16 +140,15 @@ class HomepageController extends Controller
         done';
         exec('rm '.$vidDir.'*');
         $pid = exec($bash_commands.' > /dev/null 2>&1 & echo $!; ', $output);
-        echo $pid;
-        return 'running';
+        return $pid;
     }
 
     public function stopCam($pid)
     {
         shell_exec('kill '.$pid);
         shell_exec('pkill ffmpeg');
-        echo "done\n\n";
         exit();
+        return 'stoped';
     }
 
     public function checkDir()

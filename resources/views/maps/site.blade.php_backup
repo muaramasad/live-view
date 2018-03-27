@@ -48,54 +48,6 @@ var checkPing = function(ip){
 	});
 	return data;
 }
-var playCam = function(ip){
-	var res;
-	$.ajax({
-	async: false,
-	url: "/api/cctv/play/" + ip,
-	type: 'GET',
-	success: function(response) {
-		res = response;
-		console.log(response);
-	},
-	error: function() {
-		console.log("error");
-	}
-	});
-	return res;
-}
-var stopCam = function(pid){
-	var res;
-	$.ajax({
-	async: false,
-	url: "/api/cctv/stop/" + pid,
-	type: 'GET',
-	success: function(response) {
-		res = response;
-		console.log(response);
-	},
-	error: function() {
-		console.log("error");
-	}
-	});
-	return res;
-}
-var checkDir = function(){
-	var res;
-	$.ajax({
-	async: false,
-	url: "/api/cctv/checkdir/",
-	type: 'GET',
-	success: function(response) {
-		res = response;
-		console.log(response);
-	},
-	error: function() {
-		console.log("error");
-	}
-	});
-	return res;
-}
 function initMap() {
 	var siteCor = {lat: {{$site->cor_x}}, lng: {{$site->cor_y}}};
 	map = new google.maps.Map(document.getElementById('map'), {
@@ -204,7 +156,8 @@ function marker(i){
 		url: '{{ asset('/images/cam_off.svg') }}', // url
 	scaledSize: new google.maps.Size(24, 24)
 	}
-	// if(checkPing(siteIp) === 'online'){
+
+	if(checkPing(siteIp) === 'online'){
 		marker = 1;
 		$content = '<h4>'+locations[i][0]+'</h4><p>IP Address: '+locations[i][3]+'</p>';
 		if(checkPing(locations[i][3]) === 'online'){
@@ -224,7 +177,7 @@ function marker(i){
 			infowindow.close();
 			});
 		google.maps.event.addListener(marker, 'click', function(marker) {
-			showModal(1,locations[i][3],locations[i][0]);
+			showModal(1,locations[i][3].split('.').join(""),locations[i][0]);
 			});
 			console.log('online '+locations[i][3])
 			} else {
@@ -245,28 +198,28 @@ function marker(i){
 			});
 			console.log('offline '+locations[i][3])
 			}
-	// } else {
-	// 	marker = 1;
-	// 	$content = '<h4>'+locations[i][0]+'</h4><p>IP Address: '+locations[i][3]+'</p>';
-	// 	marker = new google.maps.Marker({
-	// 	position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-	// 	map: map,
-	// 	icon: iconOffline,
-	// 	});
-	// 	google.maps.event.addListener(marker, 'mouseover', function(marker) {
-	// 		infowindow = new google.maps.InfoWindow({
-	// 		content: '<h4>'+locations[i][0]+'</h4><p>IP Address: '+locations[i][3]+'</p>',
-	// 		maxWidth: 200
-	// 		});
-	// 		infowindow.open(map, this);
-	// 	});
-	// 	google.maps.event.addListener(marker, 'mouseout', function(marker) {
-	// 		infowindow.close();
-	// 	});
-	// 	console.log('offline '+siteIp)
-	// }
+	} else {
+		marker = 1;
+		$content = '<h4>'+locations[i][0]+'</h4><p>IP Address: '+locations[i][3]+'</p>';
+		marker = new google.maps.Marker({
+		position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+		map: map,
+		icon: iconOffline,
+		});
+		google.maps.event.addListener(marker, 'mouseover', function(marker) {
+			infowindow = new google.maps.InfoWindow({
+			content: '<h4>'+locations[i][0]+'</h4><p>IP Address: '+locations[i][3]+'</p>',
+			maxWidth: 200
+			});
+			infowindow.open(map, this);
+		});
+		google.maps.event.addListener(marker, 'mouseout', function(marker) {
+			infowindow.close();
+		});
+		console.log('offline '+siteIp)
+	}
     console.log(i);
-    if(i < locations.length - 1){
+    if(i < locations.length){
     	var t=setTimeout("marker("+(i+1)+")",1000);
     }
 }
@@ -280,30 +233,23 @@ marker(0);
 	function showInfo(){
 		$(".gm-style-iw").css("display: block");
 	}
-	function showModal(id,ip,camName){
-		var pidCam;
+	function showModal(id,path,camName){
 		$(".modal").addClass("is-active");
-		pidCam = playCam(ip);
-		dirCheck = setInterval(function(){
-			if(checkDir() === 'exist'){
-				clearInterval(dirCheck);
-				var counter = 1;
-				var date = moment(new Date());
-				date = date.subtract(3, 'minutes');
-				countdown = setInterval(function(){
-				if (counter === 241) {
-					counter = 1;
-					date = date.add(1, 'minutes');
-				}
-				var newImg = $('#test');
-				var nameCam = $('#camName');
-				var filename = 'video/ip-'+counter+'.jpeg';
-				newImg.attr("src", filename);
-				nameCam.text(camName);
-				console.log(filename);
-				counter++;
-				}, 1000/2);
-			}
+		var counter = 1;
+		var date = moment(new Date());
+		date = date.subtract(3, 'minutes');
+		countdown = setInterval(function(){
+		if (counter === 241) {
+			counter = 1;
+			date = date.add(1, 'minutes');
+		}
+		var newImg = $('#test');
+		var nameCam = $('#camName');
+		var filename = 'http://{{$site->url_1}}/'+path+'/ip-'+counter+'.jpeg';
+		newImg.attr("src", filename);
+		nameCam.text(camName);
+		console.log(filename);
+		counter++;
 		}, 1000/2);
 	}
 		$(document).on('click', '.modal-close', function() {
