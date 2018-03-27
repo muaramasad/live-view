@@ -147,8 +147,8 @@ class HomepageController extends Controller
     {
         shell_exec('kill '.$pid);
         shell_exec('pkill ffmpeg');
-        exit();
         return 'stoped';
+        exit();
     }
 
     public function checkDir()

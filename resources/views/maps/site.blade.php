@@ -277,11 +277,11 @@ marker(0);
 </script>
 <script>
 	var countdown;
+	var pidCam;
 	function showInfo(){
 		$(".gm-style-iw").css("display: block");
 	}
 	function showModal(id,ip,camName){
-		var pidCam;
 		$(".modal").addClass("is-active");
 		pidCam = playCam(ip);
 		dirCheck = setInterval(function(){
@@ -309,6 +309,8 @@ marker(0);
 		$(document).on('click', '.modal-close', function() {
 			$(".modal").removeClass("is-active");
 			clearInterval(countdown);
+			stopCam(pidCam);
+
 		return false;
 		});
 		$(document).on('click', '.notification > button.delete', function() {
