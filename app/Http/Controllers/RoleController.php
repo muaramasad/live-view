@@ -42,8 +42,10 @@ class RoleController extends Controller
         $role->description = $request->description;
         $role->save();
 
-    foreach ($request->input('permissions') as $key => $value) {
-         $role->attachPermission($value);
+    if(!empty($request->input('permissions'))){
+      foreach ($request->input('permissions') as $key => $value) {
+           $role->attachPermission($value);
+      }
     }
 
    		$request->session()->flash('is-success', 'Role successfully created!');
@@ -71,9 +73,10 @@ class RoleController extends Controller
    	{
       $role = Role::find($id);
       $this->validate($request, [
-            'name' => 'required|unique:roles,name,'.$role->id,
+            'name' => 'required:name,'.$role->id.'|unique:roles,name,'.$role->id,
             'display_name' => 'required'
         ]);
+      $role->name = $request->name;
       $role->display_name = $request->display_name;
       $role->description = $request->description;
       $role->save();
@@ -81,9 +84,11 @@ class RoleController extends Controller
       //delete all permissions currently linked to this role
         DB::table("permission_role")->where("role_id",$id)->delete();
 
-        //attach the new permissions to the role
-        foreach ($request->input('permissions') as $key => $value) {
-            $role->attachPermission($value);
+        if(!empty($request->input('permissions'))){
+          //attach the new permissions to the role
+          foreach ($request->input('permissions') as $key => $value) {
+              $role->attachPermission($value);
+          }
         }
 
       $request->session()->flash('is-success', 'Role successfully edited!');

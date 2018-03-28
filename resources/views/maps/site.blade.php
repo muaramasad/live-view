@@ -10,11 +10,6 @@
 				</p>
 			</header>
 			<div class="card-content">
-				{{-- <div class="map">
-					<div id="mapdiv" style="width: 100%; height: 600px;">
-						{!! Mapper::render() !!}
-					</div>
-				</div> --}}
 				<div id="map" style="width: 100%;height: 480px"></div>
 			</div>
 		</div>
@@ -33,6 +28,7 @@
 var locations = {!! json_encode($camsLocation) !!};
 var siteIp = '{{$site->url_1}}';
 var map;
+// Check if cctv is online
 var checkPing = function(ip){
 	var data;
 	$.ajax({
@@ -48,6 +44,7 @@ var checkPing = function(ip){
 	});
 	return data;
 }
+// Run ffmpeg to grab cctv snapshoot
 var playCam = function(ip){
 	var res;
 	$.ajax({
@@ -64,6 +61,7 @@ var playCam = function(ip){
 	});
 	return res;
 }
+// Stop ffmpeg
 var stopCam = function(pid){
 	var res;
 	$.ajax({
@@ -80,6 +78,7 @@ var stopCam = function(pid){
 	});
 	return res;
 }
+// Directory check if file exist on video dir
 var checkDir = function(){
 	var res;
 	$.ajax({
@@ -96,180 +95,79 @@ var checkDir = function(){
 	});
 	return res;
 }
+// Start google map
 function initMap() {
 	var siteCor = {lat: {{$site->cor_x}}, lng: {{$site->cor_y}}};
 	map = new google.maps.Map(document.getElementById('map'), {
 	zoom: 17.5,
 	maxZoom:18,
-    minZoom:17,
+	minZoom:17,
 	center: siteCor,
 	mapTypeId: 'satellite'
 	});
 	map.setOptions({draggable: true, zoomControl: true, scrollwheel: false, disableDoubleClickZoom: true});
 }
-// function addMarker(y){
-// 	var infowindow = new google.maps.InfoWindow();
-// 	var marker;
-// 	var i;
-// 	var content;
-// 	var iconOnline = {
-// 	url: '{{ asset('/images/cam_on.svg') }}', // url
-// 	scaledSize: new google.maps.Size(24, 24)
-// 	};
-// 	var iconOffline = {
-// 		url: '{{ asset('/images/cam_off.svg') }}', // url
-// 	scaledSize: new google.maps.Size(24, 24)
-// 	}
-
-// 	if(checkPing(siteIp) === 'online' ){
-// 		locations.map(function(location, i) {
-// 		if (y > location.length) return;
-// 		marker = 1;
-// 		$content = '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>';
-// 		if(checkPing(location[3]) === 'online'){
-// 				marker = new google.maps.Marker({
-// 					position: new google.maps.LatLng(location[1], location[2]),
-// 					map: map,
-// 					icon: iconOnline,
-// 				});
-// 		google.maps.event.addListener(marker, 'mouseover', function(marker, i) {
-// 			infowindow = new google.maps.InfoWindow({
-// 			content: '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>',
-// 			maxWidth: 200
-// 			});
-// 			infowindow.open(map, this);
-// 			});
-// 		google.maps.event.addListener(marker, 'mouseout', function(marker, i) {
-// 			infowindow.close();
-// 			});
-// 		google.maps.event.addListener(marker, 'click', function(marker, i) {
-// 			showModal(1,location[3].split('.').join(""),location[0]);
-// 			});
-// 			console.log('online '+location[3])
-// 			} else {
-// 				marker = new google.maps.Marker({
-// 		position: new google.maps.LatLng(location[1], location[2]),
-// 		map: map,
-// 		icon: iconOffline,
-// 		});
-// 		google.maps.event.addListener(marker, 'mouseover', function(marker, i) {
-// 			infowindow = new google.maps.InfoWindow({
-// 			content: '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>',
-// 			maxWidth: 200
-// 			});
-// 			infowindow.open(map, this);
-// 			});
-// 		google.maps.event.addListener(marker, 'mouseout', function(marker, i) {
-// 			infowindow.close();
-// 			});
-// 			}
-// 			console.log('offline '+location[3])
-// 		return marker;
-// 		});
-// 		} else {
-// 		locations.map(function(location, i) {
-// 		marker = 1;
-// 		$content = '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>';
-// 		marker = new google.maps.Marker({
-// 		position: new google.maps.LatLng(location[1], location[2]),
-// 		map: map,
-// 		icon: iconOffline,
-// 		});
-// 		google.maps.event.addListener(marker, 'mouseover', function(marker, i) {
-// 			infowindow = new google.maps.InfoWindow({
-// 			content: '<h4>'+location[0]+'</h4><p>IP Address: '+location[3]+'</p>',
-// 			maxWidth: 200
-// 			});
-// 			infowindow.open(map, this);
-// 			});
-// 		google.maps.event.addListener(marker, 'mouseout', function(marker, i) {
-// 			infowindow.close();
-// 			});
-// 		});
-// 		console.log('offline '+siteIp)
-// 	}
-// 	var t=setTimeout("addMarker("+(y+1)+")",2000);
-// }
+// Add marker based on checkPing status
 function marker(i){
-    if (i > locations.length) return;
-    if (i > 0) {
-    var infowindow = new google.maps.InfoWindow();
+if (i > locations.length) return;
+if (i > 0) {
+var infowindow = new google.maps.InfoWindow();
 	var marker;
 	var content;
 	var iconOnline = {
-	url: '{{ asset('/images/cam_on.svg') }}', // url
-	scaledSize: new google.maps.Size(24, 24)
+		url: '{{ asset('/images/cam_on.svg') }}', // url
+		scaledSize: new google.maps.Size(24, 24)
 	};
 	var iconOffline = {
 		url: '{{ asset('/images/cam_off.svg') }}', // url
-	scaledSize: new google.maps.Size(24, 24)
+		scaledSize: new google.maps.Size(24, 24)
 	}
-	// if(checkPing(siteIp) === 'online'){
-		marker = 1;
-		$content = '<h4>'+locations[i][0]+'</h4><p>IP Address: '+locations[i][3]+'</p>';
-		if(checkPing(locations[i][3]) === 'online'){
-				marker = new google.maps.Marker({
-					position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-					map: map,
-					icon: iconOnline,
-				});
+	marker = 1;
+	$content = '<h4>'+locations[i][0]+'</h4><p>IP Address: '+locations[i][3]+'</p>';
+	if(checkPing(locations[i][3]) === 'online'){
+		marker = new google.maps.Marker({
+			position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+			map: map,
+			icon: iconOnline,
+		});
 		google.maps.event.addListener(marker, 'mouseover', function(marker) {
 			infowindow = new google.maps.InfoWindow({
 			content: '<h4>'+locations[i][0]+'</h4><p>IP Address: '+locations[i][3]+'</p>',
 			maxWidth: 200
 			});
 			infowindow.open(map, this);
-			});
+		});
 		google.maps.event.addListener(marker, 'mouseout', function(marker) {
 			infowindow.close();
-			});
+		});
 		google.maps.event.addListener(marker, 'click', function(marker) {
 			showModal(1,locations[i][3],locations[i][0]);
-			});
+		});
 			console.log('online '+locations[i][3])
-			} else {
-			marker = new google.maps.Marker({
-				position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-				map: map,
-				icon: iconOffline,
-			});
-			google.maps.event.addListener(marker, 'mouseover', function(marker) {
+	} else {
+		marker = new google.maps.Marker({
+			position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+			map: map,
+			icon: iconOffline,
+		});
+		google.maps.event.addListener(marker, 'mouseover', function(marker) {
 			infowindow = new google.maps.InfoWindow({
 			content: '<h4>'+locations[i][0]+'</h4><p>IP Address: '+locations[i][3]+'</p>',
 			maxWidth: 200
 			});
 			infowindow.open(map, this);
-			});
-			google.maps.event.addListener(marker, 'mouseout', function(marker) {
+		});
+		google.maps.event.addListener(marker, 'mouseout', function(marker) {
 			infowindow.close();
-			});
-			console.log('offline '+locations[i][3])
-			}
-	// } else {
-	// 	marker = 1;
-	// 	$content = '<h4>'+locations[i][0]+'</h4><p>IP Address: '+locations[i][3]+'</p>';
-	// 	marker = new google.maps.Marker({
-	// 	position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-	// 	map: map,
-	// 	icon: iconOffline,
-	// 	});
-	// 	google.maps.event.addListener(marker, 'mouseover', function(marker) {
-	// 		infowindow = new google.maps.InfoWindow({
-	// 		content: '<h4>'+locations[i][0]+'</h4><p>IP Address: '+locations[i][3]+'</p>',
-	// 		maxWidth: 200
-	// 		});
-	// 		infowindow.open(map, this);
-	// 	});
-	// 	google.maps.event.addListener(marker, 'mouseout', function(marker) {
-	// 		infowindow.close();
-	// 	});
-	// 	console.log('offline '+siteIp)
-	// }   	
-    }
-    console.log(i);
-    if(i < locations.length - 1){
-    	var t=setTimeout("marker("+(i+1)+")",1000);
-    }
+		});
+		console.log('offline '+locations[i][3])
+	}
+}
+console.log(i);
+// Bypass last iteration
+if(i < locations.length - 1){
+	var t=setTimeout("marker("+(i+1)+")",1000);
+}
 }
 setTimeout(function() {
 	initMap();
@@ -277,47 +175,47 @@ setTimeout(function() {
 marker(0);
 </script>
 <script>
-	var countdown;
-	var pidCam;
-	function showInfo(){
-		$(".gm-style-iw").css("display: block");
-	}
-	function showModal(id,ip,camName){
-		var newImg = $('#imgCam');
-		var nameCam = $('#camName');
-		$(".modal").addClass("is-active");
-		pidCam = playCam(ip);
-		newImg.attr("src", '/images/ajax-loader.gif');
-		dirCheck = setInterval(function(){
-			if(checkDir() === 'exist'){
-				clearInterval(dirCheck);
-				var counter = 1;
-				var date = moment(new Date());
-				date = date.subtract(3, 'minutes');
-				countdown = setInterval(function(){
-				if (counter === 241) {
-					counter = 1;
-					date = date.add(1, 'minutes');
-				}
-				var filename = '/video/ip-'+counter+'.jpeg?ver='+ (new Date().getTime());
-				newImg.attr("src", filename);
-				nameCam.text(camName);
-				console.log(filename);
-				counter++;
-				}, 1000/2);
+var countdown;
+var pidCam;
+function showInfo(){
+	$(".gm-style-iw").css("display: block");
+}
+function showModal(id,ip,camName){
+	var newImg = $('#imgCam');
+	var nameCam = $('#camName');
+	$(".modal").addClass("is-active");
+	pidCam = playCam(ip);
+	newImg.attr("src", '/images/ajax-loader.gif');
+	dirCheck = setInterval(function(){
+		if(checkDir() === 'exist'){
+			clearInterval(dirCheck);
+			var counter = 1;
+			var date = moment(new Date());
+			date = date.subtract(3, 'minutes');
+			countdown = setInterval(function(){
+			if (counter === 241) {
+				counter = 1;
+				date = date.add(1, 'minutes');
 			}
-		}, 1000/2);
-	}
-		$(document).on('click', '.modal-close', function() {
-			$(".modal").removeClass("is-active");
-			clearInterval(countdown);
-			stopCam(pidCam);
-
-		return false;
-		});
-		$(document).on('click', '.notification > button.delete', function() {
-		$(this).parent().addClass('is-hidden');
-		return false;
-		});
+			// Add time version to prevent image caching
+			var filename = '/video/ip-'+counter+'.jpeg?ver='+ (new Date().getTime());
+			newImg.attr("src", filename);
+			nameCam.text(camName);
+			console.log(filename);
+			counter++;
+			}, 1000/2);
+		}
+	}, 1000/2);
+}
+$(document).on('click', '.modal-close', function() {
+	$(".modal").removeClass("is-active");
+	clearInterval(countdown);
+	stopCam(pidCam);
+	return false;
+});
+$(document).on('click', '.notification > button.delete', function() {
+	$(this).parent().addClass('is-hidden');
+	return false;
+});
 </script>
 @endsection

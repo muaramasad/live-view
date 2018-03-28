@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="columns">
-    <div class="column is-8 is-offset-2">
+    <div class="column is-12">
     {!!  Html::decode(link_to_route('user.create', '<i class="fa fa-plus-circle"></i>&nbsp;&nbsp;add user', array(), ['class' => 'button is-primary is-pulled-right m-b-sm'])) !!}
         <table class="table is-fullwidth">
             <thead>

@@ -47,7 +47,7 @@ class PermissionController extends Controller
    	{
       $permission = Permission::find($id);
       $this->validate($request, [
-            'name' => 'required|unique:permissions,name,'.$permission->id,
+            'name' => 'required|unique:permissions,'.$permission->id,
             'display_name' => 'required'
         ]);
       $permission->name = $request->name;

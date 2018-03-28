@@ -18,6 +18,10 @@ use Illuminate\Http\Request;
 Route::get('area/{id}','SiteController@getAreaByDivision');
 Route::get('division/{idDiv}','SiteController@getSiteByDivision');
 Route::get('division/{idDiv}/{idArea}','SiteController@getSiteByDivisionArea');
+
+// API For User Create and Edit Page
+Route::get('area','UserController@getAreaByDivisionUser');
+
 // API CCTV
 Route::get('cctv/status/{ip}','HomepageController@healthCheck');
 Route::get('cctv/play/{ip}','HomepageController@playCam');

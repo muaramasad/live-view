@@ -19,8 +19,8 @@
             <label class="label">Division</label>
             @foreach($divisions as $division)
             <label class="checkbox">
-                    <input type="checkbox" value="{{$division->id}}"
-                                               {{in_array($division->id, $userDivisionArray) ? "checked" : null}} name="divisions[]">
+                <input type="checkbox" value="{{$division->id}}"
+                {{in_array($division->id, $userDivisionArray) ? "checked" : null}} name="divisions[]" class="division_check">
                 {{$division->division_name}}
             </label> &nbsp;&nbsp;
             @endforeach
@@ -29,8 +29,8 @@
             <label class="label">Area</label>
             @foreach($areas as $area)
             <label class="checkbox">
-                    <input type="checkbox" value="{{$area->id}}"
-                                               {{in_array($area->id, $userAreaArray) ? "checked" : null}} name="areas[]">
+                <input type="checkbox" value="{{$area->id}}"
+                {{in_array($area->id, $userAreaArray) ? "checked" : null}} name="areas[]">
                 {{$area->area_name}}
             </label> &nbsp;&nbsp;
             @endforeach
@@ -39,8 +39,8 @@
             <label class="label">Site</label>
             @foreach($sites as $site)
             <label class="checkbox">
-                    <input type="checkbox" value="{{$site->id}}"
-                                               {{in_array($site->id, $userSiteArray) ? "checked" : null}} name="sites[]">
+                <input type="checkbox" value="{{$site->id}}"
+                {{in_array($site->id, $userSiteArray) ? "checked" : null}} name="sites[]">
                 {{$site->site_name}}
             </label> &nbsp;&nbsp;
             @endforeach
@@ -64,4 +64,22 @@
         {!! Form::close() !!}
     </div>
 </div>
+<script type="text/javascript" src="{{ asset('js/lodash.js') }}"></script>
+<script type="text/javascript">
+var divisionArr = [];
+// $(".division_check:checked").each(function() {
+//     var checked = $(this).val();
+//     divisionArr.push(checked);
+// });
+$(".division_check").bind('click', function() {
+    var id = parseInt($(this).val(), 10);
+    if($(this).is(":checked")) {
+        divisionArr.push(id);
+    } else {
+        divisionArr.filter(e => e !== id);
+    }
+    console.log(divisionArr);
+});
+
+</script>
 @endsection

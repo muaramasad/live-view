@@ -56,6 +56,10 @@ class UserController extends Controller
             'name' => 'required|max:255',
             'email' => 'required|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
+            'divisions' => 'required',
+            'areas' => 'required',
+            'sites' => 'required',
+            'role_id' => 'required',
         ]);
 
         $user = new User();
@@ -64,21 +68,29 @@ class UserController extends Controller
         $user->password = bcrypt($request->password);
         $user->save();
 
-        //Attach the selected Roles
-        foreach ($request->input('role_id') as $key => $value) {
-            $user->attachRole($value);
+        if(!empty($request->input('role_id'))){
+            //Attach the selected Roles
+            foreach ($request->input('role_id') as $key => $value) {
+                $user->attachRole($value);
+            }
         }
 
-        foreach ($request->input('divisions') as $key => $value) {
-            $user->division()->attach($value);
+        if(!empty($request->input('divisions'))){
+            foreach ($request->input('divisions') as $key => $value) {
+                $user->division()->attach($value);
+            }
         }
 
-        foreach ($request->input('areas') as $key => $value) {
-            $user->area()->attach($value);
+        if(!empty($request->input('areas'))){
+            foreach ($request->input('areas') as $key => $value) {
+                $user->area()->attach($value);
+            }
         }
 
-        foreach ($request->input('sites') as $key => $value) {
-            $user->site()->attach($value);
+        if(!empty($request->input('sites'))){
+            foreach ($request->input('sites') as $key => $value) {
+                $user->site()->attach($value);
+            }
         }
 
         // foreach ($request->input('areas') as $key => $value) {
@@ -172,7 +184,6 @@ class UserController extends Controller
         ]);
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->password = bcrypt($request->password);
         $user->save();
 
         DB::table("role_user")->where("user_id",$user->id)->delete();
@@ -180,22 +191,31 @@ class UserController extends Controller
         DB::table("area_user")->where("user_id",$user->id)->delete();
         DB::table("site_user")->where("user_id",$user->id)->delete();
 
-        //Attach the selected Roles
-        foreach ($request->input('role_id') as $key => $value) {
-            $user->attachRole($value);
+        if(!empty($request->input('role_id'))){
+            //Attach the selected Roles
+            foreach ($request->input('role_id') as $key => $value) {
+                $user->attachRole($value);
+            }
         }
 
-        foreach ($request->input('divisions') as $key => $value) {
-            $user->division()->attach($value);
+        if(!empty($request->input('divisions'))){
+            foreach ($request->input('divisions') as $key => $value) {
+                $user->division()->attach($value);
+            }
         }
 
-        foreach ($request->input('areas') as $key => $value) {
-            $user->area()->attach($value);
+        if(!empty($request->input('areas'))){
+            foreach ($request->input('areas') as $key => $value) {
+                $user->area()->attach($value);
+            }
         }
 
-        foreach ($request->input('sites') as $key => $value) {
-            $user->site()->attach($value);
+        if(!empty($request->input('sites'))){
+            foreach ($request->input('sites') as $key => $value) {
+                $user->site()->attach($value);
+            }
         }
+
         $request->session()->flash('is-success', 'User successfully updated!');
         return redirect()->route('user.index');
     }
@@ -211,5 +231,14 @@ class UserController extends Controller
         User::find($id)->delete();
         $request->session()->flash('is-success', 'User successfully removed!');
         return redirect()->route('user.index');
+    }
+
+
+    // API for User Edit Page
+    public function getAreaByDivisionUser(Request $request)
+    {
+        dd($request);
+        $area = Area::where('division_id',$id)->pluck('area_name','id');
+        return $area;
     }
 }

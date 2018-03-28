@@ -6,7 +6,7 @@
         <div class="field is-grouped-centered">
             <label class="label">Role Name</label>
             <p class="control is-expanded">
-                {!! Form::text('name', $role->name ,['class' => 'input','disabled' => 'disabled']) !!}
+                {!! Form::text('name', $role->name ,['class' => 'input']) !!}
             </p>
         </div>
         <div class="field">

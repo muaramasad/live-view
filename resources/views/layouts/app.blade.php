@@ -35,16 +35,22 @@
 						@guest
 
 						@else
+						@if(Auth::user()->hasPermission('division.index'))
 						<a href="{{route('division.index')}}" class="navbar-item">
 							Divisions
 						</a>
+						@endif
+						@if(Auth::user()->hasPermission('area.index'))
 						<a href="{{route('area.index')}}" class="navbar-item">
 							Areas
 						</a>
+						@endif
+						@if(Auth::user()->hasPermission('site.index'))
 						<a href="{{route('site.index')}}" class="navbar-item">
 							Sites
 						</a>
-						@if(Auth::user()->id == 1)
+						@endif
+						@if(Auth::user()->hasRole('admin'))
 						<a href="{{route('user.index')}}" class="navbar-item">
 							Users
 						</a>

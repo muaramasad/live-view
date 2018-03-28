@@ -15,24 +15,32 @@ use Mapper;
 use FFMpeg;
 use FFMpeg\Format\Video\X264;
 use Ping;
+use Auth;
 
 
 class HomepageController extends Controller
 {
     public function index()
     {
-        $divisions = Division::orderBy('division_name', 'asc')->get();
+        $userDivs = array();
+        foreach(Auth::user()->division as $value){
+            $userDivs[] = $value->id;
+        }
+        $divisions = Division::whereIn('id',  $userDivs)->orderBy('division_name', 'asc')->get();
         return view('homepage',[
             'divisions' => $divisions
         ]);
     }
     public function mapDiv($id)
     {
-        Mapper::map(-1.7922201, 116.9502052, ['zoom' => '5','center' => true, 'marker' => false, 'cluster' => false]);
+        $userAreas = array();
+        foreach(Auth::user()->area as $value){
+            $userAreas[] = $value->id;
+        }
         $provinceId = [];
         $division = Division::find($id);
         $sites = Site::where('division_id',$id)->get();
-        $areas = Area::where('division_id',$id)->with('province')->get();
+        $areas = Area::where('division_id',$id)->whereIn('id',  $userAreas)->with('province')->get();
         foreach ($areas as $area) {
             if ($area->has('sites')) {
                 $provinceId[] = $area->province->id;
@@ -43,11 +51,6 @@ class HomepageController extends Controller
         foreach ($ProvinceCollection as $province) {
             $divLocation[] = [$province->province_name,$province->province_cor_x,$province->province_cor_y,$province->province_code];
         }
-        // $ProvinceCollection->each(function($province)
-        // {
-        //     $content = $province->province_name;
-        //     Mapper::marker($province->province_cor_x, $province->province_cor_y,['eventClick' => 'window.location.href = "/map/province/'.$province->province_code.'";']);
-        // });
         return view('maps.div',[
             'areas' => $areas,
             'division' => $division,
@@ -57,14 +60,20 @@ class HomepageController extends Controller
     }
     public function mapDivProvince($divid, $pcode)
     {
+        $userSites = array();
+        foreach(Auth::user()->site as $value){
+            $userSites[] = $value->id;
+        }
         $sitesId = [];
         $province = Province::where('province_code',$pcode)->first();
-        Mapper::map($province->province_cor_x, $province->province_cor_y, ['zoom' => $province->province_zoom,'center' => true, 'marker' => false, 'cluster' => true]);
+        // Mapper::map($province->province_cor_x, $province->province_cor_y, ['zoom' => $province->province_zoom,'center' => true, 'marker' => false, 'cluster' => true]);
         $areas = Area::where([['division_id','=',$divid],['province_id','=',$province->id]])->with('sites')->get();
         foreach ($areas as $area) {
             if ($area->has('sites')) {
                 foreach ($area->sites as $site) {
-                    $sitesId[] = $site->id;
+                    if (in_array($site->id, $userSites)) {
+                        $sitesId[] = $site->id;
+                    }
                 }
             }
         }
@@ -73,11 +82,6 @@ class HomepageController extends Controller
         foreach ($sitesCollection as $site) {
             $siteLocation[] = [$site->site_name,$site->cor_x,$site->cor_y,$site->id,$divid,$pcode];
         }
-        // $sitesCollection->each(function($site)
-        // {
-        //     Mapper::informationWindow($site->cor_x, $site->cor_y, $site->site_name, ['open' => true, 'maxWidth'=> 300, 'markers' => ['eventClick' => 'window.location.href = "/map/site/'.$site->id.'";']]);
-        //     // Mapper::marker($site->cor_x, $site->cor_y,['eventClick' => 'window.location.href = "/map/site/'.$site->id.'";', 'eventMouseOver' => '']);
-        // });
         $division = Division::find($sitesCollection[0]->division_id);
         return view('maps.prov',[
             'division' => $division,
@@ -87,35 +91,34 @@ class HomepageController extends Controller
     }
     public function mapDivSite($divid,$pcode,$id)
     {
-        $site = Site::find($id);
-        Mapper::map($site->cor_x, $site->cor_y, ['zoom' => 18,'center' => true, 'marker' => false, 'cluster' => false, 'type' => 'SATELLITE']);
-        $camsCollections = Cam::where('site_id',$site->id)->get();
-        $camsLocation = array();
-        $i = 1;
-        $camsLocation[] = ["","","","",""];
-        foreach ($camsCollections as $cam) {
-            //$status = $this->healthCheck($cam->cam_ip_address);
-            $camsLocation[] = [$cam->cam_name,$cam->cam_cor_x,$cam->cam_cor_y,$cam->cam_ip_address,$cam->id];
+        $userSites = array();
+        foreach(Auth::user()->site as $value){
+            $userSites[] = $value->id;
         }
-        // $camsCollection->each(function($cam,$i)
-        // {
-        //     $content = '<h4>'.strtoupper($cam->cam_name).'</h4><p>IP Address: '.$cam->cam_ip_address.'</p>';
-        //     Mapper::marker($cam->cam_cor_x, $cam->cam_cor_y, ['content' => $content,'icon' => ['url' => '/images/placeholder.svg','size' => 24],'eventMouseOver' => 'infowindow_'.$i.'.open(map, this);','eventMouseOut' => 'infowindow_'.$i.'.close(map, this);', 'eventClick' => 'showModal('.$cam->id.','.preg_replace("/\./", "",$cam->cam_ip_address).',"'.$cam->cam_name.'");' ]);
-        //     // Mapper::informationWindow($cam->cam_cor_x, $cam->cam_cor_y, $content, ['maxWidth'=> 300, 'icon' => ['url' => '/images/placeholder.svg','size' => 24],'eventMouseOver' => 'infowindow.open(map, this);']);
-        //     // Mapper::marker($cam->cam_cor_x, $cam->cam_cor_y,['icon' => ['url' => '/images/placeholder.svg','size' => 24],'eventMouseOver' => 'infowindow.open(map, this);']);
-        //     // Mapper::marker($cam->cam_cor_x,$cam->cam_cor_y,['eventClick' => 'showModal();']);
-        //     $i++;
-        // });
-        $area = Area::find($site->area_id);
-        $prov = Province::find($area->province_id);
-        $division = Division::find($area->division_id);
-        return view('maps.site',[
-            'division' => $division,
-            'prov' => $prov,
-            'site' => $site,
-            // 'cams' => $camsCollection,
-            'camsLocation' => $camsLocation
-        ]);
+        if(in_array($id, $userSites)){
+            $site = Site::find($id);
+            Mapper::map($site->cor_x, $site->cor_y, ['zoom' => 18,'center' => true, 'marker' => false, 'cluster' => false, 'type' => 'SATELLITE']);
+            $camsCollections = Cam::where('site_id',$site->id)->get();
+            $camsLocation = array();
+            $i = 1;
+            $camsLocation[] = ["","","","",""];
+            foreach ($camsCollections as $cam) {
+                //$status = $this->healthCheck($cam->cam_ip_address);
+                $camsLocation[] = [$cam->cam_name,$cam->cam_cor_x,$cam->cam_cor_y,$cam->cam_ip_address,$cam->id];
+            }
+            $area = Area::find($site->area_id);
+            $prov = Province::find($area->province_id);
+            $division = Division::find($area->division_id);
+            return view('maps.site',[
+                'division' => $division,
+                'prov' => $prov,
+                'site' => $site,
+                // 'cams' => $camsCollection,
+                'camsLocation' => $camsLocation
+            ]);
+        } else {
+            return redirect()->route('homepage');
+        }
     }
 
     public function healthCheck($ip)
@@ -163,5 +166,4 @@ class HomepageController extends Controller
         }
     }
 
-    
 }
