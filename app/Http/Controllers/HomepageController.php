@@ -89,7 +89,7 @@ class HomepageController extends Controller
             'siteLocation' => $siteLocation
         ]);
     }
-    public function mapDivSite($divid,$pcode,$id)
+    public function mapDivSite(Request $request,$divid,$pcode,$id)
     {
         $userSites = array();
         foreach(Auth::user()->site as $value){
@@ -117,6 +117,7 @@ class HomepageController extends Controller
                 'camsLocation' => $camsLocation
             ]);
         } else {
+            $request->session()->flash('is-danger', 'Access Denied!');
             return redirect()->route('homepage');
         }
     }

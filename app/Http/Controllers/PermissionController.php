@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Permission;
+use DB;
 
 class PermissionController extends Controller
 {
@@ -47,7 +48,7 @@ class PermissionController extends Controller
    	{
       $permission = Permission::find($id);
       $this->validate($request, [
-            'name' => 'required|unique:permissions,'.$permission->id,
+            'name' => 'required|unique:permissions,name,'.$permission->id,
             'display_name' => 'required'
         ]);
       $permission->name = $request->name;
@@ -58,4 +59,20 @@ class PermissionController extends Controller
       $request->session()->flash('is-success', 'Permission successfully edited!');
         return redirect()->route('permission.index');
    	}
+
+    public function destroy(Request $request, $id)
+    {
+        $permission = Permission::find($id);
+        $permissionRoleCount = DB::table("permission_role")->where("permission_id",$id)->count();
+        
+        if($permissionRoleCount > 0){
+          $request->session()->flash('is-danger', 'Another role still using '.$permission->display_name.' permission, please change role permission associated with '.$permission->display_name.' permission!');
+          return redirect()->route('permission.index');
+        } else {
+          $permission->delete();
+          DB::table("permission_role")->where("permission_id",$id)->delete();
+          $request->session()->flash('is-success', 'Permission successfully removed!');
+          return redirect()->route('permission.index');
+        }
+    }
 }

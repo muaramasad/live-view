@@ -97,8 +97,16 @@ class RoleController extends Controller
 
     public function destroy(Request $request, $id)
     {
-        Role::find($id)->delete();
-        $request->session()->flash('is-success', 'Role successfully removed!');
-        return redirect()->route('role.index');
+        $role = Role::find($id);
+        $userRoleCount = DB::table("role_user")->where("role_id",$id)->count();
+        if($userRoleCount > 0){
+          $request->session()->flash('is-danger', 'Another user still using role '.$role->display_name.', please change user role associated with role '.$role->display_name.'!');
+          return redirect()->route('role.index');
+        } else {
+          $role->delete();
+          DB::table("role_user")->where("role_id",$id)->delete();
+          $request->session()->flash('is-success', 'Role successfully removed!');
+          return redirect()->route('role.index');
+        }
     }
 }

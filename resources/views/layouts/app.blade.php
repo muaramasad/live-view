@@ -50,13 +50,17 @@
 							Sites
 						</a>
 						@endif
-						@if(Auth::user()->hasRole('admin'))
+						@if(Auth::user()->hasPermission('user.index'))
 						<a href="{{route('user.index')}}" class="navbar-item">
 							Users
 						</a>
+						@endif
+						@if(Auth::user()->hasPermission('role.index'))
 						<a href="{{route('role.index')}}" class="navbar-item">
 							Roles
 						</a>
+						@endif
+						@if(Auth::user()->hasPermission('permission.index'))
 						<a href="{{route('permission.index')}}" class="navbar-item">
 							Permissions
 						</a>
