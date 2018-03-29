@@ -32,7 +32,11 @@ class UserController extends Controller
         foreach(Auth::user()->site as $value){
             $userSites[] = $value->id;
         }
-        $users = User::with('division','area','site')->where('id','!=', 1)->get();
+        if(Auth::user()->hasRole('admin')){
+            $users = User::with('division','area','site')->get();
+        } else {
+            $users = User::with('division','area','site')->where('id','!=', 1)->get();
+        }
         return view('users.index',[
             'users' => $users
         ]);
