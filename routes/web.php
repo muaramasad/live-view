@@ -74,6 +74,13 @@ Route::prefix('cctv')->group(function () {
     Route::get('/site/{id}', 'CamController@listBySiteId')->name('cam.listBySite')->name('cam.index')->middleware('permission:cam.listBySite');
 });
 
-Route::resource('user', 'UserController');
+Route::resource('user', 'UserController')->names(['index' => 'user.index'])
+     ->middleware(['permission:user.index']);
+Route::resource('user', 'UserController')->names(['create' => 'user.create'])
+     ->middleware(['permission:user.create']);
+Route::resource('user', 'UserController')->names(['edit' => 'user.edit'])
+     ->middleware(['permission:user.edit']);
+Route::resource('user', 'UserController')->names(['destroy' => 'user.destroy'])
+     ->middleware(['permission:user.destroy']);
 });
 Auth::routes();

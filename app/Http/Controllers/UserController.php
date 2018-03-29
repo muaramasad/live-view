@@ -9,6 +9,7 @@ use App\Division;
 use App\Area;
 use App\Site;
 use DB;
+use Auth;
 
 class UserController extends Controller
 {
@@ -19,7 +20,19 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('division','area','site')->get();
+        $userDivs = array();
+        foreach(Auth::user()->division as $value){
+            $userDivs[] = $value->id;
+        }
+        $userAreas = array();
+        foreach(Auth::user()->area as $value){
+            $userAreas[] = $value->id;
+        }
+        $userSites = array();
+        foreach(Auth::user()->site as $value){
+            $userSites[] = $value->id;
+        }
+        $users = User::with('division','area','site')->where('id','!=', 1)->get();
         return view('users.index',[
             'users' => $users
         ]);
