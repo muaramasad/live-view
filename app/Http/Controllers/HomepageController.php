@@ -146,7 +146,7 @@ class HomepageController extends Controller
         do
         ffmpeg -y -rtsp_transport tcp -i rtsp://admin:FIW170845@'.$ip.':554/stream=2.sdp -vf scale=854:480 -r 5/1 -t 120 '.$vidDir.'ip-%01d.jpeg
         done';
-        File::deleteDirectory($vidDir);
+        exec('rm -rf'.$vidDir);
         $pid = exec($bash_commands.' > /dev/null 2>&1 & echo $!; ', $output);
         $dataPlay = [0 => $pid, 1 => $randomFolder];
         return $dataPlay;
@@ -157,8 +157,7 @@ class HomepageController extends Controller
         shell_exec('kill '.$pid);
         shell_exec('pkill ffmpeg');
         $vidDir = '/var/www/cctv/public/video/'.$folder.'/';
-        File::deleteDirectory($vidDir);
-        //exec('rm -r'.$vidDir.'*');
+        exec('rm -rf'.$vidDir);
         return 'stoped';
         exit();
     }
