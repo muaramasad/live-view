@@ -147,7 +147,7 @@ class HomepageController extends Controller
         done';
         exec('rm '.$vidDir.'*');
         $pid = exec($bash_commands.' > /dev/null 2>&1 & echo $!; ', $output);
-        $dataPlay = [0 => $pid, 1 => $randomFolder]
+        $dataPlay = [0 => $pid, 1 => $randomFolder];
         return $dataPlay;
     }
 
