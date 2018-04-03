@@ -62,11 +62,11 @@ var playCam = function(ip){
 	return res;
 }
 // Stop ffmpeg
-var stopCam = function(pid){
+var stopCam = function(pid,folder){
 	var res;
 	$.ajax({
 	async: false,
-	url: "/api/cctv/stop/" + pid,
+	url: "/api/cctv/stop/" + pid + "/" + folder + "/",
 	type: 'GET',
 	success: function(response) {
 		res = response;
@@ -79,11 +79,11 @@ var stopCam = function(pid){
 	return res;
 }
 // Directory check if file exist on video dir
-var checkDir = function(){
+var checkDir = function(folder){
 	var res;
 	$.ajax({
 	async: false,
-	url: "/api/cctv/checkdir/",
+	url: "/api/cctv/checkdir/"+folder+"/",
 	type: 'GET',
 	success: function(response) {
 		res = response;
@@ -210,7 +210,7 @@ function showModal(id,ip,camName){
 $(document).on('click', '.modal-close', function() {
 	$(".modal").removeClass("is-active");
 	clearInterval(countdown);
-	stopCam(pidCam[0]);
+	stopCam(pidCam[0],pidCam[1]);
 	return false;
 });
 $(document).on('click', '.notification > button.delete', function() {

@@ -25,5 +25,5 @@ Route::get('area','UserController@getAreaByDivisionUser');
 // API CCTV
 Route::get('cctv/status/{ip}','HomepageController@healthCheck');
 Route::get('cctv/play/{ip}','HomepageController@playCam');
-Route::get('cctv/stop/{pid}','HomepageController@stopCam');
-Route::get('cctv/checkdir','HomepageController@checkDir');
+Route::get('cctv/stop/{pid}/{folder}','HomepageController@stopCam');
+Route::get('cctv/checkdir/{folder}','HomepageController@checkDir');
