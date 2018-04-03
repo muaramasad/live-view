@@ -187,7 +187,7 @@ function showModal(id,ip,camName){
 	pidCam = playCam(ip);
 	newImg.attr("src", '/images/ajax-loader.gif');
 	dirCheck = setInterval(function(){
-		if(checkDir() === 'exist'){
+		if(checkDir(pidCam[1]) === 'exist'){
 			clearInterval(dirCheck);
 			var counter = 1;
 			var date = moment(new Date());

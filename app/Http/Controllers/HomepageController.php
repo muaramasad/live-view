@@ -138,7 +138,7 @@ class HomepageController extends Controller
     {
         $dataPlay = array();
         $randomFolder = rand(5, 15);
-        $vidDir = '/var/www/cctv/public/video/'.$randomFolder;
+        $vidDir = '/var/www/cctv/public/video/'.$randomFolder.'/';
         exec('mkdir '.$vidDir);
         $bash_commands = '
         while :
@@ -161,9 +161,9 @@ class HomepageController extends Controller
         exit();
     }
 
-    public function checkDir()
+    public function checkDir($folder)
     {
-        $check = count(glob("/var/www/cctv/public/video/*")) == 0;
+        $check = count(glob("/var/www/cctv/public/video/".$folder."/*")) == 0;
         if ($check) {
             return 'empty';
         } else {
