@@ -71,7 +71,7 @@ Route::prefix('cctv')->group(function () {
     Route::put('edit/{id}', 'CamController@editStore')->name('cam.editStore');
     Route::delete('delete/{id}', 'CamController@destroy')->name('cam.destroy')->middleware('permission:cam.destroy');
     //View CCTV by Site ID
-    Route::get('/site/{id}', 'CamController@listBySiteId')->name('cam.listBySite')->name('cam.index')->middleware('permission:cam.listBySite');
+    Route::get('/site/{id}', 'CamController@listBySiteId')->name('cam.listBySite')->middleware('permission:cam.listBySite');
 });
 
 Route::resource('user', 'UserController')->names(['index' => 'user.index'])
