@@ -198,7 +198,7 @@ function showModal(id,ip,camName){
 				date = date.add(1, 'minutes');
 			}
 			// Add time version to prevent image caching
-			var filename = '/video/ip-'+counter+'.jpeg?ver='+ (new Date().getTime());
+			var filename = '/video/'+pidCam[1]+'/ip-'+counter+'.jpeg?ver='+ (new Date().getTime());
 			newImg.attr("src", filename);
 			nameCam.text(camName);
 			console.log(filename);
@@ -210,7 +210,7 @@ function showModal(id,ip,camName){
 $(document).on('click', '.modal-close', function() {
 	$(".modal").removeClass("is-active");
 	clearInterval(countdown);
-	stopCam(pidCam);
+	stopCam(pidCam[0]);
 	return false;
 });
 $(document).on('click', '.notification > button.delete', function() {

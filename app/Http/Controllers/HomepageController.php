@@ -136,7 +136,10 @@ class HomepageController extends Controller
     // Run ffmpeg to grab image from cctv
     public function playCam($ip)
     {
-        $vidDir = '/var/www/cctv/public/video/';
+        $dataPlay = array();
+        $randomFolder = rand(5, 15);
+        $vidDir = '/var/www/cctv/public/video/'.$randomFolder;
+        exec('mkdir '.$vidDir);
         $bash_commands = '
         while :
         do
@@ -144,7 +147,8 @@ class HomepageController extends Controller
         done';
         exec('rm '.$vidDir.'*');
         $pid = exec($bash_commands.' > /dev/null 2>&1 & echo $!; ', $output);
-        return $pid;
+        $dataPlay = [0 => $pid, 1 => $randomFolder]
+        return $dataPlay;
     }
 
     public function stopCam($pid)
