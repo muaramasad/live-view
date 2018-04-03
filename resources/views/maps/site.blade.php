@@ -193,7 +193,7 @@ function showModal(id,ip,camName){
 			var date = moment(new Date());
 			date = date.subtract(3, 'minutes');
 			countdown = setInterval(function(){
-			if (counter === 241) {
+			if (counter === 601) {
 				counter = 1;
 				date = date.add(1, 'minutes');
 			}
@@ -203,9 +203,9 @@ function showModal(id,ip,camName){
 			nameCam.text(camName);
 			console.log(filename);
 			counter++;
-			}, 1000/2);
+			}, 1000/5);
 		}
-	}, 1000/2);
+	}, 1000/5);
 }
 $(document).on('click', '.modal-close', function() {
 	$(".modal").removeClass("is-active");

@@ -140,7 +140,7 @@ class HomepageController extends Controller
         $bash_commands = '
         while :
         do
-        ffmpeg -y -rtsp_transport tcp -i rtsp://admin:FIW170845@'.$ip.':554/stream=2.sdp -vf scale=854:480 -r 2/1 -t 120 '.$vidDir.'ip-%01d.jpeg
+        ffmpeg -y -rtsp_transport tcp -i rtsp://admin:FIW170845@'.$ip.':554/stream=2.sdp -vf scale=854:480 -r 5/1 -t 120 '.$vidDir.'ip-%01d.jpeg
         done';
         exec('rm '.$vidDir.'*');
         $pid = exec($bash_commands.' > /dev/null 2>&1 & echo $!; ', $output);
