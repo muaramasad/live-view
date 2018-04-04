@@ -78,6 +78,7 @@
 						Hi, {{ Auth::user()->name }}
         				</a>
 						<div class="navbar-dropdown is-boxed">
+							<a class="navbar-item" href="{{ route('dashboard.settings') }}">Settings</a>
 							<a class="navbar-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
             					Logout

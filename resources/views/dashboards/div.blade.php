@@ -73,7 +73,7 @@
 					        return function() {
 					          // infowindow.setContent(locations[i][0]);
 					          // infowindow.open(map, marker);
-					          window.location.href = '/map/division/{{$division->id}}/province/'+locations[i][3];
+					          window.location.href = '/dashboard/division/{{$division->id}}/province/'+locations[i][3];
 					        }
 				      	})(marker, i));
 				    }

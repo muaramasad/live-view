@@ -6,7 +6,7 @@
 <div class="columns is-multiline">
     @forelse($divisions as $division)
     <div class="column is-one-quarter">
-        <a href="/map/division/{{$division->id}}">
+        <a href="/dashboard/division/{{$division->id}}">
         <div class="card is-shadowless">
             <div class="card-image">
                 <figure class="image is-4by3">

@@ -47,7 +47,7 @@
 						infoWindow.setContent(location[0]);
                 		infoWindow.open(map, marker);
 						google.maps.event.addListener(marker, 'click', function(marker, i) {
-    						window.location.href = '/map/division/'+location[4]+'/province/'+location[5]+'/site/'+location[3];
+    						window.location.href = '/dashboard/division/'+location[4]+'/province/'+location[5]+'/site/'+location[3];
   						});
 						return marker;
 					});
