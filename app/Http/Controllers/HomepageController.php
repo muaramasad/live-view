@@ -139,7 +139,7 @@ class HomepageController extends Controller
     public function playCam($ip)
     {
         $dataPlay = array();
-        $randomFolder = rand(5, 15);
+        $randomFolder = rand(1000, 9999);
         $vidDir = '/var/www/cctv/public/video/'.$randomFolder.'/';
         exec('mkdir '.$vidDir);
         $bash_commands = '
