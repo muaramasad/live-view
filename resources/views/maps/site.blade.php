@@ -62,11 +62,11 @@ var playCam = function(ip){
 	return res;
 }
 // Stop ffmpeg
-var stopCam = function(pid,folder){
+var stopCam = function(pid,folder,ip){
 	var res;
 	$.ajax({
 	async: false,
-	url: "/api/cctv/stop/" + pid + "/" + folder + "/",
+	url: "/api/cctv/stop/" + pid + "/" + folder + "/" + ip,
 	type: 'GET',
 	success: function(response) {
 		res = response;
@@ -210,7 +210,7 @@ function showModal(id,ip,camName){
 $(document).on('click', '.modal-close', function() {
 	$(".modal").removeClass("is-active");
 	clearInterval(countdown);
-	stopCam(pidCam[0],pidCam[1]);
+	stopCam(pidCam[0],pidCam[1],pidCam[2]);
 	return false;
 });
 $(document).on('click', '.notification > button.delete', function() {

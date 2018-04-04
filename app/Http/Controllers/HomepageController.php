@@ -149,14 +149,16 @@ class HomepageController extends Controller
         done';
         // exec('rm -rf'.$vidDir);
         $pid = exec($bash_commands.' > /dev/null 2>&1 & echo $!; ', $output);
-        $dataPlay = [0 => $pid, 1 => $randomFolder];
+        $dataPlay = [0 => $pid, 1 => $randomFolder, 2 => $ip];
         return $dataPlay;
     }
 
-    public function stopCam($pid,$folder)
+    public function stopCam($pid,$folder,$ip)
     {
+    $answer = system("pgrep -a ffmpeg | grep ".$ip);
+        $ffmpegPid = substr($answer, 0, strpos($answer, ' '));
         shell_exec('kill '.$pid);
-        shell_exec('pkill ffmpeg');
+        shell_exec('kill '.$ffmpegPid);
         $vidDir = "/var/www/cctv/public/video/".$folder.'/';
         $del = File::deleteDirectory($vidDir);
         //exec('rm -rf'.$vidDir);
