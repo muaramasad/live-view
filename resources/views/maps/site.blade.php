@@ -186,6 +186,7 @@ function showModal(id,ip,camName){
 	$(".modal").addClass("is-active");
 	pidCam = playCam(ip);
 	newImg.attr("src", '/images/ajax-loader.gif');
+	nameCam.text(camName);
 	dirCheck = setInterval(function(){
 		if(checkDir(pidCam[1]) === 'exist'){
 			clearInterval(dirCheck);
@@ -200,7 +201,6 @@ function showModal(id,ip,camName){
 			// Add time version to prevent image caching
 			var filename = '/video/'+pidCam[1]+'/ip-'+counter+'.jpeg?ver='+ (new Date().getTime());
 			newImg.attr("src", filename);
-			nameCam.text(camName);
 			console.log(filename);
 			counter++;
 			}, 1000/3);
