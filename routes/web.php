@@ -12,10 +12,12 @@
 */
 Route::middleware(['middleware' => 'auth'])->group(function () {
 Route::get('/','HomepageController@index')->name('homepage');
-Route::prefix('map')->group(function () {
-    Route::get('division/{id}', 'HomepageController@mapDiv')->name('map.division');
-    Route::get('division/{divid}/province/{pcode}', 'HomepageController@mapDivProvince')->name('map.province');
-    Route::get('division/{divid}/province/{pcode}/site/{id}', 'HomepageController@mapDivSite')->name('map.site');
+Route::prefix('dashboard')->group(function () {
+    Route::get('division/{id}', 'HomepageController@mapDiv')->name('dashboard.division');
+    Route::get('division/{divid}/province/{pcode}', 'HomepageController@mapDivProvince')->name('dashboard.province');
+    Route::get('division/{divid}/province/{pcode}/site/{id}', 'HomepageController@mapDivSite')->name('dashboard.site');
+    Route::get('settings', 'HomepageController@settings' )->name('dashboard.settings');
+    Route::post('settings', 'HomepageController@settingsChangePassword' )->name('dashboard.settingsChangePassword');
 });
 
 Route::prefix('division')->group(function () {

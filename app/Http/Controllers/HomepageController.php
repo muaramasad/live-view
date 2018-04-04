@@ -8,6 +8,7 @@ use App\Jobs\ConvertVideoForStreaming;
 use File;
 use Illuminate\Http\Request;
 use App\Division;
+use App\User;
 use App\Area;
 use App\Site;
 use App\Province;
@@ -17,6 +18,7 @@ use FFMpeg;
 use FFMpeg\Format\Video\X264;
 use Ping;
 use Auth;
+use Hash;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -29,7 +31,7 @@ class HomepageController extends Controller
             $userDivs[] = $value->id;
         }
         $divisions = Division::whereIn('id',  $userDivs)->orderBy('division_name', 'asc')->get();
-        return view('homepage',[
+        return view('dashboard',[
             'divisions' => $divisions
         ]);
     }
@@ -53,7 +55,7 @@ class HomepageController extends Controller
         foreach ($ProvinceCollection as $province) {
             $divLocation[] = [$province->province_name,$province->province_cor_x,$province->province_cor_y,$province->province_code];
         }
-        return view('maps.div',[
+        return view('dashboards.div',[
             'areas' => $areas,
             'division' => $division,
             'sites' => $sites,
@@ -85,7 +87,7 @@ class HomepageController extends Controller
             $siteLocation[] = [$site->site_name,$site->cor_x,$site->cor_y,$site->id,$divid,$pcode];
         }
         $division = Division::find($sitesCollection[0]->division_id);
-        return view('maps.prov',[
+        return view('dashboards.prov',[
             'division' => $division,
             'prov' => $province,
             'siteLocation' => $siteLocation
@@ -111,7 +113,7 @@ class HomepageController extends Controller
             $area = Area::find($site->area_id);
             $prov = Province::find($area->province_id);
             $division = Division::find($area->division_id);
-            return view('maps.site',[
+            return view('dashboards.site',[
                 'division' => $division,
                 'prov' => $prov,
                 'site' => $site,
@@ -122,6 +124,30 @@ class HomepageController extends Controller
             $request->session()->flash('is-danger', 'Access Denied!');
             return redirect()->route('homepage');
         }
+    }
+
+    public function settings()
+    {
+        return view('dashboards.settings');
+    }
+
+    public function settingsChangePassword(Request $request)
+    {
+        $this->validate($request, [
+            'current_password' => 'required|string',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+        $current_password = Auth::User()->password;
+        if(Hash::check($request->current_password, $current_password))
+        {
+            $user = User::find(Auth::User()->id);
+            $user->password = bcrypt($request->password);
+            $user->save();
+            $request->session()->flash('is-success', 'Password has successfully changed!');
+        return redirect()->route('dashboard.settings');
+        }
+        $request->session()->flash('is-danger', 'Password not matched!');
+        return redirect()->route('dashboard.settings');
     }
 
     public function healthCheck($ip)
