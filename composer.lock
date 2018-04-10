@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "acadc199d88d85dc491c2ab5ad3bdde1",
-    "content-hash": "de6d72235834593101e20388047e428d",
+    "hash": "7d2388b48e356ca14cc43b57790102d6",
+    "content-hash": "53c89e3132e2a581151f0292104441f1",
     "packages": [
         {
             "name": "alchemy/binary-driver",
@@ -3263,6 +3263,65 @@
                 "environment"
             ],
             "time": "2016-09-01 10:05:43"
+        },
+        {
+            "name": "yajra/laravel-auditable",
+            "version": "v2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yajra/laravel-auditable.git",
+                "reference": "530100fbcfbbee5d5cd156a6d87db2ff53aeb320"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yajra/laravel-auditable/zipball/530100fbcfbbee5d5cd156a6d87db2ff53aeb320",
+                "reference": "530100fbcfbbee5d5cd156a6d87db2ff53aeb320",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "~5.5",
+                "illuminate/support": "~5.5",
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Yajra\\Auditable\\AuditableServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Yajra\\Auditable\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Arjay Angeles",
+                    "email": "aqangeles@gmail.com",
+                    "homepage": "http://yajrabox.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A simple Laravel user auditing package for Eloquent Model.",
+            "homepage": "https://github.com/yajra/laravel-auditable",
+            "keywords": [
+                "Auditable",
+                "laravel",
+                "yajra"
+            ],
+            "time": "2017-12-28 04:49:04"
         }
     ],
     "packages-dev": [
