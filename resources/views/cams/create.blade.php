@@ -50,7 +50,7 @@
                 <button type="submit" class="button is-link">Submit</button>
             </div>
             <div class="control">
-                <a href="{{route('cam.index')}}" class="button is-text">Cancel</a>
+                {!!  Html::decode(link_to_route('cam.listBySite', 'Cancel', array('id' => $site->id),['class' => 'button is-text'])) !!}
             </div>
         </div>
         {!! Form::close() !!}
