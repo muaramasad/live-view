@@ -26,7 +26,7 @@
 			          zoom: {{$prov->province_zoom}},
 			          center: idnCor,
 			        });
-			        map.setOptions({draggable: false, zoomControl: true, scrollwheel: false, disableDoubleClickZoom: true});
+			        map.setOptions({draggable: true, zoomControl: true, scrollwheel: true, disableDoubleClickZoom: true});
 
 			        var infowindow = new google.maps.InfoWindow();
     				var marker;

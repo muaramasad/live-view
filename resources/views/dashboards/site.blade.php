@@ -100,15 +100,76 @@ function initMap() {
 	var siteCor = {lat: {{$site->cor_x}}, lng: {{$site->cor_y}}};
 	map = new google.maps.Map(document.getElementById('map'), {
 	zoom: 17.5,
-	maxZoom:18,
+	maxZoom:20,
 	minZoom:17,
 	center: siteCor,
 	mapTypeId: 'satellite'
 	});
-	map.setOptions({draggable: true, zoomControl: true, scrollwheel: false, disableDoubleClickZoom: true});
+	map.setOptions({draggable: true, zoomControl: true, scrollwheel: true, disableDoubleClickZoom: true});
 }
 // Add marker based on checkPing status
 function marker(i){
+if (i > locations.length) return;
+if (i > 0) {
+var infowindow = new google.maps.InfoWindow();
+	var marker;
+	var content;
+	var iconOnline = {
+		url: '{{ asset('/images/cam_on.svg') }}', // url
+		scaledSize: new google.maps.Size(24, 24)
+	};
+	var iconOffline = {
+		url: '{{ asset('/images/cam_off.svg') }}', // url
+		scaledSize: new google.maps.Size(24, 24)
+	}
+	marker = 1;
+	$content = '<h4>'+locations[i][0]+'</h4><p>IP Address: '+locations[i][3]+'</p>';
+	// if(checkPing(locations[i][3]) === 'online'){
+		marker = new google.maps.Marker({
+			position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+			map: map,
+			icon: iconOnline,
+		});
+		google.maps.event.addListener(marker, 'mouseover', function(marker) {
+			infowindow = new google.maps.InfoWindow({
+			content: '<h4>'+locations[i][0]+'</h4><p>IP Address: '+locations[i][3]+'</p>',
+			maxWidth: 200
+			});
+			infowindow.open(map, this);
+		});
+		google.maps.event.addListener(marker, 'mouseout', function(marker) {
+			infowindow.close();
+		});
+		google.maps.event.addListener(marker, 'click', function(marker) {
+			showModal(1,locations[i][3],locations[i][0]);
+		});
+		console.log('online '+locations[i][3])
+	// } else {
+	// 	marker = new google.maps.Marker({
+	// 		position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+	// 		map: map,
+	// 		icon: iconOffline,
+	// 	});
+	// 	google.maps.event.addListener(marker, 'mouseover', function(marker) {
+	// 		infowindow = new google.maps.InfoWindow({
+	// 		content: '<h4>'+locations[i][0]+'</h4><p>IP Address: '+locations[i][3]+'</p>',
+	// 		maxWidth: 200
+	// 		});
+	// 		infowindow.open(map, this);
+	// 	});
+	// 	google.maps.event.addListener(marker, 'mouseout', function(marker) {
+	// 		infowindow.close();
+	// 	});
+	// 	console.log('offline '+locations[i][3])
+	// }
+}
+console.log(i);
+// Bypass last iteration
+if(i < locations.length - 1){
+	var t = setTimeout("marker("+(i+1)+")",1000/1000);
+}
+}
+function markerPing(i){
 if (i > locations.length) return;
 if (i > 0) {
 var infowindow = new google.maps.InfoWindow();
@@ -143,7 +204,7 @@ var infowindow = new google.maps.InfoWindow();
 		google.maps.event.addListener(marker, 'click', function(marker) {
 			showModal(1,locations[i][3],locations[i][0]);
 		});
-			console.log('online '+locations[i][3])
+		console.log('online '+locations[i][3])
 	} else {
 		marker = new google.maps.Marker({
 			position: new google.maps.LatLng(locations[i][1], locations[i][2]),
@@ -166,13 +227,14 @@ var infowindow = new google.maps.InfoWindow();
 console.log(i);
 // Bypass last iteration
 if(i < locations.length - 1){
-	var t=setTimeout("marker("+(i+1)+")",1000);
+	var t = setTimeout("markerPing("+(i+1)+")",1000/2);
 }
 }
 setTimeout(function() {
 	initMap();
 }, 0);
 marker(0);
+setTimeout(markerPing(0),5000);
 </script>
 <script>
 var countdown;
