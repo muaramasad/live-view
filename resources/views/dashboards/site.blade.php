@@ -227,7 +227,7 @@ var infowindow = new google.maps.InfoWindow();
 console.log(i);
 // Bypass last iteration
 if(i < locations.length - 1){
-	var t = setTimeout("markerPing("+(i+1)+")",1000/2);
+	var t = setTimeout("markerPing("+(i+1)+")",1000/10);
 }
 }
 setTimeout(function() {
