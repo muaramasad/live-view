@@ -27,7 +27,7 @@
                                 </a>
                             </p>
                             <p class="control">
-                                {!! Form::open(['method' => 'DELETE','route' => ['permission.destroy', $permission->id]]) !!}
+                                {!! Form::open(['method' => 'DELETE','route' => ['permission.destroy', $permission->id],'onsubmit' => 'return confirm("Do you really want to delete this permission?");']) !!}
                                 <button type="submit" class="button is-danger is-small">
                                     <span class="icon is-small">
                                         <i class="fa fa-trash-o"></i>

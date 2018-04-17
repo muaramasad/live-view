@@ -29,7 +29,7 @@
                                 </a>
                             </p>
                             <p class="control">
-                                {!! Form::open(['method' => 'DELETE','route' => ['area.destroy', $area->id]]) !!}
+                                {!! Form::open(['method' => 'DELETE','route' => ['area.destroy', $area->id],'onsubmit' => 'return confirm("Do you really want to delete this area?");']) !!}
                                 <button type="submit" class="button is-danger is-small">
                                     <span class="icon is-small">
                                         <i class="fa fa-trash-o"></i>

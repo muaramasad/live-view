@@ -27,7 +27,7 @@
                                 </a>
                             </p>
                             <p class="control">
-                                {!! Form::open(['method' => 'DELETE','route' => ['role.destroy', $role->id]]) !!}
+                                {!! Form::open(['method' => 'DELETE','route' => ['role.destroy', $role->id],'onsubmit' => 'return confirm("Do you really want to delete this role?");']) !!}
                                 <button type="submit" class="button is-danger is-small">
                                     <span class="icon is-small">
                                         <i class="fa fa-trash-o"></i>

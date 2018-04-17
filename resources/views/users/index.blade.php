@@ -57,7 +57,7 @@
                                 </a>
                             </p>
                             <p class="control">
-                                {!! Form::open(['method' => 'DELETE','route' => ['user.destroy', $user->id]]) !!}
+                                {!! Form::open(['method' => 'DELETE','route' => ['user.destroy', $user->id],'onsubmit' => 'return confirm("Do you really want to delete this user?");']) !!}
                                 <button type="submit" class="button is-danger is-small">
                                 <span class="icon is-small">
                                     <i class="fa fa-trash-o"></i>
