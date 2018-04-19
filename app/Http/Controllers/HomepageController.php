@@ -164,6 +164,12 @@ class HomepageController extends Controller
     // Run ffmpeg to grab image from cctv
     public function playCam($ip)
     {
+        $cam = Cam::where('cam_ip_address',$ip)->first();
+        if ($cam->site_id == 7) {
+            $port = 555;
+        } else {
+            $port = 554;
+        }
         $dataPlay = array();
         $randomFolder = rand(1000, 9999);
         $vidDir = '/var/www/cctv/public/video/'.$randomFolder.'/';
@@ -171,7 +177,7 @@ class HomepageController extends Controller
         $bash_commands = '
         while :
         do
-        ffmpeg -y -rtsp_transport tcp -i rtsp://admin:FIW170845@'.$ip.':554/stream=2.sdp -vf scale=854:480 -r 3/1 -t 120 '.$vidDir.'ip-%01d.jpeg
+        ffmpeg -y -rtsp_transport tcp -i rtsp://admin:FIW170845@'.$ip.':'.$port.'/stream=2.sdp -vf scale=854:480 -r 3/1 -t 120 '.$vidDir.'ip-%01d.jpeg
         done';
         // exec('rm -rf'.$vidDir);
         $pid = exec($bash_commands.' > /dev/null 2>&1 & echo $!; ', $output);

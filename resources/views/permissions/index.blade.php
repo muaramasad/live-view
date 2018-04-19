@@ -42,6 +42,7 @@
     			@endforeach
     		</tbody>
     	</table>
+        {{ $permissions->render() }}
     </div>
  </div>
  @endsection
